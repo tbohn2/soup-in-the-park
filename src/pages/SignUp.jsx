@@ -13,6 +13,7 @@ const SignUp = ({ mobile }) => {
     const [newQty, setNewQty] = useState(0);
     const [editing, setEditing] = useState(false);
     const [deleting, setDeleting] = useState(false);
+    const [rowToDelete, setRowToDelete] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [editCardNumber, setEditCardNumber] = useState(null);
@@ -99,6 +100,8 @@ const SignUp = ({ mobile }) => {
     }
 
     const toggleAddOrEdit = (i, adding) => {
+        setDeleting(false);
+        setRowToDelete(null);
         const newDataArray = cardInfo[i].data.map(item => [...item]); // deep copy of data
         if (adding) {
             newDataArray.push(['', '']);
@@ -110,6 +113,10 @@ const SignUp = ({ mobile }) => {
         setEditCardNumber(i);
     };
 
+    const toggleDelete = (j) => {
+        setDeleting(true);
+        setRowToDelete(j);
+    };
 
     const handleChange = (e, j, pos) => {
         const { value } = e.target;
@@ -135,8 +142,14 @@ const SignUp = ({ mobile }) => {
         }
 
         try {
+            setEditing(false); // reset to not cause issues with rendering editing inputs
+            if (deleting) {
+                newData.splice(rowToDelete, 1);
+            }
+
             const category = categories[editCardNumber];
             const reqData = JSON.stringify({ category, newData: newData });
+
             const response = await axios.post(`https://script.google.com/macros/s/${DEPLOYMENT_ID}/exec`, reqData);
             console.log('Response:', response.data);
             clearStates();
@@ -166,7 +179,7 @@ const SignUp = ({ mobile }) => {
         }
         saveData();
 
-    }
+    };
 
     return (
         <div className='d-flex flex-column align-items-center'>
@@ -182,14 +195,17 @@ const SignUp = ({ mobile }) => {
                     {card.data.map((item, j) => {
                         return (
                             editing && editCardNumber === i ? (
-                                <div key={j} className='fs-3 d-flex col-12'>
-                                    <input type='text' value={newData[j][0]} onChange={(e) => handleChange(e, j, 0)} />
-                                    <input type='text' value={newData[j][1]} onChange={(e) => handleChange(e, j, 1)} />
+                                <div key={j} className='fs-3 d-flex align-items-center col-12 '>
+                                    <input className={`col-5 ${deleting && rowToDelete === j && 'deleting'}`} type='text' value={newData[j][0]} onChange={(e) => handleChange(e, j, 0)} />
+                                    <input className={`col-6 ${deleting && rowToDelete === j && 'deleting'}`} type='text' value={newData[j][1]} onChange={(e) => handleChange(e, j, 1)} />
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" onClick={() => toggleDelete(j)}>
+                                        <path d="M9 3V2h6v1h5v2H4V3h5zm2 4h2v12h-2V7zm-4 0h2v12H7V7zm10 0h-2v12h2V7zM5 5v16h14V5H5z" fill="red" />
+                                    </svg>
                                 </div>
                             ) : (
                                 <div key={j} className='fs-3 d-flex col-12'>
-                                    <p className='col-6 text-center'>{item[0]}</p>
-                                    <p className='col-6 text-center'>{item[1]}</p>
+                                    <p className='col-5 border m-0'>{item[0]}</p>
+                                    <p className='col-6 border m-0'>{item[1]}</p>
                                 </div>
                             )
                         )
@@ -208,7 +224,11 @@ const SignUp = ({ mobile }) => {
                     )}
                     {adding && editCardNumber === i || editing && editCardNumber === i ? (
                         <div className='d-flex col-12 justify-content-evenly'>
-                            <button className='btn btn-success my-2' onClick={() => checkIfNewAttendeeAndSave()}>Save</button>
+                            {deleting ?
+                                <button className='btn btn-danger my-2' onClick={() => saveData()}>Confirm Delete</button>
+                                :
+                                <button className='btn btn-success my-2 btn-success' onClick={() => checkIfNewAttendeeAndSave()}>Save</button>
+                            }
                             <button className='btn btn-primary my-2' onClick={clearStates}>Cancel</button>
                         </div>
                     ) : (
