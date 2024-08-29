@@ -9,6 +9,8 @@ const SignUp = ({ mobile }) => {
     const categories = ['soups', 'bread', 'beverages', 'desserts', 'misc', 'tables', 'attendees'];
 
     const [adding, setAdding] = useState(false);
+    const [addingAttendee, setAddingAttendee] = useState(false);
+    const [newQty, setNewQty] = useState(0);
     const [editing, setEditing] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -23,6 +25,7 @@ const SignUp = ({ mobile }) => {
     const [misc, setMisc] = useState([]);
     const [tables, setTables] = useState([]);
     const [attendees, setAttendees] = useState([]);
+    const [rsvped, setRsvped] = useState(0);
 
     const cardInfo = [
         {
@@ -55,6 +58,13 @@ const SignUp = ({ mobile }) => {
         fetchSheetData();
     }, []);
 
+    useEffect(() => {
+        setRsvped(0);
+        attendees.forEach((attendee) => {
+            setRsvped(prevRsvped => prevRsvped + attendee.qty);
+        });
+    }, [attendees]);
+
     const fetchSheetData = async () => {
         setLoading(true);
         setError('');
@@ -74,6 +84,19 @@ const SignUp = ({ mobile }) => {
             setError('Error fetching data; try again later');
         }
     };
+
+    const clearStates = () => {
+        setAdding(false);
+        setAddingAttendee(false);
+        setNewQty(0);
+        setEditing(false);
+        setDeleting(false);
+        setNewData([[]]);
+        setEditCardNumber(null);
+        setLoading(false);
+        setError(null);
+        setDeleting(false);
+    }
 
     const toggleAdd = (i) => {
         if (adding) {
@@ -110,16 +133,17 @@ const SignUp = ({ mobile }) => {
     const saveData = async () => {
         setLoading(true);
         setError('');
+        // if (addingAttendee) {
+        //     const response = await axios.post(`https://script.google.com/macros/s/${DEPLOYMENT_ID}/exec`, reqData);
+        // }
+
         try {
             const category = categories[editCardNumber];
             const reqData = JSON.stringify({ category, newData: newData });
 
             const response = await axios.post(`https://script.google.com/macros/s/${DEPLOYMENT_ID}/exec`, reqData);
             console.log('Response:', response.data);
-            setLoading(false);
-            setEditing(false);
-            setAdding(false);
-            setNewData([[]]);
+            clearStates();
             fetchSheetData();
         } catch (error) {
             console.error('Error saving data:', error);
@@ -127,10 +151,26 @@ const SignUp = ({ mobile }) => {
         }
     }
 
+    const checkIfNewAttendeeAndSave = () => {
+        const familyName = newData[j][0]
+        let newAttendee = true;
+        attendees.forEach((attendee) => {
+            if (attendee.familyName === familyName) {
+                newAttendee = false;
+            }
+        });
+        if (newAttendee && newQty < 1) {
+            setAddingAttendee(true);
+        } else {
+            saveData();
+        }
+    }
+
     return (
         <div className='d-flex flex-column align-items-center'>
             {loading && <div className='spinner-border text-primary' role='status'></div>}
             {error && <div className='alert alert-danger'>{error}</div>}
+            People coming: {rsvped}
             {cardInfo.map((card, i) =>
                 <div key={i} className='border my-3 p-2 rounded col-6 d-flex flex-column align-items-center'>
                     <h2 className='text-center'>{card.title}</h2>
@@ -153,6 +193,12 @@ const SignUp = ({ mobile }) => {
                         <div className='d-flex justify-content-evenly col-12'>
                             <input type='text' placeholder='Name' onChange={(e) => handleChange(e, newData.length - 1, 0)} />
                             <input type='text' placeholder='Item Name' onChange={(e) => handleChange(e, newData.length - 1, 1)} />
+                            {addingAttendee && (
+                                <div>
+                                    <h2 className='text-center'>How many attending?</h2>
+                                    <input type='number' placeholder='Qty' value={newQty} onChange={(e) => setNewQty(e.target.value)} />
+                                </div>
+                            )}
                         </div>
                     )}
                     {adding && editCardNumber === i || editing && editCardNumber === i ? (
