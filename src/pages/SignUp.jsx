@@ -121,14 +121,22 @@ const SignUp = ({ mobile }) => {
     const saveData = async () => {
         setLoading(true);
         setError('');
-        // if (addingAttendee) {
-        //     const response = await axios.post(`https://script.google.com/macros/s/${DEPLOYMENT_ID}/exec`, reqData);
-        // }
+        if (addingAttendee) {
+            try {
+                const newAttendeeData = attendees.map(attendee => [...attendee]);
+                newAttendeeData.push([newData[newData.length - 1][0], newQty]);
+                const attendeeData = JSON.stringify({ category: 'attendees', newData: newAttendeeData });
+                const response = await axios.post(`https://script.google.com/macros/s/${DEPLOYMENT_ID}/exec`, attendeeData);
+                console.log('Response:', response.data);
+            } catch (error) {
+                console.error('Error saving data:', error);
+                setError('Error saving data; try again later');
+            }
+        }
 
         try {
             const category = categories[editCardNumber];
             const reqData = JSON.stringify({ category, newData: newData });
-
             const response = await axios.post(`https://script.google.com/macros/s/${DEPLOYMENT_ID}/exec`, reqData);
             console.log('Response:', response.data);
             clearStates();
@@ -140,24 +148,33 @@ const SignUp = ({ mobile }) => {
     }
 
     const checkIfNewAttendeeAndSave = () => {
-        const familyName = newData[j][0]
-        let newAttendee = true;
-        attendees.forEach((attendee) => {
-            if (attendee.familyName === familyName) {
-                newAttendee = false;
+        if (adding) {
+            const familyName = newData[newData.length - 1][0]
+            let newAttendee = true;
+
+            attendees.forEach((attendee) => {
+                if (attendee[0] === familyName) {
+                    newAttendee = false;
+                }
+            });
+            if (newAttendee && newQty < 1) {
+                setAddingAttendee(true);
+                setError('Please enter how many are attending');
+                setTimeout(() => setError(''), 3000);
+                return;
             }
-        });
-        if (newAttendee && newQty < 1) {
-            setAddingAttendee(true);
-        } else {
-            saveData();
         }
+        saveData();
+
     }
 
     return (
         <div className='d-flex flex-column align-items-center'>
-            {loading && <div className='spinner-border text-primary' role='status'></div>}
-            {error && <div className='alert alert-danger'>{error}</div>}
+            {loading &&
+                <div className='spinner-container'>
+                    <div className='spinner-border text-primary' role='status'></div>
+                </div>}
+            {error && <div className='alert alert-info fs-4'>{error}</div>}
             People coming: {rsvped}
             {cardInfo.map((card, i) =>
                 <div key={i} className='border my-3 p-2 rounded col-6 d-flex flex-column align-items-center'>
@@ -181,17 +198,17 @@ const SignUp = ({ mobile }) => {
                         <div className='d-flex justify-content-evenly col-12'>
                             <input type='text' placeholder='Name' onChange={(e) => handleChange(e, newData.length - 1, 0)} />
                             <input type='text' placeholder='Item Name' onChange={(e) => handleChange(e, newData.length - 1, 1)} />
-                            {addingAttendee && (
-                                <div>
-                                    <h2 className='text-center'>How many attending?</h2>
-                                    <input type='number' placeholder='Qty' value={newQty} onChange={(e) => setNewQty(e.target.value)} />
-                                </div>
-                            )}
+                        </div>
+                    )}
+                    {addingAttendee && (
+                        <div>
+                            <h2 className='text-center'>How many are attending?</h2>
+                            <input type='number' placeholder='Qty' value={newQty} onChange={(e) => setNewQty(e.target.value)} />
                         </div>
                     )}
                     {adding && editCardNumber === i || editing && editCardNumber === i ? (
                         <div className='d-flex col-12 justify-content-evenly'>
-                            <button className='btn btn-success my-2' onClick={() => saveData()}>Save</button>
+                            <button className='btn btn-success my-2' onClick={() => checkIfNewAttendeeAndSave()}>Save</button>
                             <button className='btn btn-primary my-2' onClick={clearStates}>Cancel</button>
                         </div>
                     ) : (
