@@ -61,7 +61,7 @@ const SignUp = ({ mobile }) => {
     useEffect(() => {
         setRsvped(0);
         attendees.forEach((attendee) => {
-            setRsvped(prevRsvped => prevRsvped + attendee.qty);
+            setRsvped(prevRsvped => prevRsvped + attendee[1]);
         });
     }, [attendees]);
 
@@ -98,30 +98,18 @@ const SignUp = ({ mobile }) => {
         setDeleting(false);
     }
 
-    const toggleAdd = (i) => {
+    const toggleAddOrEdit = (i, adding) => {
+        const newDataArray = cardInfo[i].data.map(item => [...item]); // deep copy of data
         if (adding) {
-            setNewData([[]]);
-            setEditCardNumber(null);
-        } else {
-            const newDataArray = cardInfo[i].data.map((item) => [item.familyName, item.itemName]);
             newDataArray.push(['', '']);
-            setNewData(newDataArray);
-            setEditCardNumber(i);
-        }
-        setAdding(!adding);
-    }
-
-    const toggleEdit = (i) => {
-        if (editing) {
-            setNewData([[]]);
-            setEditCardNumber(null);
+            setAdding(true);
         } else {
-            const newDataArray = cardInfo[i].data.map((item) => [item.familyName, item.itemName]);
-            setNewData(newDataArray);
-            setEditCardNumber(i);
+            setEditing(true);
         }
-        setEditing(!editing);
-    }
+        setNewData(newDataArray);
+        setEditCardNumber(i);
+    };
+
 
     const handleChange = (e, j, pos) => {
         const { value } = e.target;
@@ -183,8 +171,8 @@ const SignUp = ({ mobile }) => {
                                 </div>
                             ) : (
                                 <div key={j} className='fs-3 d-flex col-12'>
-                                    <p className='col-6 text-center'>{item.familyName}</p>
-                                    <p className='col-6 text-center'>{item.itemName}</p>
+                                    <p className='col-6 text-center'>{item[0]}</p>
+                                    <p className='col-6 text-center'>{item[1]}</p>
                                 </div>
                             )
                         )
@@ -204,12 +192,12 @@ const SignUp = ({ mobile }) => {
                     {adding && editCardNumber === i || editing && editCardNumber === i ? (
                         <div className='d-flex col-12 justify-content-evenly'>
                             <button className='btn btn-success my-2' onClick={() => saveData()}>Save</button>
-                            <button className='btn btn-primary my-2' onClick={() => { setAdding(false); setEditing(false) }}>Cancel</button>
+                            <button className='btn btn-primary my-2' onClick={clearStates}>Cancel</button>
                         </div>
                     ) : (
                         <div className='d-flex col-12 justify-content-evenly'>
-                            <button className='btn btn-primary my-2' onClick={() => toggleEdit(i)}>Edit</button>
-                            <button className='btn btn-primary my-2' onClick={() => toggleAdd(i)}>+ Add</button>
+                            <button className='btn btn-primary my-2' onClick={() => toggleAddOrEdit(i, false)}>Edit</button>
+                            <button className='btn btn-primary my-2' onClick={() => toggleAddOrEdit(i, true)}>+ Add</button>
                         </div>
                     )}
                 </div>
