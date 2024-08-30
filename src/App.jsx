@@ -20,7 +20,7 @@ function App() {
   }, []);
 
   return (
-    <Router>
+    <Router basename='/soup-in-the-park'>
       <Routes>
         <Route path="/" element={<SignUp mobile={mobile} />} />
       </Routes>
