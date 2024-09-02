@@ -1,3 +1,18 @@
+/* body {
+    background-image: url('');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+} */
+
+.chewy {
+    font-family: "Chewy", system-ui;
+}
+
+.kaushan {
+    font-family: "Kaushan Script", cursive;
+}
+
 .alert {
     position: fixed !important;
     top: 10%;
