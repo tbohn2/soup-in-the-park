@@ -31,23 +31,6 @@
     background-color: red;
 }
 
-.gallery-img {
-    cursor: pointer;
-    max-width: 500px;
-    height: auto;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 1.5s ease-in-out, box-shadow 0.25s ease-in-out;
-}
-
-.gallery-img.loaded {
-    opacity: 1;
-}
-
-.gallery-img:hover {
-    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
-}
-
 .fade-in {
     animation: fadeIn 1.5s ease-in-out;
 }
