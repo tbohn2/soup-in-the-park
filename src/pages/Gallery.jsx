@@ -1,32 +1,56 @@
 import React, { useState, useEffect } from 'react';
+import CompressedImg from '../components/CompressedImg.jsx';
 import '../styles/gallery.css'
 
-// Import all images
+const pics2005 = import.meta.glob('../assets/2005/*.jpg', { eager: true });
+const pics2007 = import.meta.glob('../assets/2007/*.jpg', { eager: true });
+const pics2009 = import.meta.glob('../assets/2009/*.jpg', { eager: true });
+const pics2010 = import.meta.glob('../assets/2010/*.jpg', { eager: true });
+const pics2011 = import.meta.glob('../assets/2011/*.jpg', { eager: true });
 const pineImgs = import.meta.glob('../assets/Pines/*.jpg', { eager: true });
-const pineImgUrls = Object.keys(pineImgs).map((key) => pineImgs[key].default);
+const pics2014 = import.meta.glob('../assets/2014/*.jpg', { eager: true });
+const pics2015 = import.meta.glob('../assets/2015/*.jpg', { eager: true });
+const pics2019 = import.meta.glob('../assets/2019/*.jpg', { eager: true });
+
+const urlArray = [];
+
+function addToUrlArray(picObj) {
+    urlArray.push(...Object.keys(picObj).map((key) => picObj[key].default));
+}
+
+addToUrlArray(pics2005);
+addToUrlArray(pics2007);
+addToUrlArray(pics2009);
+addToUrlArray(pics2010);
+addToUrlArray(pics2011);
+addToUrlArray(pineImgs);
+addToUrlArray(pics2014);
+addToUrlArray(pics2015);
+addToUrlArray(pics2019);
 
 const Gallery = () => {
-    const [loadedImages, setLoadedImages] = useState(new Set());
+
+    const [picUrls, setPicUrls] = useState([]);
     const [focusedURL, setFocusedURL] = useState({
         url: null,
         index: null
     });
 
-    const handleImageLoad = (index) => {
-        setLoadedImages(prev => new Set(prev).add(index));
-    };
+    useEffect(() => {
+        setPicUrls(urlArray);
+    }, []);
 
     const handleNext = () => {
         setFocusedURL(prev => {
-            const nextIndex = (prev.index + 1) % pineImgUrls.length;
-            return { url: pineImgUrls[nextIndex], index: nextIndex };
+            const nextIndex = (prev.index + 1) % picUrls.length;
+            return { url: picUrls[nextIndex], index: nextIndex };
         });
     };
 
     const handlePrev = () => {
         setFocusedURL(prev => {
-            const prevIndex = (prev.index - 1 + pineImgUrls.length) % pineImgUrls.length;
-            return { url: pineImgUrls[prevIndex], index: prevIndex };
+            const prevIndex = (prev.index - 1 + picUrls.length) % picUrls.length;
+            return { url: picUrls[prevIndex], index: prevIndex };
         });
     };
 
@@ -50,7 +74,6 @@ const Gallery = () => {
 
     useEffect(() => {
         if (focusedURL.url) {
-            // Add event listener for keyboard navigation when focusedURL is set
             window.addEventListener('keydown', handleKeyDown);
 
             return () => {
@@ -59,23 +82,12 @@ const Gallery = () => {
         }
     }, [focusedURL]);
 
-    // Create an array with staggered delay values based on index
-    const imageDelays = pineImgUrls.map((_, index) => `${index * 1}s`);
-
     return (
-        <div id='gallery' className='fade-in'>
+        <div id='gallery' className='fade-in d-flex flex-column align-items-center'>
             <h1>Gallery</h1>
             <div className='d-flex flex-wrap justify-content-evenly'>
-                {pineImgUrls.map((url, index) => (
-                    <img
-                        key={index}
-                        className={`gallery-img m-3 ${loadedImages.has(index) ? 'loaded' : ''}`}
-                        src={url}
-                        alt={`Pine ${index + 1}`}
-                        onLoad={() => handleImageLoad(index)}
-                        onClick={() => setFocusedURL({ url, index })}
-                        style={{ '--transition-delay': imageDelays[index] }}
-                    />
+                {picUrls.map((url, index) => (
+                    <CompressedImg url={url} index={index} setFocusedURL={setFocusedURL} />
                 ))}
             </div>
             {focusedURL.url &&
