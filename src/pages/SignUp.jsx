@@ -9,12 +9,11 @@ const SignUp = ({ mobile }) => {
     const categories = ['soups', 'bread', 'beverages', 'desserts', 'misc', 'tables', 'attendees'];
 
     const [adding, setAdding] = useState(false);
-    const [addingAttendee, setAddingAttendee] = useState(false);
-    const [newQty, setNewQty] = useState(0);
     const [editing, setEditing] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const [rowToDelete, setRowToDelete] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [sectionLoading, setSectionLoading] = useState(7); // 7 = all sections; otherwise, index of category to load
     const [error, setError] = useState(null);
     const [editCardNumber, setEditCardNumber] = useState(null);
     const [newData, setNewData] = useState([[]]);
@@ -52,6 +51,10 @@ const SignUp = ({ mobile }) => {
         {
             title: 'Tables',
             data: tables,
+        },
+        {
+            title: 'Attendees',
+            data: attendees,
         }
     ];
 
@@ -88,13 +91,12 @@ const SignUp = ({ mobile }) => {
 
     const clearStates = () => {
         setAdding(false);
-        setAddingAttendee(false);
-        setNewQty(0);
         setEditing(false);
         setDeleting(false);
         setNewData([[]]);
         setEditCardNumber(null);
         setLoading(false);
+        setSectionLoading(7);
         setError(null);
         setDeleting(false);
     }
@@ -125,21 +127,10 @@ const SignUp = ({ mobile }) => {
         setNewData(newDataCopy);
     };
 
-    const saveData = async () => {
+    const saveData = async (newAttendee, cardIndex) => {
         setLoading(true);
+        setSectionLoading(cardIndex);
         setError('');
-        if (addingAttendee) {
-            try {
-                const newAttendeeData = attendees.map(attendee => [...attendee]);
-                newAttendeeData.push([newData[newData.length - 1][0], newQty]);
-                const attendeeData = JSON.stringify({ category: 'attendees', newData: newAttendeeData });
-                const response = await axios.post(`https://script.google.com/macros/s/${DEPLOYMENT_ID}/exec`, attendeeData);
-                console.log('Response:', response.data);
-            } catch (error) {
-                console.error('Error saving data:', error);
-                setError('Error saving data; try again later');
-            }
-        }
 
         try {
             setEditing(false); // reset to not cause issues with rendering editing inputs
@@ -152,46 +143,45 @@ const SignUp = ({ mobile }) => {
 
             const response = await axios.post(`https://script.google.com/macros/s/${DEPLOYMENT_ID}/exec`, reqData);
             console.log('Response:', response.data);
-            clearStates();
             fetchSheetData();
+            clearStates();
+            if (newAttendee) {
+                setError('Please enter the number attending in your family');
+                setTimeout(() => setError(''), 7000);
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            }
         } catch (error) {
             console.error('Error saving data:', error);
             setError('Error saving data; try again later');
         }
     }
 
-    const checkIfNewAttendeeAndSave = () => {
+    const checkIfNewAttendeeAndSave = (cardIndex) => {
+        let newAttendee = false;
+
         if (adding) {
-            const familyName = newData[newData.length - 1][0]
-            let newAttendee = true;
-
-            attendees.forEach((attendee) => {
-                if (attendee[0] === familyName) {
-                    newAttendee = false;
-                }
-            });
-            if (newAttendee && newQty < 1) {
-                setAddingAttendee(true);
-                setError('Please enter how many are attending');
-                setTimeout(() => setError(''), 3000);
-                return;
-            }
+            const familyName = newData[newData.length - 1][0].toLowerCase().trim();
+            newAttendee = !attendees.some((attendee) =>
+                attendee[0].toLowerCase().trim() === familyName
+            );
         }
-        saveData();
 
+        saveData(newAttendee, cardIndex);
     };
 
     return (
-        <div className='d-flex flex-column align-items-center'>
-            {loading &&
-                <div className='spinner-container'>
-                    <div className='spinner-border text-primary' role='status'></div>
-                </div>}
+        <div className='fw-light d-flex flex-column align-items-center'>
             {error && <div className='alert alert-info fs-4'>{error}</div>}
-            People coming: {rsvped}
+            <div>
+                Confirmed Attendees: {rsvped}
+            </div>
             {cardInfo.map((card, i) =>
-                <div key={i} className='border my-3 p-2 rounded col-6 d-flex flex-column align-items-center'>
-                    <h2 className='text-center'>{card.title}</h2>
+                <div key={i} id={card.title} className='bg-light border my-3 p-2 rounded col-6 d-flex flex-column align-items-center'>
+                    <h2 className='chewy text-center'>{card.title}</h2>
+                    {loading && sectionLoading === i || loading && sectionLoading === 7 ?
+                        <div className='spinner-container'>
+                            <div className='spinner-border text-primary' role='status'></div>
+                        </div> : ''}
                     {card.data.map((item, j) => {
                         return (
                             editing && editCardNumber === i ? (
@@ -203,9 +193,9 @@ const SignUp = ({ mobile }) => {
                                     </svg>
                                 </div>
                             ) : (
-                                <div key={j} className='fs-3 d-flex col-12'>
-                                    <p className='col-5 border m-0'>{item[0]}</p>
-                                    <p className='col-6 border m-0'>{item[1]}</p>
+                                <div key={j} className='fs-3 d-flex col-11'>
+                                    <p className='col-6 border m-0 p-1'>{item[0]}</p>
+                                    <p className='col-6 border m-0 p-1'>{item[1]}</p>
                                 </div>
                             )
                         )
@@ -213,28 +203,22 @@ const SignUp = ({ mobile }) => {
                     {adding && editCardNumber === i && (
                         <div className='d-flex justify-content-evenly col-12'>
                             <input type='text' placeholder='Name' onChange={(e) => handleChange(e, newData.length - 1, 0)} />
-                            <input type='text' placeholder='Item Name' onChange={(e) => handleChange(e, newData.length - 1, 1)} />
-                        </div>
-                    )}
-                    {addingAttendee && (
-                        <div>
-                            <h2 className='text-center'>How many are attending?</h2>
-                            <input type='number' placeholder='Qty' value={newQty} onChange={(e) => setNewQty(e.target.value)} />
+                            <input type='text' placeholder={card.title === 'Attendees' ? 'Number of People' : 'Item Name'} onChange={(e) => handleChange(e, newData.length - 1, 1)} />
                         </div>
                     )}
                     {adding && editCardNumber === i || editing && editCardNumber === i ? (
-                        <div className='d-flex col-12 justify-content-evenly'>
+                        <div className='d-flex col-12 flex-column align-items-center'>
                             {deleting ?
-                                <button className='btn btn-danger my-2' onClick={() => saveData()}>Confirm Delete</button>
+                                <button className='btn btn-danger my-2 col-8' onClick={() => saveData()}>Confirm Delete</button>
                                 :
-                                <button className='btn btn-success my-2 btn-success' onClick={() => checkIfNewAttendeeAndSave()}>Save</button>
+                                <button className='btn btn-success my-2 btn-success col-8' onClick={() => checkIfNewAttendeeAndSave(i)}>Save</button>
                             }
-                            <button className='btn btn-primary my-2' onClick={clearStates}>Cancel</button>
+                            <button className='btn btn-primary my-2 col-8' onClick={clearStates}>Cancel</button>
                         </div>
                     ) : (
-                        <div className='d-flex col-12 justify-content-evenly'>
-                            <button className='btn btn-primary my-2' onClick={() => toggleAddOrEdit(i, false)}>Edit</button>
-                            <button className='btn btn-primary my-2' onClick={() => toggleAddOrEdit(i, true)}>+ Add</button>
+                        <div className='d-flex col-12 flex-column align-items-center'>
+                            <button className='btn btn-primary my-2 col-8' onClick={() => toggleAddOrEdit(i, true)}>+ Add</button>
+                            <button className='btn btn-primary my-2 col-8' onClick={() => toggleAddOrEdit(i, false)}>Edit</button>
                         </div>
                     )}
                 </div>
