@@ -88,3 +88,25 @@
     cursor: pointer;
     transition: background-color 0.25s ease-in-out;
 }
+
+@media screen and (max-width: 768px) {
+    .gallery-img-container {
+        width: 90%;
+        height: 350px;
+    }
+
+    .gallery-img {
+        height: 350px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .gallery-img-container {
+        width: 90%;
+        height: 250px;
+    }
+
+    .gallery-img {
+        height: 250px;
+    }
+}
