@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import loadingLogo from '../assets/loading.png';
 const DEPLOYMENT_ID = import.meta.env.VITE_DEPLOYMENT_ID;
 
 const SignUp = ({ mobile }) => {
@@ -179,8 +180,8 @@ const SignUp = ({ mobile }) => {
                 <div key={i} id={card.title} className='bg-light border my-3 p-2 rounded col-6 d-flex flex-column align-items-center'>
                     <h2 className='chewy text-center'>{card.title}</h2>
                     {loading && sectionLoading === i || loading && sectionLoading === 7 ?
-                        <div className='spinner-container'>
-                            <div className='spinner-border text-primary' role='status'></div>
+                        <div className='spinner-container my-4'>
+                            <img className='lg-img' src={loadingLogo} alt="loading logo" />
                         </div> : ''}
                     {card.data.map((item, j) => {
                         return (

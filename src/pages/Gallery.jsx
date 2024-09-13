@@ -84,7 +84,7 @@ const Gallery = () => {
 
     return (
         <div id='gallery' className='fade-in d-flex flex-column align-items-center'>
-            <h1>Gallery</h1>
+            <h1 className='kaushan'>Over the Years</h1>
             <div className='d-flex flex-wrap justify-content-evenly'>
                 {picUrls.map((url, index) => (
                     <CompressedImg url={url} index={index} setFocusedURL={setFocusedURL} />

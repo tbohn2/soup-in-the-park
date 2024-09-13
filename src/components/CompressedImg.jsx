@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import imageCompression from 'browser-image-compression';
+import loadingLogo from '../assets/loading.png';
 
 const CompressedImg = ({ url, index, setFocusedURL }) => {
     const [compressedSrc, setCompressedSrc] = useState(null);
@@ -75,10 +76,14 @@ const CompressedImg = ({ url, index, setFocusedURL }) => {
                         onClick={() => setFocusedURL({ url, index })}
                     />
                 ) : (
-                    <div className="spinner-border" role="status"></div>
+                    <div className='spinner-container my-4'>
+                        <img className='lg-img' src={loadingLogo} alt="loading logo" />
+                    </div>
                 )
             ) : (
-                <div className="spinner-border" role="status"></div>
+                <div className='spinner-container my-4'>
+                    <img className='lg-img' src={loadingLogo} alt="loading logo" />
+                </div>
             )}
         </div>
     );
