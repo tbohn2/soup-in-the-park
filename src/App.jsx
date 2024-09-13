@@ -34,7 +34,8 @@ function App() {
 
     <Router basename='/soup-in-the-park'>
       <div className='bg-yellow text-blue'>
-        <header className='d-flex flex-column align-items-center'>
+        <header className='pt-2 d-flex flex-column align-items-center'>
+          <h1 className='chewy fs-3'>October 21, 2024</h1>
           <img src={logo} alt="" />
           <nav className='chewy fs-3 d-flex justify-content-evenly'>
             <Link to='/' className={`nav-btn ${signUp ? 'text-decoration-underline' : ''}`} onClick={() => setSignUp(true)}>Sign-up</Link>

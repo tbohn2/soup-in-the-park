@@ -1,0 +1,15 @@
+.sign-up-card {
+    border: 1px solid var(--dark-green);
+    border-radius: 10px;
+    background-color: var(--yellow);
+}
+
+.trash:hover {
+    cursor: pointer;
+    opacity: 0.5;
+    transition: all 0.2s ease-in-out;
+}
+
+.deleting {
+    background-color: var(--orange);
+}

@@ -12,6 +12,12 @@
     background-attachment: fixed;
 }
 
+.bg-light-green {
+    background-color: var(--light-green);
+    background-image: linear-gradient(135deg, var(--dark-green) 0%, var(--light-green) 30%, var(--light-green) 60%, var(--dark-green) 100%);
+    background-attachment: fixed;
+}
+
 .text-blue {
     color: var(--blue);
 }
@@ -22,6 +28,17 @@
 
 .kaushan {
     font-family: "Kaushan Script", cursive;
+}
+
+header h1 {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+}
+
+header img {
+    width: 350px;
+    height: auto;
 }
 
 nav {
@@ -66,8 +83,34 @@ nav {
     }
 }
 
-.deleting {
-    background-color: red;
+.custom-btn {
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.custom-btn:hover {
+    color: var(--yellow);
+    background-color: var(--dark-green);
+}
+
+.green-btn {
+    background-color: var(--light-green);
+    color: var(--blue);
+}
+
+.blue-btn {
+    background-color: var(--blue);
+    color: var(--yellow);
+}
+
+.red-btn:hover {
+    background-color: var(--orange);
+    color: var(--yellow);
 }
 
 .fade-in {
