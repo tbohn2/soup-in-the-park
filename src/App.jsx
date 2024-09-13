@@ -34,20 +34,36 @@ function App() {
 
     <Router basename='/soup-in-the-park'>
       <div className='bg-yellow text-blue'>
-        <header className='pt-2 d-flex flex-column align-items-center'>
+        <header className='py-2 d-flex align-items-center'>
           <h1 className='chewy fs-3'>October 21, 2024</h1>
           <img src={logo} alt="" />
-          <nav className='chewy fs-3 d-flex justify-content-evenly'>
-            <Link to='/' className={`nav-btn ${signUp ? 'text-decoration-underline' : ''}`} onClick={() => setSignUp(true)}>Sign-up</Link>
-            <Link to='/gallery' className={`nav-btn ${!signUp ? 'text-decoration-underline' : ''}`} onClick={() => setSignUp(false)}>Gallery</Link>
-          </nav>
+          {mobile ?
+            <nav className='chewy fs-2 d-flex justify-content-evenly'>
+              <div className="dropdown">
+                <span data-bs-toggle="dropdown" aria-expanded="false">&#9776;</span>
+                <ul className="col-12 dropdown-menu m-0 p-0">
+                  <li className='col-12 fs-3'>
+                    <Link to='/' onClick={() => setSignUp(true)}>Sign-up</Link>
+                  </li>
+                  <li className='col-12 fs-3'>
+                    <Link to='/gallery' onClick={() => setSignUp(false)}>Gallery</Link>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+            :
+            <nav className='chewy fs-3 d-flex justify-content-evenly'>
+              <Link to='/' className={`nav-btn ${signUp ? 'text-decoration-underline' : ''}`} onClick={() => setSignUp(true)}>Sign-up</Link>
+              <Link to='/gallery' className={`nav-btn ${!signUp ? 'text-decoration-underline' : ''}`} onClick={() => setSignUp(false)}>Gallery</Link>
+            </nav>
+          }
         </header>
         <Routes>
           <Route path="/" element={<SignUp mobile={mobile} />} />
           <Route path="/gallery" element={<Gallery mobile={mobile} />} />
         </Routes>
       </div>
-    </Router>
+    </Router >
   )
 }
 

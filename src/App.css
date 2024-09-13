@@ -30,6 +30,10 @@
     font-family: "Kaushan Script", cursive;
 }
 
+header {
+    flex-direction: column;
+}
+
 header h1 {
     position: fixed;
     top: 10px;
@@ -124,5 +128,43 @@ nav {
 
     to {
         opacity: 1;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    nav {
+        width: 200px;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+    header {
+        flex-direction: column-reverse !important;
+    }
+
+    header h1 {
+        position: relative;
+        top: 0px;
+        left: 0px;
+        margin-top: 10px;
+    }
+
+    nav {
+        top: 30px;
+        right: 25px;
+        width: 40px;
+    }
+
+    nav li {
+        width: 100%;
+        border-bottom: 1px solid var(--blue);
+        border-top: 1px solid var(--blue);
+        text-align: center;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: var(--blue);
     }
 }

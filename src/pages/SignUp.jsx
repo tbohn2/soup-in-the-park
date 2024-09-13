@@ -174,9 +174,9 @@ const SignUp = ({ mobile }) => {
     return (
         <div className='fade-in fw-light d-flex flex-column align-items-center'>
             {error && <div className='alert alert-info fs-4'>{error}</div>}
-            <h2 className='col-6 rounded p-2 my-2 text-center fw-bold bg-light-green'>Confirmed Attendees: {rsvped}</h2>
+            <h2 className='col-lg-6 col-md-8 col-11 rounded p-2 my-2 text-center fw-bold bg-light-green'>Confirmed Attendees: {rsvped}</h2>
             {cardInfo.map((card, i) =>
-                <div key={i} id={card.title} className='sign-up-card my-3 p-2 col-6 d-flex flex-column align-items-center'>
+                <div key={i} id={card.title} className='sign-up-card my-3 p-2 col-lg-6 col-md-8 col-11 d-flex flex-column align-items-center'>
                     <h2 className='chewy text-center'>{card.title}</h2>
                     {loading && sectionLoading === i || loading && sectionLoading === 7 ?
                         <div className='spinner-container my-4'>
@@ -212,16 +212,16 @@ const SignUp = ({ mobile }) => {
                     {adding && editCardNumber === i || editing && editCardNumber === i ? (
                         <div className='d-flex col-12 flex-column align-items-center'>
                             {deleting ?
-                                <button className='custom-btn green-btn red-btn my-2 col-8' onClick={() => saveData()}>Delete Selected</button>
+                                <button className='custom-btn green-btn red-btn my-2 col-sm-8 col-11' onClick={() => saveData()}>Delete Selected</button>
                                 :
-                                <button className='custom-btn green-btn my-2 btn-success col-8' onClick={() => checkIfNewAttendeeAndSave(i)}>Save</button>
+                                <button className='custom-btn green-btn my-2 btn-success col-sm-8 col-11' onClick={() => checkIfNewAttendeeAndSave(i)}>Save</button>
                             }
-                            <button className='custom-btn blue-btn my-2 col-8' onClick={clearStates}>Cancel</button>
+                            <button className='custom-btn blue-btn my-2 col-sm-8 col-11' onClick={clearStates}>Cancel</button>
                         </div>
                     ) : (
                         <div className='d-flex col-12 flex-column align-items-center'>
-                            <button className='custom-btn green-btn my-2 col-8' onClick={() => toggleAddOrEdit(i, true)}>Add to {card.title}</button>
-                            <button className='custom-btn blue-btn my-2 col-8' onClick={() => toggleAddOrEdit(i, false)}>Make Change to {card.title}</button>
+                            <button className='custom-btn green-btn my-2 col-sm-8 col-11' onClick={() => toggleAddOrEdit(i, true)}>Add to {card.title}</button>
+                            <button className='custom-btn blue-btn my-2 col-sm-8 col-11' onClick={() => toggleAddOrEdit(i, false)}>Make Change to {card.title}</button>
                         </div>
                     )}
                 </div>
