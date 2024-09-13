@@ -32,7 +32,7 @@ function App() {
 
   return (
 
-    <Router basename='/soup-in-the-park'>
+    <Router>
       <div className='bg-yellow text-blue'>
         <header className='py-2 d-flex align-items-center'>
           <h1 className='chewy fs-3'>October 21, 2024</h1>
