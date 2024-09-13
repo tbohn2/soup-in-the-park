@@ -6,6 +6,10 @@
     --yellow: #faefba;
 }
 
+body {
+    background-color: var(--orange);
+}
+
 .bg-yellow {
     background-color: var(--yellow);
     background-image: linear-gradient(135deg, var(--orange) 0%, var(--yellow) 30%, var(--yellow) 60%, var(--orange) 100%);
