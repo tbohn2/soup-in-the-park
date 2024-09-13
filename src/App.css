@@ -1,9 +1,20 @@
-/* body {
-    background-image: url('');
-    background-size: cover;
-    background-repeat: no-repeat;
+:root {
+    --blue: #042d62;
+    --light-green: #93c808;
+    --dark-green: #6d9826;
+    --orange: #ff914d;
+    --yellow: #faefba;
+}
+
+.bg-yellow {
+    background-color: var(--yellow);
+    background-image: linear-gradient(135deg, var(--orange) 0%, var(--yellow) 30%, var(--yellow) 60%, var(--orange) 100%);
     background-attachment: fixed;
-} */
+}
+
+.text-blue {
+    color: var(--blue);
+}
 
 .chewy {
     font-family: "Chewy", system-ui;
@@ -11,6 +22,18 @@
 
 .kaushan {
     font-family: "Kaushan Script", cursive;
+}
+
+nav {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 300px;
+}
+
+.nav-btn {
+    text-decoration: none !important;
+    color: var(--blue) !important;
 }
 
 .alert {
@@ -21,10 +44,26 @@
 }
 
 .spinner-container {
-    position: fixed;
-    top: 10%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.spinner-container .lg-img {
+    width: 100px;
+    height: 60px;
+    animation: spin 1.75s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .deleting {
