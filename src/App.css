@@ -131,6 +131,25 @@ nav {
     }
 }
 
+.fade-in-out {
+    animation: fadeInOut 2s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.3;
+    }
+}
+
+
 @media screen and (max-width: 992px) {
     nav {
         width: 200px;

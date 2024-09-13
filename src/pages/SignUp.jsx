@@ -61,7 +61,7 @@ const SignUp = ({ mobile }) => {
     ];
 
     useEffect(() => {
-        fetchSheetData();
+        fetchAndClear();
     }, []);
 
     useEffect(() => {
@@ -77,7 +77,6 @@ const SignUp = ({ mobile }) => {
         try {
             const response = await axios.get(`https://script.google.com/macros/s/${DEPLOYMENT_ID}/exec`);
             const data = response.data;
-            setLoading(false);
             setSoups(data.soups);
             setBread(data.bread);
             setBeverages(data.beverages);
@@ -102,6 +101,11 @@ const SignUp = ({ mobile }) => {
         setError(null);
         setDeleting(false);
     }
+
+    const fetchAndClear = async () => {
+        await fetchSheetData();
+        clearStates();
+    };
 
     const toggleAddOrEdit = (i, adding) => {
         setDeleting(false);
@@ -145,8 +149,7 @@ const SignUp = ({ mobile }) => {
 
             const response = await axios.post(`https://script.google.com/macros/s/${DEPLOYMENT_ID}/exec`, reqData);
             console.log('Response:', response.data);
-            fetchSheetData();
-            clearStates();
+            fetchAndClear();
             if (newAttendee) {
                 setError('Please enter the number attending in your family');
                 setTimeout(() => setError(''), 7000);
@@ -179,13 +182,13 @@ const SignUp = ({ mobile }) => {
                 <div key={i} id={card.title} className='sign-up-card my-3 p-2 col-lg-6 col-md-8 col-11 d-flex flex-column align-items-center'>
                     <h2 className='chewy text-center'>{card.title}</h2>
                     {loading && sectionLoading === i || loading && sectionLoading === 7 ?
-                        <div className='spinner-container my-4'>
+                        <div className='fade-in-out spinner-container my-4'>
                             <img className='lg-img' src={loadingLogo} alt="loading logo" />
                         </div> : ''}
                     {card.data.map((item, j) => {
                         return (
                             editing && editCardNumber === i ? (
-                                <div key={j} className='fs-3 d-flex align-items-center col-11'>
+                                <div key={j} className='fade-in fs-3 d-flex align-items-center col-11'>
                                     <input className={`col-5 m-0 p-1 ${deleting && rowToDelete === j && 'deleting'}`} type='text' value={newData[j][0]} onChange={(e) => handleChange(e, j, 0)} />
                                     <input className={`col-6 m-0 p-1 ${deleting && rowToDelete === j && 'deleting'}`} type='text' value={newData[j][1]} onChange={(e) => handleChange(e, j, 1)} />
                                     <div>
@@ -196,7 +199,7 @@ const SignUp = ({ mobile }) => {
                                     </div>
                                 </div>
                             ) : (
-                                <div key={j} className='border fs-3 d-flex col-11'>
+                                <div key={j} className='fade-in border fs-3 d-flex col-11'>
                                     <p className='col-6 m-0 p-1'>{item[0]}</p>
                                     <p className='col-6 m-0 p-1'>{item[1]}</p>
                                 </div>
@@ -212,7 +215,7 @@ const SignUp = ({ mobile }) => {
                     {adding && editCardNumber === i || editing && editCardNumber === i ? (
                         <div className='d-flex col-12 flex-column align-items-center'>
                             {deleting ?
-                                <button className='custom-btn green-btn red-btn my-2 col-sm-8 col-11' onClick={() => saveData()}>Delete Selected</button>
+                                <button className='custom-btn green-btn red-btn my-2 col-sm-8 col-11' onClick={() => saveData(false, i)}>Delete Selected</button>
                                 :
                                 <button className='custom-btn green-btn my-2 btn-success col-sm-8 col-11' onClick={() => checkIfNewAttendeeAndSave(i)}>Save</button>
                             }

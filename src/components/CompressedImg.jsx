@@ -76,12 +76,12 @@ const CompressedImg = ({ url, index, setFocusedURL }) => {
                         onClick={() => setFocusedURL({ url, index })}
                     />
                 ) : (
-                    <div className='spinner-container my-4'>
+                    <div className='spinner-container my-4 fade-in-out'>
                         <img className='lg-img' src={loadingLogo} alt="loading logo" />
                     </div>
                 )
             ) : (
-                <div className='spinner-container my-4'>
+                <div className='spinner-container my-4 fade-in-out'>
                     <img className='lg-img' src={loadingLogo} alt="loading logo" />
                 </div>
             )}
