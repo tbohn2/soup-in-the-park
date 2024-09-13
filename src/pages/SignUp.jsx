@@ -175,7 +175,7 @@ const SignUp = ({ mobile }) => {
     };
 
     return (
-        <div className='fade-in fw-light d-flex flex-column align-items-center'>
+        <div className='fade-in main-content fw-light d-flex flex-column align-items-center'>
             {error && <div className='alert alert-info fs-4'>{error}</div>}
             <h2 className='col-lg-6 col-md-8 col-11 rounded p-2 my-2 text-center fw-bold bg-light-green'>Confirmed Attendees: {rsvped}</h2>
             {cardInfo.map((card, i) =>

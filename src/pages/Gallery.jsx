@@ -83,7 +83,7 @@ const Gallery = () => {
     }, [focusedURL]);
 
     return (
-        <div id='gallery' className='fade-in d-flex flex-column align-items-center'>
+        <div id='gallery' className='main-content fade-in d-flex flex-column align-items-center'>
             <h1 className='kaushan'>Over the Years</h1>
             <div className='d-flex flex-wrap justify-content-evenly'>
                 {picUrls.map((url, index) => (
@@ -93,9 +93,9 @@ const Gallery = () => {
             {focusedURL.url &&
                 <div id='focused-img' className={focusedURL ? 'show' : ''}>
                     <button id='close-btn' onClick={() => setFocusedURL({ url: null, index: null })}>&times;</button>
-                    <button id='prev-btn' onClick={handlePrev}>&lt;</button>
-                    <button id='next-btn' onClick={handleNext}>&gt;</button>
-                    <img src={focusedURL.url} alt='' />
+                    <button id='prev-btn' className='gal-nav-btn' onClick={handlePrev}>&lt;</button>
+                    <button id='next-btn' className='gal-nav-btn' onClick={handleNext}>&gt;</button>
+                    <img className='fade-in' src={focusedURL.url} alt='' />
                 </div>}
         </div>
     );

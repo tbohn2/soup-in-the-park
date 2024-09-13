@@ -39,8 +39,8 @@
 }
 
 #focused-img img {
-    width: 80%;
-    height: auto;
+    max-width: 85%;
+    max-height: 90%;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -61,35 +61,39 @@
     transition: background-color 0.25s ease-in-out;
 }
 
-#prev-btn {
+.gal-nav-btn {
     position: fixed;
     top: 50%;
-    left: 10px;
     font-size: 2rem;
     color: white;
     background-color: rgba(0, 0, 0, 0.5);
     border: none;
-    border-radius: 50%;
     padding: 0.5rem;
     cursor: pointer;
     transition: background-color 0.25s ease-in-out;
+}
+
+#prev-btn {
+    left: 15px;
 }
 
 #next-btn {
-    position: fixed;
-    top: 50%;
-    right: 10px;
-    font-size: 2rem;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.5);
-    border: none;
-    border-radius: 50%;
-    padding: 0.5rem;
-    cursor: pointer;
-    transition: background-color 0.25s ease-in-out;
+    right: 15px;
 }
 
 @media screen and (max-width: 768px) {
+    .gal-nav-btn {
+        bottom: 10%;
+    }
+
+    #prev-btn {
+        left: 125px;
+    }
+
+    #next-btn {
+        right: 125px;
+    }
+
     .gallery-img-container {
         width: 90%;
         height: 350px;
