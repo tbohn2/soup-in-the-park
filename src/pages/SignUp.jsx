@@ -67,7 +67,10 @@ const SignUp = ({ mobile }) => {
     useEffect(() => {
         setRsvped(0);
         attendees.forEach((attendee) => {
-            setRsvped(prevRsvped => prevRsvped + attendee[1]);
+            const qty = parseInt(attendee[1]);
+            if (!isNaN(qty)) {
+                setRsvped(prevRsvped => prevRsvped + qty);
+            }
         });
     }, [attendees]);
 
@@ -108,6 +111,8 @@ const SignUp = ({ mobile }) => {
     };
 
     const toggleAddOrEdit = (i, adding) => {
+        setAdding(false);
+        setEditing(false);
         setDeleting(false);
         setRowToDelete(null);
         const newDataArray = cardInfo[i].data.map(item => [...item]); // deep copy of data
@@ -163,8 +168,9 @@ const SignUp = ({ mobile }) => {
 
     const checkIfNewAttendeeAndSave = (cardIndex) => {
         let newAttendee = false;
+        const category = categories[editCardNumber];
 
-        if (adding) {
+        if (adding && "attendees" !== category) {
             const familyName = newData[newData.length - 1][0].toLowerCase().trim();
             newAttendee = !attendees.some((attendee) =>
                 attendee[0].toLowerCase().trim() === familyName
@@ -177,7 +183,7 @@ const SignUp = ({ mobile }) => {
     return (
         <div className='fade-in main-content fw-light d-flex flex-column align-items-center'>
             {error && <div className='alert alert-info fs-4'>{error}</div>}
-            <h2 className='col-lg-6 col-md-8 col-11 rounded p-2 my-2 text-center fw-bold bg-light-green'>Confirmed Attendees: {rsvped}</h2>
+            <h2 className='col-lg-6 col-md-8 col-11 rounded p-2 my-2 text-center fw-bold bg-light-green'>Confirmed Attending: {rsvped}</h2>
             {cardInfo.map((card, i) =>
                 <div key={i} id={card.title} className='sign-up-card my-3 p-2 col-lg-6 col-md-8 col-11 d-flex flex-column align-items-center'>
                     <h2 className='chewy text-center'>{card.title}</h2>
@@ -189,8 +195,8 @@ const SignUp = ({ mobile }) => {
                         return (
                             editing && editCardNumber === i ? (
                                 <div key={j} className='fade-in fs-3 d-flex align-items-center col-11'>
-                                    <input className={`col-5 m-0 p-1 ${deleting && rowToDelete === j && 'deleting'}`} type='text' value={newData[j][0]} onChange={(e) => handleChange(e, j, 0)} />
-                                    <input className={`col-6 m-0 p-1 ${deleting && rowToDelete === j && 'deleting'}`} type='text' value={newData[j][1]} onChange={(e) => handleChange(e, j, 1)} />
+                                    <input className={`col-7 m-0 p-1 ${deleting && rowToDelete === j && 'deleting'}`} type='text' value={newData[j][0]} onChange={(e) => handleChange(e, j, 0)} />
+                                    <input className={`col-4 m-0 p-1 ${deleting && rowToDelete === j && 'deleting'}`} type='text' value={newData[j][1]} onChange={(e) => handleChange(e, j, 1)} />
                                     <div>
                                         <svg className='trash' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="40" height="40" onClick={() => toggleDelete(j)}>
                                             <path d="M9 3V2h6v1h5v2H4V3h5zm2 4h2v12h-2V7zm-4 0h2v12H7V7zm10 0h-2v12h2V7zM5 5v16h14V5H5z" fill="red" />
@@ -200,16 +206,16 @@ const SignUp = ({ mobile }) => {
                                 </div>
                             ) : (
                                 <div key={j} className='fade-in border fs-3 d-flex col-11'>
-                                    <p className='col-6 m-0 p-1'>{item[0]}</p>
-                                    <p className='col-6 m-0 p-1'>{item[1]}</p>
+                                    <p className='col-7 m-0 p-1'>{item[0]}</p>
+                                    <p className='col-5 m-0 p-1'>{item[1]}</p>
                                 </div>
                             )
                         )
                     })}
                     {adding && editCardNumber === i && (
                         <div className='d-flex justify-content-between col-11 fs-3'>
-                            <input className='col-6' type='text' placeholder='Name of Family' onChange={(e) => handleChange(e, newData.length - 1, 0)} />
-                            <input className='col-6' type='text' placeholder={card.title === 'Attendees' ? 'Number of People' : 'Item Name'} onChange={(e) => handleChange(e, newData.length - 1, 1)} />
+                            <input className='col-7' type='text' placeholder='Name of Family' onChange={(e) => handleChange(e, newData.length - 1, 0)} />
+                            <input className='col-5' type='text' placeholder={card.title === 'Attendees' || card.title === "Tables" ? 'Number' : 'Item Name'} onChange={(e) => handleChange(e, newData.length - 1, 1)} />
                         </div>
                     )}
                     {adding && editCardNumber === i || editing && editCardNumber === i ? (
@@ -224,7 +230,7 @@ const SignUp = ({ mobile }) => {
                     ) : (
                         <div className='d-flex col-12 flex-column align-items-center'>
                             <button className='custom-btn green-btn my-2 col-sm-8 col-11' onClick={() => toggleAddOrEdit(i, true)}>Add to {card.title}</button>
-                            <button className='custom-btn blue-btn my-2 col-sm-8 col-11' onClick={() => toggleAddOrEdit(i, false)}>Make Change to {card.title}</button>
+                            <button className='custom-btn blue-btn my-2 col-sm-8 col-11' onClick={() => toggleAddOrEdit(i, false)}>Make Change to {card.title === "Miscellaneous" ? "Misc." : card.title}</button>
                         </div>
                     )}
                 </div>
