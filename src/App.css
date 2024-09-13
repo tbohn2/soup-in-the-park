@@ -6,7 +6,7 @@
     --yellow: #faefba;
 }
 
-body {
+.body {
     background-color: var(--orange);
 }
 

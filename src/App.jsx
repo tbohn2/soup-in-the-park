@@ -9,14 +9,6 @@ function App() {
   const [mobile, setMobile] = useState(false);
   const [signUp, setSignUp] = useState(true);
 
-  const checkNav = () => {
-    if (window.location.pathname === '/gallery') {
-      setSignUp(false);
-    } else {
-      setSignUp(true);
-    }
-  }
-
   useEffect(() => {
     if (window.innerWidth <= 768) {
       setMobile(true);
@@ -29,6 +21,14 @@ function App() {
       }
     });
   }, []);
+
+  const signUpClick = () => {
+    setSignUp(true);
+    const element = document.getElementById('Soups');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
 
@@ -43,7 +43,7 @@ function App() {
                 <span data-bs-toggle="dropdown" aria-expanded="false">&#9776;</span>
                 <ul className="col-12 dropdown-menu m-0 p-0">
                   <li className='col-12 fs-3'>
-                    <Link to='/' onClick={() => setSignUp(true)}>Sign-up</Link>
+                    <Link to='/' onClick={signUpClick}>Sign-up</Link>
                   </li>
                   <li className='col-12 fs-3'>
                     <Link to='/gallery' onClick={() => setSignUp(false)}>Gallery</Link>
@@ -53,7 +53,7 @@ function App() {
             </nav>
             :
             <nav className='chewy fs-3 d-flex justify-content-evenly'>
-              <Link to='/' className={`nav-btn ${signUp ? 'text-decoration-underline' : ''}`} onClick={() => setSignUp(true)}>Sign-up</Link>
+              <Link to='/' className={`nav-btn ${signUp ? 'text-decoration-underline' : ''}`} onClick={signUpClick}>Sign-up</Link>
               <Link to='/gallery' className={`nav-btn ${!signUp ? 'text-decoration-underline' : ''}`} onClick={() => setSignUp(false)}>Gallery</Link>
             </nav>
           }
