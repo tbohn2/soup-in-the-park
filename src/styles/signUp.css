@@ -14,19 +14,24 @@
     background-color: var(--yellow);
 }
 
+.truncated-container {
+    position: relative;
+    overflow: hidden;
+}
+
 .truncated-text {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.truncated-text:hover {
+.truncated-container:hover .truncated-text {
     white-space: normal;
     overflow: visible;
     background-color: var(--yellow);
     position: relative;
     z-index: 2;
-    width: 50%;
+    max-width: 50%;
     padding: 0.5rem;
 }
 
@@ -47,5 +52,9 @@
         left: 0px;
         margin-top: 10px;
         text-align: center;
+    }
+
+    .truncated-container:hover .truncated-text-e {
+        text-align: end;
     }
 }
