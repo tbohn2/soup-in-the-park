@@ -38,12 +38,6 @@ header {
     flex-direction: column;
 }
 
-#date-time {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-}
-
 header img {
     width: 350px;
     height: auto;
@@ -176,14 +170,6 @@ nav {
     header {
         background-image: linear-gradient(180deg, var(--orange) 0%, var(--yellow) 70%);
         flex-direction: column-reverse !important;
-    }
-
-    #date-time {
-        position: relative;
-        top: 0px;
-        left: 0px;
-        margin-top: 10px;
-        text-align: center;
     }
 
     nav {

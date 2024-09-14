@@ -182,11 +182,15 @@ const SignUp = ({ mobile }) => {
 
     return (
         <div className='fade-in main-content fw-light d-flex flex-column align-items-center'>
+            <div id='date-time'>
+                <h1 className='chewy fs-3'>October 21, 2024</h1>
+                <h1 className='chewy fs-3'>5:00 PM</h1>
+            </div>
             {error && <div className='alert alert-info fw-bold text-center fs-4'>{error}</div>}
             <img className='fade-in rounded mt-2 col-lg-4 col-md-6 col-8 my-2' src={gmaGpaPic} alt="Gma and Gpa" />
             <p className='sign-up-card my-3 p-3 col-xl-6 col-lg-8 col-md-9 col-11 fs-3 fw-bold text-center d-flex flex-column align-items-center'>
                 The tradition continues! Come to Shepherder's Park in celebration and memory of
-                <span className='fs-1 my-1 kaushan'>Shirley Martindale</span>
+                <span id='shirley' className='my-1 kaushan'>Shirley Martindale</span>
                 Please sign up for what you would like to bring and how many people are coming.
             </p>
             <h2 className='col-lg-6 col-md-8 col-11 rounded p-2 my-2 text-center fw-bold bg-light-green'>Confirmed Attending: {rsvped}</h2>

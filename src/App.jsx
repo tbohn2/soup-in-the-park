@@ -35,10 +35,6 @@ function App() {
     <Router>
       <div className='bg-yellow text-blue'>
         <header className='py-2 d-flex align-items-center'>
-          <div id='date-time'>
-            <h1 className='chewy fs-3'>October 21, 2024</h1>
-            <h1 className='chewy fs-3'>5:00 PM</h1>
-          </div>
           <img src={logo} alt="" />
           {mobile ?
             <nav className='chewy fs-2 d-flex justify-content-evenly'>
