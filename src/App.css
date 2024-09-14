@@ -184,9 +184,13 @@ nav {
     }
 
     nav {
-        top: 30px;
-        right: 25px;
+        top: 10px;
+        right: 30px;
         width: 40px;
+    }
+
+    nav span {
+        font-size: 36px;
     }
 
     nav li {

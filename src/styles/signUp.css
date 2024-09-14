@@ -4,6 +4,24 @@
     background-color: var(--yellow);
 }
 
+.truncated-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+.truncated-text:hover {
+    white-space: normal;
+    overflow: visible;
+    background-color: var(--yellow);
+    position: relative;
+    z-index: 1;
+    width: auto;
+    max-width: 100%;
+    padding: 0.5rem;
+}
+
 .trash:hover {
     cursor: pointer;
     opacity: 0.5;

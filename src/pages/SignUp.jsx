@@ -194,9 +194,9 @@ const SignUp = ({ mobile }) => {
                     {card.data.map((item, j) => {
                         return (
                             editing && editCardNumber === i ? (
-                                <div key={j} className='fade-in fs-3 d-flex align-items-center col-11'>
-                                    <input className={`col-7 m-0 p-1 ${deleting && rowToDelete === j && 'deleting'}`} type='text' value={newData[j][0]} onChange={(e) => handleChange(e, j, 0)} />
-                                    <input className={`col-4 m-0 p-1 ${deleting && rowToDelete === j && 'deleting'}`} type='text' value={newData[j][1]} onChange={(e) => handleChange(e, j, 1)} />
+                                <div key={j} className='fade-in fs-3 d-flex align-items-center col-md-11 col-12'>
+                                    <input className={`col-6 m-0 p-1 ${deleting && rowToDelete === j && 'deleting'}`} type='text' value={newData[j][0]} onChange={(e) => handleChange(e, j, 0)} />
+                                    <input className={`col-5 m-0 p-1 ${deleting && rowToDelete === j && 'deleting'}`} type='text' value={newData[j][1]} onChange={(e) => handleChange(e, j, 1)} />
                                     <div>
                                         <svg className='trash' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="40" height="40" onClick={() => toggleDelete(j)}>
                                             <path d="M9 3V2h6v1h5v2H4V3h5zm2 4h2v12h-2V7zm-4 0h2v12H7V7zm10 0h-2v12h2V7zM5 5v16h14V5H5z" fill="red" />
@@ -205,15 +205,15 @@ const SignUp = ({ mobile }) => {
                                     </div>
                                 </div>
                             ) : (
-                                <div key={j} className='fade-in border fs-3 d-flex col-11'>
-                                    <p className='col-7 m-0 p-1'>{item[0]}</p>
-                                    <p className='col-5 m-0 p-1'>{item[1]}</p>
+                                <div key={j} className='fade-in border fs-3 d-flex justify-content-between col-md-11 col-12'>
+                                    <p className='my-0 me-3 p-1 truncated-text'>{item[0]}</p>
+                                    <p className='m-0 p-1 truncated-text'>{item[1]}</p>
                                 </div>
                             )
                         )
                     })}
                     {adding && editCardNumber === i && (
-                        <div className='d-flex justify-content-between col-11 fs-3'>
+                        <div className='d-flex justify-content-between col-md-11 col-12 fs-3'>
                             <input className='col-7' type='text' placeholder='Name of Family' onChange={(e) => handleChange(e, newData.length - 1, 0)} />
                             <input className='col-5' type='text' placeholder={card.title === 'Attendees' || card.title === "Tables" ? 'Number' : 'Item Name'} onChange={(e) => handleChange(e, newData.length - 1, 1)} />
                         </div>
@@ -221,16 +221,16 @@ const SignUp = ({ mobile }) => {
                     {adding && editCardNumber === i || editing && editCardNumber === i ? (
                         <div className='d-flex col-12 flex-column align-items-center'>
                             {deleting ?
-                                <button className='custom-btn green-btn red-btn my-2 col-sm-8 col-11' onClick={() => saveData(false, i)}>Delete Selected</button>
+                                <button className='custom-btn green-btn red-btn my-2 col-sm-8 col-12' onClick={() => saveData(false, i)}>Delete Selected</button>
                                 :
-                                <button className='custom-btn green-btn my-2 btn-success col-sm-8 col-11' onClick={() => checkIfNewAttendeeAndSave(i)}>Save</button>
+                                <button className='custom-btn green-btn my-2 btn-success col-sm-8 col-12' onClick={() => checkIfNewAttendeeAndSave(i)}>Save</button>
                             }
-                            <button className='custom-btn blue-btn my-2 col-sm-8 col-11' onClick={clearStates}>Cancel</button>
+                            <button className='custom-btn blue-btn my-2 col-sm-8 col-12' onClick={clearStates}>Cancel</button>
                         </div>
                     ) : (
                         <div className='d-flex col-12 flex-column align-items-center'>
-                            <button className='custom-btn green-btn my-2 col-sm-8 col-11' onClick={() => toggleAddOrEdit(i, true)}>Add to {card.title}</button>
-                            <button className='custom-btn blue-btn my-2 col-sm-8 col-11' onClick={() => toggleAddOrEdit(i, false)}>Make Change to {card.title === "Miscellaneous" ? "Misc." : card.title}</button>
+                            <button className='custom-btn green-btn my-2 col-sm-8 col-12' onClick={() => toggleAddOrEdit(i, true)}>Add to {card.title}</button>
+                            <button className='custom-btn blue-btn my-2 col-sm-8 col-12' onClick={() => toggleAddOrEdit(i, false)}>Make Change to {card.title === "Miscellaneous" ? "Misc." : card.title}</button>
                         </div>
                     )}
                 </div>
