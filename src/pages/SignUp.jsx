@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import loadingLogo from '../assets/loading.png';
+import gmaGpaPic from '../assets/main-page-gma.jpg';
 import '../styles/signUp.css';
 const DEPLOYMENT_ID = import.meta.env.VITE_DEPLOYMENT_ID;
 
@@ -8,7 +9,7 @@ const SignUp = ({ mobile }) => {
 
     // Send data as { category, newData: [[oldInfo], [newInfo]] } for post request
 
-    const categories = ['soups', 'bread', 'beverages', 'desserts', 'misc', 'tables', 'attendees'];
+    const categories = ['attendees', 'soups', 'bread', 'beverages', 'desserts', 'misc', 'tables'];
 
     const [adding, setAdding] = useState(false);
     const [editing, setEditing] = useState(false);
@@ -30,6 +31,10 @@ const SignUp = ({ mobile }) => {
     const [rsvped, setRsvped] = useState(0);
 
     const cardInfo = [
+        {
+            title: 'Attendees',
+            data: attendees,
+        },
         {
             title: 'Soups',
             data: soups,
@@ -53,10 +58,6 @@ const SignUp = ({ mobile }) => {
         {
             title: 'Tables',
             data: tables,
-        },
-        {
-            title: 'Attendees',
-            data: attendees,
         }
     ];
 
@@ -151,14 +152,13 @@ const SignUp = ({ mobile }) => {
 
             const category = categories[editCardNumber];
             const reqData = JSON.stringify({ category, newData: newData });
-
             const response = await axios.post(`https://script.google.com/macros/s/${DEPLOYMENT_ID}/exec`, reqData);
             console.log('Response:', response.data);
-            fetchAndClear();
+            await fetchAndClear();
             if (newAttendee) {
-                setError('Please enter the number attending in your family');
+                setError(`Thank you! Don't forget to enter how many people you are bringing!`);
                 setTimeout(() => setError(''), 7000);
-                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                window.scrollTo({ top: document.getElementById('Attendees'), behavior: 'smooth' });
             }
         } catch (error) {
             console.error('Error saving data:', error);
@@ -182,10 +182,16 @@ const SignUp = ({ mobile }) => {
 
     return (
         <div className='fade-in main-content fw-light d-flex flex-column align-items-center'>
-            {error && <div className='alert alert-info fs-4'>{error}</div>}
+            {error && <div className='alert alert-info fw-bold text-center fs-4'>{error}</div>}
+            <img className='fade-in rounded mt-2 col-lg-4 col-md-6 col-8 my-2' src={gmaGpaPic} alt="Gma and Gpa" />
+            <p className='sign-up-card my-3 p-3 col-xl-6 col-lg-8 col-md-9 col-11 fs-3 fw-bold text-center d-flex flex-column align-items-center'>
+                The tradition continues! Come to Shepherder's Park in celebration and memory of
+                <span className='fs-1 my-1 kaushan'>Shirley Martindale</span>
+                Please sign up for what you would like to bring and how many people are coming.
+            </p>
             <h2 className='col-lg-6 col-md-8 col-11 rounded p-2 my-2 text-center fw-bold bg-light-green'>Confirmed Attending: {rsvped}</h2>
             {cardInfo.map((card, i) =>
-                <div key={i} id={card.title} className='sign-up-card my-3 p-2 col-lg-6 col-md-8 col-11 d-flex flex-column align-items-center'>
+                <div key={i} id={card.title} className='sign-up-card my-3 p-2 col-xl-6 col-lg-8 col-md-9 col-11 d-flex flex-column align-items-center'>
                     <h2 className='chewy text-center'>{card.title}</h2>
                     {loading && sectionLoading === i || loading && sectionLoading === 7 ?
                         <div className='fade-in-out spinner-container my-4'>
@@ -205,9 +211,9 @@ const SignUp = ({ mobile }) => {
                                     </div>
                                 </div>
                             ) : (
-                                <div key={j} className='fade-in border fs-3 d-flex justify-content-between col-md-11 col-12'>
+                                <div key={j} className='px-2 fade-in border fs-3 d-flex justify-content-between col-md-11 col-12'>
                                     <p className='my-0 me-3 p-1 truncated-text'>{item[0]}</p>
-                                    <p className='m-0 p-1 truncated-text'>{item[1]}</p>
+                                    <p className={`m-0 p-1 col-md-6 truncated-text ${card.title === 'Attendees' || card.title === "Tables" ? 'text-center' : ''}`}>{item[1]}</p>
                                 </div>
                             )
                         )
