@@ -41,17 +41,17 @@ function App() {
               <div className="dropdown">
                 <span data-bs-toggle="dropdown" aria-expanded="false">&#9776;</span>
                 <ul className="col-12 dropdown-menu m-0 p-0">
-                  <li className='col-12 fs-3'>
+                  <li className='col-12 fs-3 bg-yellow'>
                     <Link to='/' onClick={signUpClick}>Sign-up</Link>
                   </li>
-                  <li className='col-12 fs-3'>
+                  <li className='col-12 fs-3 bg-yellow'>
                     <Link to='/gallery' onClick={() => setSignUp(false)}>Gallery</Link>
                   </li>
                 </ul>
               </div>
             </nav>
             :
-            <nav className='chewy fs-3 d-flex justify-content-evenly'>
+            <nav className='chewy bg-yellow fs-3 d-flex justify-content-evenly'>
               <Link to='/' className={`nav-btn ${signUp ? 'text-decoration-underline' : ''}`} onClick={signUpClick}>Sign-up</Link>
               <Link to='/gallery' className={`nav-btn ${!signUp ? 'text-decoration-underline' : ''}`} onClick={() => setSignUp(false)}>Gallery</Link>
             </nav>
