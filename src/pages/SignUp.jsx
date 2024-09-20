@@ -217,7 +217,7 @@ const SignUp = ({ mobile }) => {
                             ) : (
                                 <div key={j} className='truncated-container px-1 fade-in border fs-3 d-flex justify-content-between col-md-11 col-12'>
                                     <p className='my-0 me-3 p-1 truncated-text'>{item[0]}</p>
-                                    <p className={`m-0 p-1 truncated-text truncated-text-e ${card.title === 'Attendees' || card.title === "Tables" ? 'col-1 text-end' : 'col-md-6'}`}>{item[1]}</p>
+                                    <p className={`m-0 p-1 truncated-text truncated-text-e  ${card.title === 'Attendees' || card.title === "Tables" ? 'text-end' : 'col-md-6'}`}>{item[1]}</p>
                                 </div>
                             )
                         )
