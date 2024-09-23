@@ -30,6 +30,7 @@ addToUrlArray(pics2019);
 
 const Gallery = () => {
 
+    const [loading, setLoading] = useState(false);
     const [picUrls, setPicUrls] = useState([]);
     const [focusedURL, setFocusedURL] = useState({
         url: null,
@@ -41,6 +42,7 @@ const Gallery = () => {
     }, []);
 
     const handleNext = () => {
+        setLoading(true);
         setFocusedURL(prev => {
             const nextIndex = (prev.index + 1) % picUrls.length;
             return { url: picUrls[nextIndex], index: nextIndex };
@@ -48,6 +50,7 @@ const Gallery = () => {
     };
 
     const handlePrev = () => {
+        setLoading(true);
         setFocusedURL(prev => {
             const prevIndex = (prev.index - 1 + picUrls.length) % picUrls.length;
             return { url: picUrls[prevIndex], index: prevIndex };
@@ -72,6 +75,10 @@ const Gallery = () => {
         }
     };
 
+    const handleImageLoad = () => {
+        setLoading(false);
+    };
+
     useEffect(() => {
         if (focusedURL.url) {
             window.addEventListener('keydown', handleKeyDown);
@@ -92,10 +99,11 @@ const Gallery = () => {
             </div>
             {focusedURL.url &&
                 <div id='focused-img' className={focusedURL ? 'show' : ''}>
+                    {loading && <div className="spinner-border" role="status"></div>}
                     <button id='close-btn' onClick={() => setFocusedURL({ url: null, index: null })}>&times;</button>
                     <button id='prev-btn' className='gal-nav-btn' onClick={handlePrev}>&lt;</button>
                     <button id='next-btn' className='gal-nav-btn' onClick={handleNext}>&gt;</button>
-                    <img className='fade-in' src={focusedURL.url} alt='' />
+                    <img className='fade-in' src={focusedURL.url} alt='' onLoad={handleImageLoad} />
                 </div>}
         </div>
     );

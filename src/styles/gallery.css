@@ -11,6 +11,14 @@
     opacity: 0;
 }
 
+.spinner-border {
+    position: fixed;
+    top: 30px;
+    right: 90px;
+    z-index: 3;
+    color: white;
+}
+
 .gallery-img.loaded {
     opacity: 1;
 }
@@ -71,6 +79,11 @@
     padding: 0.5rem;
     cursor: pointer;
     transition: background-color 0.25s ease-in-out;
+}
+
+.gal-nav-btn:focus {
+    outline: none;
+    box-shadow: none;
 }
 
 #prev-btn {

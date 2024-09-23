@@ -189,7 +189,7 @@ const SignUp = ({ mobile }) => {
             {error && <div className='alert alert-info fw-bold text-center fs-4'>{error}</div>}
             <img className='fade-in rounded mt-2 col-lg-4 col-md-6 col-8 my-2' src={gmaGpaPic} alt="Gma and Gpa" />
             <p className='sign-up-card my-3 p-3 col-xl-6 col-lg-8 col-md-9 col-11 fs-3 fw-bold text-center d-flex flex-column align-items-center'>
-                The tradition continues! Come to Shepherder's Park in celebration and memory of
+                The tradition continues! Come to Sheepherder's Park in celebration and memory of
                 <span id='shirley' className='my-1 kaushan'>Shirley Martindale</span>
                 Please sign up for what you would like to bring and how many people are coming.
             </p>
