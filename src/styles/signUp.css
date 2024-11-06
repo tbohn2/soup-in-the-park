@@ -11,7 +11,7 @@
 .sign-up-card {
     border: 1px solid var(--blue);
     border-radius: 10px;
-    background-color: var(--yellow);
+    background-color: var(--light);
 }
 
 .truncated-container {
@@ -28,7 +28,7 @@
 .truncated-container:hover .truncated-text {
     white-space: normal;
     overflow: visible;
-    background-color: var(--yellow);
+    background-color: var(--light);
     position: relative;
     z-index: 2;
     max-width: 50%;
@@ -42,7 +42,7 @@
 }
 
 .deleting {
-    background-color: var(--orange);
+    background-color: var(--secondary);
 }
 
 @media screen and (max-width: 768px) {
