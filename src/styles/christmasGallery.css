@@ -1,0 +1,136 @@
+.mountains-christmas {
+  font-family: "Mountains of Christmas", cursive;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 8px 0;
+}
+
+.gallery-img-container {
+  cursor: pointer;
+  width: 600px;
+  height: 400px;
+}
+
+.gallery-img {
+  height: 400px;
+  object-fit: cover;
+  transition: opacity 1.5s ease-in-out, box-shadow 0.25s ease-in-out;
+  opacity: 0;
+}
+
+.spinner-border {
+  position: fixed;
+  top: 30px;
+  right: 90px;
+  z-index: 3;
+  color: white;
+}
+
+.gallery-img.loaded {
+  opacity: 1;
+}
+
+.gallery-img:hover {
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+}
+
+#focused-img {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: black;
+  opacity: 0;
+  display: none;
+  transition: opacity 0.25s ease-in-out;
+}
+
+#focused-img.show {
+  display: block;
+  opacity: 1;
+}
+
+#focused-img img {
+  max-width: 85%;
+  max-height: 90%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#close-btn {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  font-size: 2rem;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 50%;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.25s ease-in-out;
+}
+
+.gal-nav-btn {
+  position: fixed;
+  top: 50%;
+  font-size: 2rem;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.25s ease-in-out;
+}
+
+.gal-nav-btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+#prev-btn {
+  left: 15px;
+}
+
+#next-btn {
+  right: 15px;
+}
+
+@media screen and (max-width: 768px) {
+  .gal-nav-btn {
+      bottom: 10%;
+  }
+
+  #prev-btn {
+      left: 125px;
+  }
+
+  #next-btn {
+      right: 125px;
+  }
+
+  .gallery-img-container {
+      width: 90%;
+      height: 350px;
+  }
+
+  .gallery-img {
+      height: 350px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .gallery-img-container {
+      width: 90%;
+      height: 250px;
+  }
+
+  .gallery-img {
+      height: 250px;
+  }
+}

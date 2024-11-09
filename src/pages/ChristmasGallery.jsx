@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import CompressedImg from '../components/CompressedImg.jsx';
-import '../styles/gallery.css'
+import '../styles/christmasGallery.css'
 
-const pics2005 = import.meta.glob('../assets/2005/*.jpg', { eager: true });
+const pics = import.meta.glob('../assets/christmas/*.jpeg', { eager: true });
 
 const urlArray = [];
 
@@ -10,7 +10,7 @@ function addToUrlArray(picObj) {
     urlArray.push(...Object.keys(picObj).map((key) => picObj[key].default));
 }
 
-addToUrlArray(pics2005);
+addToUrlArray(pics);
 
 const ChristmasGallery = () => {
 
@@ -75,7 +75,7 @@ const ChristmasGallery = () => {
 
     return (
         <div id='gallery' className='main-content fade-in d-flex flex-column align-items-center'>
-            <h1 className='kaushan'>Over the Years</h1>
+            <h1 className='mountains-christmas'>Over the Years</h1>
             <div className='d-flex flex-wrap justify-content-evenly'>
                 {picUrls.map((url, index) => (
                     <CompressedImg url={url} index={index} setFocusedURL={setFocusedURL} />

@@ -4,27 +4,51 @@ import SignUp from './pages/SignUp';
 import Gallery from './pages/Gallery';
 import ChristmasSignUp from './pages/ChrismasSignUp';
 import ChristmasGallery from './pages/ChristmasGallery';
-// import logo from './assets/logo.png';
-import logo from './assets/trumpSanty.png';
-
-import './App.css'
+import logo from './assets/logo.png';
+import christmasLogo from './assets/christmas/nativity-1.jpeg';
 
 function App() {
   const [mobile, setMobile] = useState(false);
   const [signUp, setSignUp] = useState(true);
+  const [isChristmasSeason, setIsChristmasSeason] = useState(false);
 
   useEffect(() => {
-    if (window.innerWidth <= 768) {
-      setMobile(true);
-    }
-    window.addEventListener('resize', () => {
-      if (window.innerWidth <= 768) {
-        setMobile(true);
+    const loadSeasonalStyles = async () => {
+      if (isChristmasSeason) {
+        await import('./christmasApp.css');
       } else {
-        setMobile(false);
+        await import('./App.css');
       }
-    });
-  }, []);
+    };
+
+    const checkSeason = () => {
+      const today = new Date();
+      const month = today.getMonth();
+      const day = today.getDate();
+
+      if ((month === 9 && day >= 15) || month === 10 || month === 11) {
+        setIsChristmasSeason(true);
+      } else {
+        setIsChristmasSeason(false);
+      }
+    };
+
+    const handleResize = () => {
+      setMobile(window.innerWidth <= 768);
+    };
+
+    checkSeason();
+    loadSeasonalStyles();
+    handleResize();
+
+    const seasonInterval = setInterval(checkSeason, 86400000);
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      clearInterval(seasonInterval);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [isChristmasSeason]);
 
   const signUpClick = () => {
     setSignUp(true);
@@ -39,7 +63,7 @@ function App() {
     <Router>
       <div className='bg-yellow text-blue'>
         <header className='py-2 d-flex align-items-center'>
-          <img src={logo} alt="" />
+          <img src={isChristmasSeason ? christmasLogo : logo} alt="" />
           {mobile ?
             <nav className='chewy fs-2 d-flex justify-content-evenly'>
               <div className="dropdown">
@@ -62,10 +86,22 @@ function App() {
           }
         </header>
         <Routes>
-          <Route path="/" element={<ChristmasSignUp mobile={mobile} />} />
-          <Route path="/gallery" element={<ChristmasGallery mobile={mobile} />} />
-          {/* <Route path="/" element={<SignUp mobile={mobile} />} />
-          <Route path="/gallery" element={<Gallery mobile={mobile} />} /> */}
+          <Route 
+            path="/" 
+            element={
+              isChristmasSeason 
+                ? <ChristmasSignUp mobile={mobile} /> 
+                : <SignUp mobile={mobile} />
+            } 
+          />
+          <Route 
+            path="/gallery" 
+            element={
+              isChristmasSeason 
+                ? <ChristmasGallery mobile={mobile} /> 
+                : <Gallery mobile={mobile} />
+            } 
+          />
         </Routes>
       </div>
     </Router >
