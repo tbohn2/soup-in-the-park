@@ -183,8 +183,8 @@ const SignUp = ({ mobile }) => {
     return (
         <div className='fade-in main-content fw-light d-flex flex-column align-items-center'>
             <div id='date-time'>
-                <h1 className='chewy fs-3'>October 21, 2024</h1>
-                <h1 className='chewy fs-3'>5:00 PM</h1>
+                <h1 className='chewy fs-3'>Date and Time</h1>
+                <h1 className='chewy fs-3'>TBD</h1>
             </div>
             {error && <div className='alert alert-info fw-bold text-center fs-4'>{error}</div>}
             <img className='fade-in rounded mt-2 col-lg-4 col-md-6 col-8 my-2' src={gmaGpaPic} alt="Gma and Gpa" />

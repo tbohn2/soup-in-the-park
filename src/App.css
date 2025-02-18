@@ -1,15 +1,9 @@
 :root {
-    --dark: #0b459c;
-    --light: #f1c9bf;
-    --primary: #39ca00;
-    --secondary: #008b00;
-    --emphasis: #c40000;
-    /* Soup in the Park Colors */
-    /* --dark: #042d62;
+    --dark: #042d62;
     --light: #faefba;
     --primary: #93c808;
-    --secondary: #ff914d; 
-    --emphasis: #6d9826; */
+    --secondary: #ff914d;
+    --emphasis: #6d9826;
 }
 
 .body {

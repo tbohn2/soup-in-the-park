@@ -9,7 +9,7 @@
 }
 
 .sign-up-card {
-    border: 1px solid var(--blue);
+    border: 1px solid var(--dark) !important;
     border-radius: 10px;
     background-color: var(--light);
 }
