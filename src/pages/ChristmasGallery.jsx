@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CompressedImg from '../components/CompressedImg.jsx';
-import '../styles/christmasGallery.css'
+// import '../styles/christmasGallery.css' // needs to be imported conditionally
 
 const pics = import.meta.glob('../assets/christmas/*.jpeg', { eager: true });
 

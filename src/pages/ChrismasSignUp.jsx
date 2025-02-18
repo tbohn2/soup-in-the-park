@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import loadingLogo from "../assets/christmas/star.png";
-import "../styles/christmasSignUp.css";
+// import "../styles/christmasSignUp.css"; // needs to be imported conditionally
 const DEPLOYMENT_ID =
   "AKfycbypf8wZLgo5EwE_zCrxyjDQuuQSkzmMP2B_-vwTdegjrooHC00L0hlIce6IrTNu64s4SA";
 
@@ -230,7 +230,7 @@ const ChristmasSignUp = ({ mobile }) => {
             <p className="text-center text-muted mb-3">{card.subtitle}</p>
           )}
           {(loading && sectionLoading === i) ||
-          (loading && sectionLoading === 7) ? (
+            (loading && sectionLoading === 7) ? (
             <div className="fade-in-out spinner-container my-4">
               <img
                 className="img-fluid w-75"
@@ -252,17 +252,15 @@ const ChristmasSignUp = ({ mobile }) => {
                 className="fade-in fs-3 d-flex align-items-center col-md-11 col-12"
               >
                 <input
-                  className={`col-6 m-0 p-1 ${
-                    deleting && rowToDelete === j && "deleting"
-                  }`}
+                  className={`col-6 m-0 p-1 ${deleting && rowToDelete === j && "deleting"
+                    }`}
                   type="text"
                   value={newData[j][0]}
                   onChange={(e) => handleChange(e, j, 0)}
                 />
                 <input
-                  className={`col-5 m-0 p-1 ${
-                    deleting && rowToDelete === j && "deleting"
-                  }`}
+                  className={`col-5 m-0 p-1 ${deleting && rowToDelete === j && "deleting"
+                    }`}
                   type="text"
                   value={newData[j][1]}
                   onChange={(e) => handleChange(e, j, 1)}
@@ -290,11 +288,10 @@ const ChristmasSignUp = ({ mobile }) => {
               >
                 <p className="my-0 me-3 p-1 truncated-text">{item[0]}</p>
                 <p
-                  className={`m-0 p-1 truncated-text truncated-text-e  ${
-                    card.title === "Attendees" || card.title === "Tables"
-                      ? "text-end"
-                      : "col-md-6"
-                  }`}
+                  className={`m-0 p-1 truncated-text truncated-text-e  ${card.title === "Attendees" || card.title === "Tables"
+                    ? "text-end"
+                    : "col-md-6"
+                    }`}
                 >
                   {item[1]}
                 </p>
@@ -322,7 +319,7 @@ const ChristmasSignUp = ({ mobile }) => {
             </div>
           )}
           {(adding && editCardNumber === i) ||
-          (editing && editCardNumber === i) ? (
+            (editing && editCardNumber === i) ? (
             <div className="d-flex col-12 flex-column align-items-center">
               {deleting ? (
                 <button
