@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import loadingLogo from '../assets/loading.png';
 import gmaGpaPic from '../assets/main-page-gma.jpg';
+import mariePic from '../assets/main-page-marie.jpg';
 import '../styles/signUp.css';
 const DEPLOYMENT_ID = import.meta.env.VITE_DEPLOYMENT_ID;
 
@@ -187,11 +188,17 @@ const SignUp = ({ mobile }) => {
                 <h1 className='chewy fs-3'>5:00 PM</h1>
             </div>
             {error && <div className='alert alert-info fw-bold text-center fs-4'>{error}</div>}
-            <img className='fade-in rounded mt-2 col-lg-4 col-md-6 col-8 my-2' src={gmaGpaPic} alt="Gma and Gpa" />
+            <div className='d-flex flex-wrap justify-content-evenly col-xl-6 col-lg-8 col-md-9 col-11'>
+                <img className='fade-in rounded mt-2 col-5 my-2 object-fit-cover' src={gmaGpaPic} alt="Gma and Gpa" />
+                <img className='fade-in rounded mt-2 col-5 my-2 object-fit-cover' src={mariePic} alt="Marie" />
+            </div>
             <p className='sign-up-card my-3 p-3 col-xl-6 col-lg-8 col-md-9 col-11 fs-3 fw-bold text-center d-flex flex-column align-items-center'>
-                The tradition continues! Come to Sheepherder's Park in celebration and memory of
+                The tradition continues! Come to Sheepherder's Park for our annual celebration of
                 <span id='shirley' className='my-1 kaushan'>Shirley Martindale</span>
-                Please sign up for what you would like to bring and how many people are coming.
+                This year will be extra special as we also remember and celebrate
+                <span id='shirley' className='my-1 kaushan'>Marie Tate</span>
+                who was the creator and organizer of Soup in the Park.
+                Her love and generosity was felt by all of us. We honor both of these amazing women and are forever grateful for their legacy of love.
             </p>
             <h2 className='col-lg-6 col-md-8 col-11 rounded p-2 my-2 text-center fw-bold bg-light-green'>Confirmed Attending: {rsvped}</h2>
             {cardInfo.map((card, i) =>
