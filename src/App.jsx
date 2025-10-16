@@ -26,7 +26,7 @@ function App() {
       const month = today.getMonth();
       const day = today.getDate();
 
-      if ((month === 9 && day >= 15) || month === 10 || month === 11) {
+      if ((month === 9 && day >= 30) || month === 10 || month === 11) {
         setIsChristmasSeason(true);
       } else {
         setIsChristmasSeason(false);
