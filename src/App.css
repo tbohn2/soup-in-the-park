@@ -5,10 +5,10 @@
     --secondary: #ff914d;
     --emphasis: #6d9826;
     --danger: #a80000;
-    --info: #61acfc;
-    --grey: #a1a1a1;
+    --info: #77aee9;
+    --grey: #757575;
     --light-green: #e2ffb3;    
-    --light-blue: #c6e2ff;
+    --light-blue: #ebf5ff;
     --light-red: #e75c5c;
     --light-grey: #e7e7e7;
     --dark-green: #203104;
@@ -27,12 +27,16 @@
 
 .bg-light-green {
     background-color: var(--primary);
-    background-image: linear-gradient(90deg, var(--emphasis) 0%, var(--primary) 30%, var(--primary) 60%, var(--emphasis) 100%);
+    background-image: linear-gradient(90deg, var(--emphasis) 0%, var(--primary) 0%, var(--primary) 100%, var(--emphasis) 100%);
     background-attachment: fixed;
 }
 
 .text-blue {
     color: var(--dark);
+}
+
+.text-info {
+    color: var(--info) !important;
 }
 
 .chewy {
@@ -114,20 +118,10 @@ nav {
     border-color: var(--primary);
 }
 
-.green-btn:hover {
-    color: var(--primary);
-    background-color: var(--light-green);
-}
-
 .blue-btn {
-    color: var(--dark);
-    background-color: var(--info);
-    border-color: var(--info);
-}
-
-.blue-btn:hover {
-    color: var(--info);
-    background-color: var(--light-blue);
+    color: var(--light-blue);
+    background-color: var(--dark);
+    border-color: var(--dark);
 }
 
 .red-btn {
@@ -136,20 +130,33 @@ nav {
     border-color: var(--danger);
 }
 
-.red-btn:hover {
-    color: var(--danger);
-    background-color: var(--light-red);
-}
-
 .grey-btn {
     color: var(--white);
     background-color: var(--grey);
     border-color: var(--grey);
 }
 
-.grey-btn:hover {
-    color: var(--grey);
-    background-color: var(--light-grey);
+/* Only apply hover on devices with a real mouse hover — avoids sticky tap hover on phones */
+@media (hover: hover) and (pointer: fine) {
+    .green-btn:hover {
+        color: var(--primary);
+        background-color: var(--light-green);
+    }
+
+    .blue-btn:hover {
+        color: var(--dark);
+        background-color: var(--info);
+    }
+
+    .red-btn:hover {
+        color: var(--danger);
+        background-color: var(--light-red);
+    }
+
+    .grey-btn:hover {
+        color: var(--grey);
+        background-color: var(--light-grey);
+    }
 }
 
 .fade-in {
