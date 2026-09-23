@@ -35,30 +35,44 @@ const SignUp = ({ mobile }) => {
         {
             title: 'Attendees',
             data: attendees,
+            addText: 'RVSP',
+            editText: 'Edit Current Attendees',
         },
         {
             title: 'Soups',
             data: soups,
+            addText: 'Add a Soup',
+            editText: 'Edit Current Soups',
         },
         {
             title: 'Bread',
             data: bread,
+            addText: 'Add a Bread Item',
+            editText: 'Edit Current Bread Items',
         },
         {
             title: 'Beverages',
             data: beverages,
+            addText: 'Add a Beverage',
+            editText: 'Edit Current Beverages',
         },
         {
             title: 'Desserts',
             data: desserts,
+            addText: 'Add a Dessert',
+            editText: 'Edit Current Desserts',
         },
         {
             title: 'Miscellaneous',
             data: misc,
+            addText: 'Add a Misc. Item',
+            editText: 'Edit Current Misc. Items',
         },
         {
             title: 'Tables',
             data: tables,
+            addText: 'Add a Table',
+            editText: 'Edit Current Tables',
         }
     ];
 
@@ -82,13 +96,13 @@ const SignUp = ({ mobile }) => {
         try {
             const response = await axios.get(`https://script.google.com/macros/s/${DEPLOYMENT_ID}/exec`);
             const data = response.data;
-            setSoups(data.soups);
-            setBread(data.bread);
-            setBeverages(data.beverages);
-            setDesserts(data.desserts);
-            setMisc(data.misc);
-            setTables(data.tables);
-            setAttendees(data.attendees);
+            setSoups(data.soups ?? []);
+            setBread(data.bread ?? []);
+            setBeverages(data.beverages ?? []);
+            setDesserts(data.desserts ?? []);
+            setMisc(data.misc ?? []);
+            setTables(data.tables ?? []);
+            setAttendees(data.attendees ?? []);
         } catch (error) {
             console.error('Error fetching data:', error);
             setError('Error fetching data; try again later');
@@ -184,21 +198,19 @@ const SignUp = ({ mobile }) => {
     return (
         <div className='fade-in main-content fw-light d-flex flex-column align-items-center'>
             <div id='date-time'>
-                <h1 className='chewy fs-3'>October 20, 2025</h1>
+                <h1 className='chewy fs-3'>October 19, 2026</h1>
                 <h1 className='chewy fs-3'>5:00 PM</h1>
             </div>
-            {error && <div className='alert alert-info fw-bold text-center fs-4'>{error}</div>}
-            <div className='d-flex flex-wrap justify-content-evenly col-xl-6 col-lg-8 col-md-9 col-11'>
-                <img className='fade-in rounded mt-2 col-5 my-2 object-fit-cover' src={gmaGpaPic} alt="Gma and Gpa" />
-                <img className='fade-in rounded mt-2 col-5 my-2 object-fit-cover' src={mariePic} alt="Marie" />
+            <div className='d-flex flex-wrap justify-content-evenly col-xl-2 col-lg-8 col-md-9 col-11'>
+                {/* <img className='fade-in rounded mt-2 col-5 my-2 object-fit-cover' src={mariePic} alt="Marie" /> */}
             </div>
+            {error && <div className='alert alert-info fw-bold text-center fs-4'>{error}</div>}
             <p className='sign-up-card my-3 p-3 col-xl-6 col-lg-8 col-md-9 col-11 fs-3 fw-bold text-center d-flex flex-column align-items-center'>
-                The tradition continues! Come to Sheepherder's Park for our annual celebration of
+                The tradition continues! Come to
+                <a className='text-blue' href="https://maps.app.goo.gl/dFQU244ewSoQVw9C7" target="_blank" rel="noopener noreferrer">Gene Autry Park</a>
+                for our annual celebration of
                 <span id='shirley' className='my-1 kaushan'>Shirley Martindale</span>
-                This year will be extra special as we also remember and celebrate
-                <span id='shirley' className='my-1 kaushan'>Marie Tate</span>
-                who was the creator and organizer of Soup in the Park.
-                Her love and generosity was felt by all of us. We honor both of these amazing women and are forever grateful for their legacy of love.
+                <img className='fade-in rounded mt-2 col-11 col-md-8 col-xl-6 my-2 object-fit-cover' src={gmaGpaPic} alt="Gma and Gpa" />
             </p>
             <h2 className='col-lg-6 col-md-8 col-11 rounded p-2 my-2 text-center fw-bold bg-light-green'>Confirmed Attending: {rsvped}</h2>
             {cardInfo.map((card, i) =>
@@ -214,9 +226,10 @@ const SignUp = ({ mobile }) => {
                                 <div key={j} className='fade-in fs-3 d-flex align-items-center col-md-11 col-12'>
                                     <input className={`col-6 m-0 p-1 ${deleting && rowToDelete === j && 'deleting'}`} type='text' value={newData[j][0]} onChange={(e) => handleChange(e, j, 0)} />
                                     <input className={`col-5 m-0 p-1 ${deleting && rowToDelete === j && 'deleting'}`} type='text' value={newData[j][1]} onChange={(e) => handleChange(e, j, 1)} />
-                                    <div>
-                                        <svg className='trash' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="40" height="40" onClick={() => toggleDelete(j)}>
-                                            <path d="M9 3V2h6v1h5v2H4V3h5zm2 4h2v12h-2V7zm-4 0h2v12H7V7zm10 0h-2v12h2V7zM5 5v16h14V5H5z" fill="red" />
+                                    <div className='d-flex align-items-center'>
+                                        <svg className='trash' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="40" height="40" fill="var(--danger)" onClick={() => toggleDelete(j)}>
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
                                         </svg>
 
                                     </div>
@@ -238,16 +251,16 @@ const SignUp = ({ mobile }) => {
                     {adding && editCardNumber === i || editing && editCardNumber === i ? (
                         <div className='d-flex col-12 flex-column align-items-center'>
                             {deleting ?
-                                <button className='custom-btn green-btn red-btn my-2 col-sm-8 col-12' onClick={() => saveData(false, i)}>Delete Selected</button>
+                                <button className='custom-btn red-btn my-2 col-sm-8 col-12' onClick={() => saveData(false, i)}>Delete Selected</button>
                                 :
                                 <button className='custom-btn green-btn my-2 btn-success col-sm-8 col-12' onClick={() => checkIfNewAttendeeAndSave(i)}>Save</button>
                             }
-                            <button className='custom-btn blue-btn my-2 col-sm-8 col-12' onClick={clearStates}>Cancel</button>
+                            <button className='custom-btn grey-btn my-2 col-sm-8 col-12' onClick={clearStates}>Cancel</button>
                         </div>
                     ) : (
                         <div className='d-flex col-12 flex-column align-items-center'>
-                            <button className='custom-btn green-btn my-2 col-sm-8 col-12' onClick={() => toggleAddOrEdit(i, true)}>Add to {card.title}</button>
-                            <button className='custom-btn blue-btn my-2 col-sm-8 col-12' onClick={() => toggleAddOrEdit(i, false)}>Make Change to {card.title === "Miscellaneous" ? "Misc." : card.title}</button>
+                            <button className='custom-btn green-btn my-2 col-sm-8 col-12' onClick={() => toggleAddOrEdit(i, true)}>{card.addText}</button>
+                            <button className='custom-btn blue-btn my-2 col-sm-8 col-12' onClick={() => toggleAddOrEdit(i, false)}>{card.editText}</button>
                         </div>
                     )}
                 </div>

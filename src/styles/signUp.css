@@ -42,7 +42,7 @@
 }
 
 .deleting {
-    background-color: var(--secondary);
+    background-color: var(--danger);
 }
 
 @media screen and (max-width: 768px) {
