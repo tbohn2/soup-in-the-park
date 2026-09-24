@@ -194,11 +194,11 @@ const SignUp = ({ mobile }) => {
             const response = await axios.post(`https://script.google.com/macros/s/${DEPLOYMENT_ID}/exec`, reqData);
             console.log('Response:', response.data);
             await fetchAndClear();
-            if (newAttendee) {
-                setError(`Thank you! Don't forget to enter how many people you are bringing!`);
-                setTimeout(() => setError(''), 7000);
-                window.scrollTo({ top: document.getElementById('Attendees'), behavior: 'smooth' });
-            }
+            //if (newAttendee) {
+                // setError(`Thank you! Don't forget to enter how many people you are bringing!`);
+                // setTimeout(() => setError(''), 7000);
+                // window.scrollTo({ top: document.getElementById('Attendees'), behavior: 'smooth' });
+            //}
         } catch (error) {
             console.error('Error saving data:', error);
             setError('Error saving data; try again later');
