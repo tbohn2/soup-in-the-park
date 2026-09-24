@@ -230,7 +230,7 @@ const SignUp = ({ mobile }) => {
             </div> */}
             {error && <div className='alert alert-info fw-bold text-center fs-4'>{error}</div>}
             <div className='sign-up-card d-flex flex-column align-items-center gap-2 my-3 p-3 col-xl-6 col-lg-8 col-md-9 col-11 fs-3 fw-bold text-center'>
-                <p className='mb-0'>The time has come again for our annual celebration!</p>
+                <p className='mb-0'>The time has come for our annual celebration!</p>
                 {/* <br />
                 <span id='shirley' className='my-1 fs-1 kaushan'>Shirley Martindale</span> */}
                 <img className='fade-in rounded col-11 col-md-8 col-xl-6 object-fit-cover' src={gmaGpaPic} alt="Gma and Gpa" />
