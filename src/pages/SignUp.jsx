@@ -36,7 +36,7 @@ const SignUp = ({ mobile }) => {
         {
             title: 'Attendees',
             data: attendees,
-            addText: 'RVSP',
+            addText: 'RSVP',
             editText: 'Edit Attendees',
             placeholder1: 'Family Name',
             placeholder2: '# of People',
@@ -84,7 +84,7 @@ const SignUp = ({ mobile }) => {
         {
             title: 'Tables',
             data: tables,
-            addText: 'Add a Table',
+            addText: 'Add Tables',
             editText: 'Edit Tables',
             placeholder1: 'Name of Family',
             placeholder2: '# of Tables',
@@ -225,26 +225,25 @@ const SignUp = ({ mobile }) => {
                 <h1 className='chewy fs-3'>October 19, 2026</h1>
                 <h1 className='chewy fs-3'>5:00 PM</h1>
             </div>
-            <div className='d-flex flex-wrap justify-content-evenly col-xl-2 col-lg-8 col-md-9 col-11'>
-                {/* <img className='fade-in rounded mt-2 col-5 my-2 object-fit-cover' src={mariePic} alt="Marie" /> */}
-            </div>
+            {/* <div className='d-flex flex-wrap justify-content-evenly col-xl-2 col-lg-8 col-md-9 col-11'>
+                <img className='fade-in rounded mt-2 col-5 my-2 object-fit-cover' src={mariePic} alt="Marie" />
+            </div> */}
             {error && <div className='alert alert-info fw-bold text-center fs-4'>{error}</div>}
-            <p className='sign-up-card my-3 p-3 col-xl-6 col-lg-8 col-md-9 col-11 fs-3 fw-bold text-center'>
-                The time has come again for our annual celebration of
-                <br />
-                <span id='shirley' className='my-1 fs-1 kaushan'>Shirley Martindale</span>
-                <br />
-                <img className='fade-in rounded mt-2 col-11 col-md-8 col-xl-6 my-2 object-fit-cover' src={gmaGpaPic} alt="Gma and Gpa" />
-                <br />
-                This year, we will be gathering at
-                <br />
-                <span className='fs-2'>Gene Autry Park</span>
-                <br />
-                <a className='text-blue' href="https://maps.app.goo.gl/dFQU244ewSoQVw9C7" target="_blank" rel="noopener noreferrer"><i className="bi bi-geo-alt"></i>View Map</a>
-                <br />
-                In addition to our usual festivities, we will have a volleyball net set up for those who want to play. We have also reserved two pickleball courts from 8-9pm.
-                For those who want to stay and play, please sign up at the <a className='text-blue' href="#Pickleball Players">bottom of this page</a>.
-            </p>
+            <div className='sign-up-card d-flex flex-column align-items-center gap-2 my-3 p-3 col-xl-6 col-lg-8 col-md-9 col-11 fs-3 fw-bold text-center'>
+                <p className='mb-0'>The time has come again for our annual celebration!</p>
+                {/* <br />
+                <span id='shirley' className='my-1 fs-1 kaushan'>Shirley Martindale</span> */}
+                <img className='fade-in rounded col-11 col-md-8 col-xl-6 object-fit-cover' src={gmaGpaPic} alt="Gma and Gpa" />
+                <p className='mb-0'>We will be gathering at</p>
+                <div className='col-12 rounded p-2 fw-bold bg-light-green d-flex flex-column align-items-center'>
+                    <h1 className='mb-0 fs-1 fw-bold'>Gene Autry Park</h1>
+                    <p className='fs-3 mb-0'>New Location This Year! </p>
+                    <a className='text-blue' href="https://maps.app.goo.gl/dFQU244ewSoQVw9C7" target="_blank" rel="noopener noreferrer"><i className="bi bi-geo-alt"></i>View Map</a>
+                </div>
+                <p className='mb-0'>In addition to our usual festivities, we will have a volleyball net set up for those who want to play. We have also reserved two pickleball courts (13A/B) from 8-9pm.
+                    For those who want to stay and play, please sign up at the <a className='text-blue' href="#Pickleball Players">bottom of this page</a>.
+                </p>
+            </div>
             <h2 className='col-xl-6 col-lg-8 col-md-9 col-11 rounded p-2 my-2 text-center fw-bold bg-light-green'>Confirmed Attending: {rsvped}</h2>
             {cardInfo.map((card, i) =>
                 <div key={i} id={card.title} className='sign-up-card my-3 px-2 py-4 col-xl-6 col-lg-8 col-md-9 col-11 d-flex flex-column align-items-center gap-4'>
