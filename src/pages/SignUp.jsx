@@ -236,7 +236,7 @@ const SignUp = ({ mobile }) => {
                 <img className='fade-in rounded col-11 col-md-8 col-xl-6 object-fit-cover' src={gmaGpaPic} alt="Gma and Gpa" />
                 <p className='mb-0'>We will be gathering at</p>
                 <div className='col-12 rounded p-2 fw-bold bg-light-green d-flex flex-column align-items-center'>
-                    <h1 className='mb-0 fs-1 fw-bold'>Gene Autry Park</h1>
+                    <h1 className='my-1 fs-1 fw-bold'>Gene Autry Park</h1>
                     <p className='fs-3 mb-0'>New Location This Year! </p>
                     <a className='text-blue' href="https://maps.app.goo.gl/dFQU244ewSoQVw9C7" target="_blank" rel="noopener noreferrer"><i className="bi bi-geo-alt"></i>View Map</a>
                 </div>
