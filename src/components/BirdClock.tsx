@@ -2,37 +2,99 @@
 
 import { useEffect, useRef, type Ref } from "react";
 
-// Grandma's bird clock: a songbird in place of every hour, under a glass
-// dome, keeping the visitor's local time. The birds start at 12, each tinted
-// its real color and carrying its call (recordings and credits in public/birds).
-const BIRDS = [
-  { name: "House Finch", color: "#B8423A", call: "house-finch" },
-  { name: "American Robin", color: "#C8612E", call: "american-robin" },
-  { name: "Northern Mockingbird", color: "#8A8F96", call: "northern-mockingbird" },
-  { name: "Blue Jay", color: "#3F6FB5", call: "blue-jay" },
-  { name: "House Wren", color: "#8A5A3B", call: "house-wren" },
-  { name: "Tufted Titmouse", color: "#7E8795", call: "tufted-titmouse" },
-  { name: "Baltimore Oriole", color: "#E0801E", call: "baltimore-oriole" },
-  { name: "Mourning Dove", color: "#B59A7E", call: "mourning-dove" },
-  { name: "Black-capped Chickadee", color: "#33343C", call: "black-capped-chickadee" },
-  { name: "Northern Cardinal", color: "#B3261E", call: "northern-cardinal" },
-  { name: "White-throated Sparrow", color: "#9C7A52", call: "white-throated-sparrow" },
-  { name: "White-breasted Nuthatch", color: "#5C7FA3", call: "white-breasted-nuthatch" },
+// Grandma's bird clock: a green rim and silver bezel around a cream face, a
+// songbird perched on a twig at every hour, and black spade hands keeping the
+// visitor's local time. Each bird carries its call (recordings and credits in
+// public/birds).
+
+type Bird = {
+  name: string;
+  call: string;
+  back: string;
+  belly: string;
+  head?: string;
+  cap?: string;
+  bib?: string;
+  crest?: boolean;
+  tail: keyof typeof TAILS;
+  beak?: string;
+  eye?: string;
+};
+
+const BLACK = "#1E1E22";
+
+// Starting at 12, in the order they sit on the real clock
+const BIRDS: Bird[] = [
+  { name: "House Finch", call: "house-finch", back: "#8B6F5A", belly: "#E6DACB", head: "#C0392B", bib: "#C0392B", tail: "short" },
+  { name: "American Robin", call: "american-robin", back: "#5A534D", belly: "#D0652E", head: "#2D2A28", tail: "short", beak: "#E0B030", eye: "#F7F5F0" },
+  { name: "Northern Mockingbird", call: "northern-mockingbird", back: "#8C8F93", belly: "#E8E6E0", tail: "long" },
+  { name: "Blue Jay", call: "blue-jay", back: "#3F74C4", belly: "#EDEFF2", crest: true, tail: "long" },
+  { name: "House Wren", call: "house-wren", back: "#8A5E3E", belly: "#C9A884", tail: "cocked" },
+  { name: "Tufted Titmouse", call: "tufted-titmouse", back: "#8E97A5", belly: "#EEEBE6", crest: true, tail: "short" },
+  { name: "Baltimore Oriole", call: "baltimore-oriole", back: BLACK, belly: "#EE8A1A", tail: "short", eye: "#F7F5F0" },
+  { name: "Mourning Dove", call: "mourning-dove", back: "#B7A083", belly: "#D9C6AE", tail: "long" },
+  { name: "Black-capped Chickadee", call: "black-capped-chickadee", back: "#8E949A", belly: "#EFE9DF", head: "#F7F5F0", cap: BLACK, bib: BLACK, tail: "short" },
+  { name: "Northern Cardinal", call: "northern-cardinal", back: "#B8281E", belly: "#D0402F", crest: true, bib: BLACK, tail: "long", beak: "#E8742A" },
+  { name: "White-throated Sparrow", call: "white-throated-sparrow", back: "#8A6A48", belly: "#CFC2B0", bib: "#F5F2EA", tail: "short" },
+  { name: "White-breasted Nuthatch", call: "white-breasted-nuthatch", back: "#7E97B3", belly: "#F3F1EC", head: "#F3F1EC", cap: BLACK, tail: "short" },
 ];
 
-// A small perched songbird facing right, centered on 0,0
-const BIRD =
-  "M-4.6 1.2 C-3.4 -1.8 0 -3 2.4 -2 C3 -3.2 4.4 -3.4 5 -2.4 L6.6 -2 L5.2 -1.1 C5.2 1.6 2.6 3.4 -0.6 3 L-4 4.4 L-3.6 2.4 Z";
+// Bird parts, facing right around 0,0
+const TAILS = {
+  short: "M-3.8 0.4 L-7.2 -0.8 L-6.8 1.6 Z",
+  long: "M-3.8 0.3 L-9.2 -0.7 L-8.9 1.4 Z",
+  cocked: "M-3.4 -0.2 L-6 -3.8 L-4.6 -4.2 L-2.6 -0.8 Z",
+};
+const BACK = "M-4.2 0.4 C-3 -2.5 1 -3.2 3 -1.6 C1.6 0.2 -1 1.4 -4.2 0.4 Z";
+const CAP = "M1.3 -2.1 A2.1 2.1 0 0 1 5.5 -2.1 Z";
+const CREST = "M1.9 -3.1 L2.2 -5.6 L4 -3.7 Z";
+const BEAK = "M5.3 -2.5 L7 -1.9 L5.3 -1.4 Z";
+
+function BirdMark({ bird }: { bird: Bird }) {
+  const head = bird.head ?? bird.back;
+  return (
+    <>
+      {/* The twig it's perched on */}
+      <path d="M-4.6 3.7 L4.8 4.2" stroke="#7A5A3C" strokeWidth="0.9" strokeLinecap="round" />
+      <path d={TAILS[bird.tail]} fill={bird.back} />
+      <ellipse cx="0" cy="0.8" rx="4.4" ry="3" transform="rotate(-12)" fill={bird.belly} />
+      <path d={BACK} fill={bird.back} />
+      {bird.crest && <path d={CREST} fill={head} />}
+      <circle cx="3.4" cy="-2" r="2.1" fill={head} />
+      {bird.cap && <path d={CAP} fill={bird.cap} />}
+      {bird.bib && <ellipse cx="4.3" cy="-0.7" rx="1.2" ry="0.9" fill={bird.bib} />}
+      <path d={BEAK} fill={bird.beak ?? "#3A3A3A"} />
+      <circle cx="4" cy="-2.3" r="0.45" fill={bird.eye ?? BLACK} />
+    </>
+  );
+}
+
+// The clock's rings, from the outside in
+const RIM = 47;
+const FACE = 40.3;
+const DOT_RING = 37;
+const PERCH_RING = 28.5;
 
 const round = (n: number) => Math.round(n * 100) / 100;
-
-// Each bird sits on its hour; those on the left half face inward, like they're watching the hands
-const BIRD_MARKS = BIRDS.map((bird, hour) => {
+const onHour = (hour: number, radius: number) => {
   const angle = (hour / 12) * 2 * Math.PI;
-  const x = round(50 + 30 * Math.sin(angle));
-  const y = round(50 - 30 * Math.cos(angle));
-  const flip = hour > 6 ? -1 : 1;
-  return <path key={bird.call} d={BIRD} fill={bird.color} transform={`translate(${x} ${y}) scale(${flip * 1.05} 1.05)`} />;
+  return { x: round(50 + radius * Math.sin(angle)), y: round(50 - radius * Math.cos(angle)) };
+};
+
+// Built once: the birds sit inside a ring of hour dots, all facing inward
+// like they're watching the hands.
+const FACE_MARKS = BIRDS.map((bird, hour) => {
+  const perch = onHour(hour, PERCH_RING);
+  const dot = onHour(hour, DOT_RING);
+  const flip = hour > 0 && hour < 6 ? -1 : 1;
+  return (
+    <g key={bird.call}>
+      <circle cx={dot.x} cy={dot.y} r="0.75" fill={BLACK} />
+      <g transform={`translate(${perch.x} ${perch.y}) scale(${flip * 0.92} 0.92)`}>
+        <BirdMark bird={bird} />
+      </g>
+    </g>
+  );
 });
 
 // Like the clock striking the hour: one of its birds sings. A new click cuts
@@ -71,14 +133,30 @@ export default function BirdClock({ className, ref }: { className?: string; ref?
   return (
     <svg ref={ref} className={className} viewBox="0 0 100 104" aria-hidden="true">
       <defs>
-        <linearGradient id="clock-rim" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" style={{ stopColor: "var(--navy-light)" }} />
-          <stop offset="1" style={{ stopColor: "var(--navy-deep)" }} />
+        {/* Rounded green rim: dark at both edges, lit along its crown */}
+        <radialGradient id="clock-rim" gradientUnits="userSpaceOnUse" cx="50" cy="50" r={RIM}>
+          <stop offset={FACE / RIM} stopColor="#173828" />
+          <stop offset="0.91" stopColor="#3E7A5E" />
+          <stop offset="0.96" stopColor="#2A5C44" />
+          <stop offset="1" stopColor="#123022" />
+        </radialGradient>
+        <linearGradient id="clock-rim-light" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#FFFFFF" stopOpacity="0.3" />
+          <stop offset="0.5" stopColor="#FFFFFF" stopOpacity="0" />
+          <stop offset="1" stopColor="#000000" stopOpacity="0.18" />
+        </linearGradient>
+        <linearGradient id="clock-bezel" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#F4F5F7" />
+          <stop offset="0.5" stopColor="#A6ABB1" />
+          <stop offset="1" stopColor="#E2E4E7" />
         </linearGradient>
         <radialGradient id="clock-face" cx="0.45" cy="0.4" r="0.65">
-          <stop offset="0" style={{ stopColor: "var(--paper)" }} />
-          <stop offset="0.75" style={{ stopColor: "var(--print)" }} />
-          <stop offset="1" stopColor="#E4D9C2" />
+          <stop offset="0" style={{ stopColor: "var(--print)" }} />
+          <stop offset="1" stopColor="#E3DDCB" />
+        </radialGradient>
+        <radialGradient id="clock-pin" cx="0.35" cy="0.35" r="0.7">
+          <stop offset="0" stopColor="#F3D98A" />
+          <stop offset="1" stopColor="#9A7424" />
         </radialGradient>
         <linearGradient id="clock-glass" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#FFFFFF" stopOpacity="0.7" />
@@ -86,21 +164,22 @@ export default function BirdClock({ className, ref }: { className?: string; ref?
         </linearGradient>
       </defs>
 
-      {/* Cast shadow on the wall, then the rim with a lit top edge and a recessed face */}
+      {/* Cast shadow on the wall, the rim, its silver bezel, then the face */}
       <circle cx="50" cy="55" r="46" fill="rgba(60, 25, 5, 0.28)" />
-      <circle cx="50" cy="50" r="47" fill="url(#clock-rim)" />
-      <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(255, 255, 255, 0.25)" strokeWidth="1" />
-      <circle cx="50" cy="50" r="40.5" style={{ fill: "var(--navy-edge)" }} />
-      <circle cx="50" cy="50" r="39.5" fill="url(#clock-face)" />
+      <circle cx="50" cy="50" r={RIM} fill="url(#clock-rim)" />
+      <circle cx="50" cy="50" r={(RIM + FACE) / 2} fill="none" stroke="url(#clock-rim-light)" strokeWidth={RIM - FACE} />
+      <circle cx="50" cy="50" r={FACE} fill="url(#clock-face)" stroke="url(#clock-bezel)" strokeWidth="1.4" />
+      {/* The speaker the birds sing through, just inside the 12 o'clock dot */}
+      <circle cx="50" cy={50 - DOT_RING + 3.2} r="0.9" fill="#4A4A4E" />
 
-      {BIRD_MARKS}
+      {FACE_MARKS}
 
-      <g ref={handsRef} className="clock-hands" strokeLinecap="round">
-        <line className="hand-hour" x1="50" y1="50" x2="50" y2="33" strokeWidth="4.5" />
-        <line className="hand-minute" x1="50" y1="50" x2="50" y2="22" strokeWidth="3" />
-        <line className="hand-second" x1="50" y1="57" x2="50" y2="20" strokeWidth="1.2" />
+      <g ref={handsRef} className="clock-hands" fill={BLACK}>
+        <path className="hand-hour" d="M49.2 52 L49.2 38 C47.2 36.6 47.6 33.6 50 31 C52.4 33.6 52.8 36.6 50.8 38 L50.8 52 Z" />
+        <path className="hand-minute" d="M49.4 53 L49.4 24.5 C48 23 48.4 20.8 50 18.2 C51.6 20.8 52 23 50.6 24.5 L50.6 53 Z" />
+        <line className="hand-second" x1="50" y1="58" x2="50" y2="17.5" stroke={BLACK} strokeWidth="0.6" strokeLinecap="round" />
       </g>
-      <circle cx="50" cy="50" r="3.6" strokeWidth="1.2" style={{ fill: "var(--orange)", stroke: "var(--navy)" }} />
+      <circle cx="50" cy="50" r="2.2" fill="url(#clock-pin)" stroke={BLACK} strokeWidth="0.5" />
 
       {/* Light catching the glass dome */}
       <path d="M22 36 C28 20 46 13 62 16 C48 19 34 26 26 40 Z" fill="url(#clock-glass)" />

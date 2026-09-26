@@ -140,29 +140,26 @@ body.soup {
 
 /* Each hand turns once per its period. BirdClock sets --into-turn, a
    negative delay that starts every hand at the current time. */
-.clock-hands line {
+.clock-hands > * {
     transform-box: view-box;
     transform-origin: 50px 50px;
     animation: hand-turn linear infinite;
     animation-delay: var(--into-turn, 0s);
 }
 
-.clock-hands .hand-hour,
-.clock-hands .hand-minute {
-    stroke: var(--navy);
-}
-
+/* Every hand moves in steps, so the clock repaints at most once a second
+   instead of every frame: the hour hand each minute, the others each second */
 .clock-hands .hand-hour {
     animation-duration: 43200s;
+    animation-timing-function: steps(720, end);
 }
 
 .clock-hands .hand-minute {
     animation-duration: 3600s;
+    animation-timing-function: steps(3600, end);
 }
 
-/* Ticks once a second instead of sweeping */
 .clock-hands .hand-second {
-    stroke: var(--red-pen);
     animation-duration: 60s;
     animation-timing-function: steps(60, end);
 }
