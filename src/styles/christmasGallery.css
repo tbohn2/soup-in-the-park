@@ -1,5 +1,5 @@
 .mountains-christmas {
-  font-family: "Mountains of Christmas", cursive;
+  font-family: var(--font-mountains), cursive;
   font-size: 2.5rem;
   font-weight: 700;
   margin: 8px 0;

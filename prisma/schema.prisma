@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Signup {
+  id        String   @id @default(cuid())
+  // Event key from src/lib/events.ts, e.g. "soup-2026"
+  event     String
+  category  String
+  name      String
+  detail    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([event, category, createdAt])
+}
+
+model Photo {
+  id          String   @id @default(cuid())
+  // "soup" or "christmas", matching the two galleries
+  collection  String
+  // Filter label: a year like "2014", or a named set like "Pines"
+  album       String
+  // Null when the year is unknown; sorts after dated photos
+  year        Int?
+  url         String
+  pathname    String   @unique
+  width       Int
+  height      Int
+  sortOrder   Int      @default(0)
+  approved    Boolean  @default(false)
+  submittedBy String?
+  createdAt   DateTime @default(now())
+
+  @@index([collection, approved])
+}

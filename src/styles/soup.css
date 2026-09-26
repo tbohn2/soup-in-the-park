@@ -1,0 +1,1348 @@
+/* Soup season, built on the 2015 reunion shirt: orange shirt, navy bowl,
+   green grass, off-white print. Sign-ups are drawn as real notebook paper. */
+
+:root {
+    --orange: #E8895C;
+    --orange-soft: #F4B38F;
+    --navy: #1E2150;
+    --navy-deep: #101230;
+    --green: #2C6B47;
+    --green-deep: #1B4630;
+    --print: #F6F1E7;
+    --paper: #FFFEF9;
+    --paper-under: #FBF8F1;
+    --rule-blue: #A8C6E6;
+    --margin-red: rgba(222, 120, 120, 0.75);
+    --ink: #23308A;
+    --pencil: #5F6378;
+    --red-pen: #B3261E;
+    --tan-edge: #B5A98F;
+    --page-gutter: clamp(16px, 6vw, 88px);
+    --collar-h: 16px;
+    --header-h: 76px;
+    --grass-base-h: 12px;
+    /* Fine grain for fabric and felt; tinted per surface below */
+    --noise-warm: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .14 0 0 0 0 .04 0 0 0 .2 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --noise-mottle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .86 0 0 0 0 .72 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
+    --noise-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .75 0 0 0 0 .78 0 0 0 0 1 0 0 0 .12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+}
+
+/* The page is the shirt itself: orange cotton jersey with fine knit ribs,
+   uneven dye, and soft light falling from the top. */
+body.soup {
+    margin: 0;
+    color: var(--navy);
+    font-family: var(--font-source), system-ui, sans-serif;
+    background-color: var(--orange);
+    background-image:
+        linear-gradient(rgba(255, 236, 214, 0.28), rgba(255, 236, 214, 0) 520px),
+        linear-gradient(90deg, rgba(110, 40, 12, 0.1), rgba(110, 40, 12, 0) 12%, rgba(110, 40, 12, 0) 88%, rgba(110, 40, 12, 0.1)),
+        var(--noise-mottle),
+        var(--noise-warm),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 1px, rgba(255, 255, 255, 0) 1px 3px),
+        repeating-linear-gradient(0deg, rgba(120, 45, 15, 0.05) 0 1px, rgba(120, 45, 15, 0) 1px 4px);
+}
+
+.soup a {
+    color: var(--navy);
+    font-weight: 700;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+/* Hover thickens the underline instead of changing color: green on orange is too faint */
+.soup a:hover {
+    color: var(--navy);
+    text-decoration-thickness: 3px;
+}
+
+.soup :focus-visible {
+    outline: 3px solid var(--navy);
+    outline-offset: 3px;
+}
+
+.soup .highlights :focus-visible {
+    outline-color: var(--orange-soft);
+}
+
+/* Ribbed shirt collar along the top edge, with its stitch line */
+.collar {
+    position: relative;
+    height: var(--collar-h);
+    background: repeating-linear-gradient(90deg, #D97A4E 0 2px, #EC9467 2px 5px);
+    box-shadow: inset 0 -3px 4px rgba(90, 30, 10, 0.25), 0 1px 0 rgba(255, 230, 205, 0.35);
+}
+
+.collar::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -7px;
+    border-bottom: 2px dashed rgba(110, 40, 12, 0.35);
+}
+
+.wrap {
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: var(--page-gutter);
+    box-sizing: border-box;
+}
+
+.svg-defs {
+    position: absolute;
+}
+
+/* Header */
+
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: var(--header-h);
+}
+
+.site-mark {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 0;
+}
+
+.soup .site-mark {
+    gap: 10px;
+    text-decoration: none;
+}
+
+.site-mark svg {
+    display: block;
+    height: 46px;
+    width: auto;
+}
+
+.mark-words {
+    display: none;
+    font-family: var(--font-zilla), serif;
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.site-nav {
+    display: flex;
+    gap: 8px;
+}
+
+.soup .site-nav a {
+    font-size: 19px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 12px 10px;
+}
+
+.soup .site-nav a[aria-current="page"] {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+}
+
+/* Phone menu: a raised key that drops a small sheet of paper */
+.menu {
+    display: none;
+    position: relative;
+}
+
+.soup .menu-button {
+    width: 48px;
+    padding: 0;
+}
+
+.menu-panel {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    z-index: 20;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    background: var(--paper);
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(60, 30, 10, 0.25), 0 18px 30px -10px rgba(60, 30, 10, 0.5);
+    transform-origin: calc(100% - 24px) -12px;
+    /* Closing: quick and plain, then hide once it has faded */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.9) rotate(1.5deg);
+    transition: opacity 0.14s ease-in, transform 0.16s ease-in, visibility 0s linear 0.16s;
+}
+
+/* Opening: a slight overshoot so the sheet springs down off the button */
+.menu-panel[data-open="true"] {
+    opacity: 1;
+    visibility: visible;
+    transform: rotate(-0.6deg);
+    transition: opacity 0.18s ease-out, transform 0.42s cubic-bezier(0.34, 1.5, 0.64, 1), visibility 0s;
+}
+
+.menu-line {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 0.32s cubic-bezier(0.34, 1.5, 0.64, 1), opacity 0.15s ease;
+}
+
+/* The three lines fold into an X while the menu is open */
+.menu-button[aria-expanded="true"] .menu-line-top {
+    transform: translateY(5px) rotate(45deg);
+}
+
+.menu-button[aria-expanded="true"] .menu-line-mid {
+    opacity: 0;
+}
+
+.menu-button[aria-expanded="true"] .menu-line-bottom {
+    transform: translateY(-5px) rotate(-45deg);
+}
+
+.soup .menu-panel a {
+    display: block;
+    padding: 12px 16px;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.soup .menu-panel a + a {
+    border-top: 1px solid var(--rule-blue);
+}
+
+.soup .menu-panel a:hover {
+    background: rgba(255, 234, 120, 0.45);
+}
+
+.soup .menu-panel a[aria-current="page"] {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+}
+
+/* Hero */
+
+.hero {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-areas: "logo photo" "details photo";
+    column-gap: 56px;
+    align-items: end;
+    align-content: center;
+    padding-top: 8px;
+    /* Fill the first screen so the grass lands on the bottom edge of the window */
+    min-height: calc(100svh - var(--collar-h) - var(--header-h) - var(--grass-base-h));
+    box-sizing: border-box;
+}
+
+.hero-logo {
+    grid-area: logo;
+    display: block;
+    width: min(600px, 100%);
+    height: auto;
+    margin-bottom: 28px;
+}
+
+/* Invitation card: answers are the loud part, labels stay quiet */
+.invite {
+    grid-area: details;
+    position: relative;
+    justify-self: start;
+    width: min(620px, 100%);
+    box-sizing: border-box;
+    margin-bottom: 72px;
+    padding: 30px 32px 26px;
+    background-color: var(--paper);
+    background-image: var(--noise-warm);
+    border-radius: 3px;
+    transform: rotate(-0.8deg);
+    box-shadow: 0 1px 2px rgba(60, 30, 10, 0.2), 0 20px 32px -14px rgba(60, 30, 10, 0.5), inset 0 0 40px rgba(180, 140, 80, 0.08);
+}
+
+.invite .tape {
+    left: 50%;
+    width: 110px;
+    height: 30px;
+    margin-left: -55px;
+    top: -14px;
+    transform: rotate(2deg);
+}
+
+.invite-facts {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 32px;
+}
+
+.fact dt {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--pencil);
+    margin-bottom: 4px;
+}
+
+.fact dd {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+.fact-main {
+    font-family: var(--font-zilla), serif;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 1.1;
+}
+
+.fact-time {
+    font-family: var(--font-zilla), serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.2;
+}
+
+.fact-note {
+    font-size: 17px;
+    color: var(--pencil);
+}
+
+.soup .invite-maps {
+    margin-top: 18px;
+}
+
+.soup .hero-rsvp {
+    display: none;
+}
+
+.invite-after {
+    margin: 20px 0 0;
+    padding-top: 14px;
+    border-top: 1px dashed var(--rule-blue);
+    font-size: 18px;
+    line-height: 1.4;
+}
+
+.invite-after span {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--pencil);
+    margin-bottom: 2px;
+}
+
+.soup .key-sm {
+    min-height: 44px;
+    padding: 8px 16px;
+    font-size: 16px;
+    gap: 6px;
+}
+
+.hero-photo {
+    grid-area: photo;
+    position: relative;
+    margin: 0 0 80px;
+    padding: 16px 16px 20px;
+    background: #FFFFFF;
+    transform: rotate(2.5deg);
+    box-shadow: 0 1px 2px rgba(60, 30, 10, 0.2), 0 24px 40px -12px rgba(60, 30, 10, 0.5);
+}
+
+.photo-print {
+    position: relative;
+}
+
+/* Glossy photo paper catching the light */
+.photo-print::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0) 70%, rgba(255, 255, 255, 0.08));
+    pointer-events: none;
+}
+
+.hero-photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: top;
+}
+
+.hero-photo figcaption {
+    font-family: var(--font-caveat), cursive;
+    font-size: 30px;
+    padding-top: 10px;
+    text-align: center;
+    color: var(--ink);
+}
+
+.hero-photo .tape {
+    left: 50%;
+    margin-left: -66px;
+    transform: rotate(-3deg);
+}
+
+/* Grass */
+
+.grass {
+    position: relative;
+    margin-top: -44px;
+    line-height: 0;
+}
+
+.grass svg {
+    display: block;
+}
+
+.grass-base {
+    height: var(--grass-base-h);
+    background: var(--green);
+}
+
+/* Head count */
+
+.count {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    padding-top: 52px;
+    padding-bottom: 28px;
+}
+
+/* Embroidered patch sewn onto the shirt: navy twill, stitched border, merrowed edge */
+.patch {
+    position: relative;
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    padding: 20px 30px;
+    border-radius: 16px;
+    color: var(--print);
+    font-size: 22px;
+    background-color: var(--navy);
+    background-image: var(--noise-light), repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.035) 0 2px, rgba(255, 255, 255, 0) 2px 5px);
+    box-shadow: 0 0 0 4px #15173A, 0 3px 0 4px rgba(60, 20, 5, 0.25), 0 14px 22px -8px rgba(60, 20, 5, 0.55);
+}
+
+.patch::after {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border: 2px dashed var(--orange-soft);
+    border-radius: 10px;
+    pointer-events: none;
+}
+
+.after-note {
+    display: none;
+}
+
+.patch-label {
+    font-family: var(--font-zilla), serif;
+    font-weight: 700;
+    font-size: 32px;
+}
+
+.patch .count-number {
+    color: var(--print);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+}
+
+.count-number {
+    font-family: var(--font-zilla), serif;
+    font-weight: 700;
+    font-size: 72px;
+    line-height: 1;
+}
+
+.sheets-intro {
+    padding-top: 20px;
+}
+
+.sheets-intro h2 {
+    margin: 0;
+    font-family: var(--font-zilla), serif;
+    font-weight: 700;
+    font-size: 48px;
+}
+
+.sheets-intro p {
+    margin: 6px 0 0;
+    font-size: 21px;
+}
+
+/* Raised keys */
+
+.soup .key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 48px;
+    padding: 10px 22px;
+    border-radius: 10px;
+    font: 700 19px var(--font-source), sans-serif;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.soup .key svg {
+    flex-shrink: 0;
+}
+
+.soup .key:hover {
+    filter: brightness(1.04);
+}
+
+.soup .key:active:not(:disabled) {
+    transform: translateY(3px);
+}
+
+.soup .key:disabled {
+    cursor: progress;
+    opacity: 0.75;
+}
+
+.soup .key-add {
+    color: #FFFFFF;
+    background: linear-gradient(#43905F, var(--green) 55%, #255C3C);
+    border: 1px solid var(--green-deep);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), inset 0 -2px 0 rgba(0, 0, 0, 0.12), 0 4px 0 var(--green-deep), 0 7px 10px rgba(40, 20, 5, 0.28);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.35);
+}
+
+.soup .key-add:active:not(:disabled) {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 var(--green-deep), 0 2px 4px rgba(40, 20, 5, 0.25);
+}
+
+.soup .key-edit {
+    color: var(--navy);
+    background: linear-gradient(#FFFFFF, #F0EADC);
+    border: 1px solid var(--tan-edge);
+    box-shadow: inset 0 1px 0 #FFFFFF, inset 0 -2px 0 rgba(120, 100, 60, 0.08), 0 4px 0 var(--tan-edge), 0 7px 10px rgba(40, 20, 5, 0.18);
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+
+.soup .key-edit:active:not(:disabled) {
+    box-shadow: inset 0 1px 0 #FFFFFF, 0 1px 0 var(--tan-edge), 0 2px 4px rgba(40, 20, 5, 0.15);
+}
+
+.soup .key-navy {
+    color: var(--print);
+    background: linear-gradient(#34397A, var(--navy) 55%, #191C44);
+    border: 1px solid var(--navy-deep);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 4px 0 var(--navy-deep), 0 7px 12px rgba(40, 20, 5, 0.3);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+    font-size: 20px;
+    padding: 14px 26px;
+}
+
+.soup .key-navy:hover {
+    color: var(--print);
+}
+
+.soup .key-add:hover {
+    color: #FFFFFF;
+}
+
+.soup .key-lg {
+    font-size: 20px;
+    padding: 14px 26px;
+}
+
+.soup .key-navy:active {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 1px 0 var(--navy-deep), 0 2px 4px rgba(40, 20, 5, 0.25);
+}
+
+/* Notebook sheets */
+
+.sheets {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 56px 48px;
+    align-items: start;
+    padding-top: 48px;
+    padding-bottom: 72px;
+}
+
+.stack {
+    position: relative;
+    scroll-margin-top: 24px;
+}
+
+/* Two loose pages peeking out underneath */
+.stack::before,
+.stack::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--paper-under);
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(60, 30, 10, 0.18);
+}
+
+.stack::before {
+    transform: rotate(-1.4deg) translate(-4px, 6px);
+}
+
+.stack::after {
+    transform: rotate(0.9deg) translate(5px, 3px);
+    background: #FDFBF6;
+}
+
+.sheet {
+    --rule: 44px;
+    --head: 92px;
+    --bottom: 40px;
+    --margin-x: 92px;
+    --pad-left: 118px;
+    --pad-right: 32px;
+    --hole: 24px;
+    --hole-x: 30px;
+
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    padding-bottom: var(--bottom);
+    background-color: var(--paper);
+    /* Double red margin the full height; blue rules between the header space and the bottom edge */
+    background-image:
+        linear-gradient(90deg,
+            transparent var(--margin-x),
+            var(--margin-red) var(--margin-x), var(--margin-red) calc(var(--margin-x) + 1.5px),
+            transparent calc(var(--margin-x) + 1.5px), transparent calc(var(--margin-x) + 5px),
+            var(--margin-red) calc(var(--margin-x) + 5px), var(--margin-red) calc(var(--margin-x) + 6.5px),
+            transparent calc(var(--margin-x) + 6.5px)),
+        repeating-linear-gradient(to bottom,
+            transparent 0, transparent calc(var(--rule) - 1px),
+            var(--rule-blue) calc(var(--rule) - 1px), var(--rule-blue) var(--rule));
+    background-position: 0 0, 0 var(--head);
+    background-size: 100% 100%, 100% calc(100% - var(--head) - var(--bottom));
+    background-repeat: no-repeat;
+    border-radius: 2px;
+    box-shadow:
+        0 1px 1px rgba(60, 30, 10, 0.12),
+        0 3px 6px rgba(60, 30, 10, 0.1),
+        0 22px 34px -14px rgba(60, 30, 10, 0.45),
+        inset 0 0 60px rgba(180, 140, 80, 0.08),
+        inset 0 0 0 1px rgba(150, 120, 70, 0.08);
+}
+
+.stack:nth-child(4n + 1) .sheet { transform: rotate(-0.5deg); }
+.stack:nth-child(4n + 2) .sheet { transform: rotate(0.4deg); }
+.stack:nth-child(4n + 3) .sheet { transform: rotate(0.3deg); }
+.stack:nth-child(4n) .sheet { transform: rotate(-0.35deg); }
+
+.grain {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    opacity: 0.5;
+}
+
+/* Binder holes show the table (page background) through the paper */
+.hole {
+    position: absolute;
+    left: var(--hole-x);
+    width: var(--hole);
+    height: var(--hole);
+    border-radius: 50%;
+    background: var(--noise-warm), var(--orange);
+    box-shadow: inset 2px 3px 4px rgba(70, 30, 10, 0.45), 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.hole-top { top: 11%; }
+.hole-mid { top: 49%; }
+.hole-bottom { top: 87%; }
+
+.tape {
+    position: absolute;
+    top: -16px;
+    width: 132px;
+    height: 36px;
+    background: rgba(255, 253, 244, 0.62);
+    box-shadow: 0 1px 2px rgba(60, 30, 10, 0.15);
+    clip-path: polygon(0 8%, 4% 0, 8% 10%, 12% 0, 88% 0, 92% 9%, 96% 0, 100% 10%, 100% 92%, 96% 100%, 92% 90%, 88% 100%, 12% 100%, 8% 91%, 4% 100%, 0 90%);
+}
+
+.stack:nth-child(odd) .sheet .tape { left: 46%; transform: rotate(-3deg); }
+.stack:nth-child(even) .sheet .tape { left: 32%; transform: rotate(2.5deg); }
+
+.sheet-head {
+    position: relative;
+    height: var(--head);
+    box-sizing: border-box;
+    padding: 0 var(--pad-right) 0 var(--pad-left);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.sheet-head h3 {
+    position: relative;
+    margin: 0 0 10px;
+    font-family: var(--font-caveat), cursive;
+    font-weight: 700;
+    font-size: 46px;
+    line-height: 1;
+    color: var(--navy);
+    white-space: nowrap;
+}
+
+.underline {
+    position: absolute;
+    left: -4px;
+    bottom: -8px;
+    width: calc(100% + 12px);
+    height: 12px;
+}
+
+.pencil {
+    font-family: var(--font-hand), cursive;
+    font-weight: 400;
+    font-size: 19px;
+    color: var(--pencil);
+    white-space: nowrap;
+}
+
+.sheet-rows {
+    position: relative;
+    padding: 0 var(--pad-right) var(--rule) var(--pad-left);
+    font-family: var(--font-hand), cursive;
+    font-size: 25px;
+    color: var(--ink);
+}
+
+/* Each entry sits on its blue rule, like handwriting */
+.sheet-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    height: var(--rule);
+    margin: 0;
+    padding-bottom: 4px;
+    box-sizing: border-box;
+    line-height: 1.1;
+}
+
+.sheet-row > span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sheet-detail {
+    text-align: right;
+}
+
+/* Empty sheet: just a couple of blank lines */
+.sheet-rows.is-empty {
+    min-height: calc(var(--rule) * 2);
+}
+
+.sheet-row.is-editing {
+    gap: 2px;
+    padding-bottom: 2px;
+}
+
+.line-input {
+    flex: 1.4 1 0;
+    min-width: 0;
+    height: calc(var(--rule) - 6px);
+    padding: 0 3px;
+    border: 0;
+    border-radius: 3px;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+}
+
+.line-input-detail {
+    flex: 1 1 0;
+    text-align: right;
+}
+
+.line-input-count {
+    flex: 0 0 1.6em;
+    padding: 0 1px;
+}
+
+.line-input::placeholder {
+    color: var(--pencil);
+    opacity: 1;
+}
+
+/* Highlighter on the line being written */
+.line-input:focus {
+    outline: none;
+    background: rgba(255, 234, 120, 0.45);
+    box-shadow: inset 0 -2px 0 var(--navy);
+}
+
+.is-struck .line-input {
+    text-decoration: line-through;
+    text-decoration-color: var(--red-pen);
+    text-decoration-thickness: 2px;
+    color: rgba(35, 48, 138, 0.68);
+}
+
+/* Tucks into the right padding so the inputs keep the width */
+.cross-out {
+    flex: none;
+    width: 30px;
+    margin-right: -8px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--red-pen);
+    cursor: pointer;
+}
+
+.cross-out:hover {
+    background: rgba(179, 38, 30, 0.08);
+}
+
+.sheet-foot {
+    position: relative;
+    min-height: calc(var(--rule) * 2);
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    padding: 0 var(--pad-right) 0 var(--pad-left);
+}
+
+.red-pen {
+    position: relative;
+    margin: 8px var(--pad-right) 0 var(--pad-left);
+    font-family: var(--font-hand), cursive;
+    font-size: 21px;
+    line-height: 1.25;
+    color: var(--red-pen);
+}
+
+/* Photos from past years */
+
+/* Navy felt board the photos are pinned to */
+.highlights {
+    color: var(--print);
+    padding: 56px 0 72px;
+    background-color: var(--navy);
+    background-image: var(--noise-light), var(--noise-light);
+    background-size: 240px 240px, 170px 170px;
+    box-shadow: inset 0 12px 20px -12px rgba(0, 0, 0, 0.5);
+}
+
+.highlights-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.highlights h2 {
+    margin: 0;
+    font-family: var(--font-zilla), serif;
+    font-weight: 500;
+    font-size: 44px;
+}
+
+.soup .highlights a {
+    color: var(--orange-soft);
+    font-size: 20px;
+}
+
+.highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.polaroid {
+    position: relative;
+    margin: 0;
+    background: var(--paper-under);
+    padding: 12px 12px 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), 0 14px 20px -10px rgba(0, 0, 0, 0.6);
+}
+
+/* Orange push pin */
+.pin {
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    z-index: 1;
+    width: 20px;
+    height: 20px;
+    margin-left: -10px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #FFD2B5 0 18%, var(--orange) 45%, #B85A30 100%);
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.45), 2px 5px 6px rgba(0, 0, 0, 0.25);
+}
+
+.polaroid:nth-child(4n + 1) { transform: rotate(-1.5deg); }
+.polaroid:nth-child(4n + 2) { transform: rotate(1deg); }
+.polaroid:nth-child(4n + 3) { transform: rotate(-0.5deg); }
+.polaroid:nth-child(4n) { transform: rotate(1.5deg); }
+
+.polaroid img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+.polaroid figcaption {
+    font-family: var(--font-caveat), cursive;
+    font-size: 26px;
+    text-align: center;
+    color: var(--ink);
+}
+
+/* Gallery page */
+
+.main-content {
+    padding-bottom: 64px;
+}
+
+.soup #gallery h1 {
+    font-family: var(--font-zilla), serif;
+    font-weight: 700;
+    font-size: 48px;
+    margin: 16px 0 8px;
+}
+
+.gallery-img-container {
+    cursor: pointer;
+    width: 600px;
+    height: 400px;
+    padding: 10px;
+    box-sizing: border-box;
+    background: #FFFFFF;
+    box-shadow: 0 1px 2px rgba(60, 30, 10, 0.2), 0 12px 24px -10px rgba(60, 30, 10, 0.45);
+}
+
+.gallery-img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.gallery-img.loaded {
+    opacity: 1;
+}
+
+.spinner-border {
+    position: fixed;
+    top: 30px;
+    right: 90px;
+    z-index: 3;
+    color: white;
+}
+
+#focused-img {
+    position: fixed;
+    inset: 0;
+    background-color: black;
+    display: none;
+    z-index: 10;
+}
+
+#focused-img.show {
+    display: block;
+}
+
+#focused-img img {
+    max-width: 85%;
+    max-height: 90%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#close-btn,
+.gal-nav-btn {
+    position: fixed;
+    font-size: 2rem;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    z-index: 11;
+}
+
+#close-btn {
+    top: 10px;
+    right: 10px;
+    border-radius: 50%;
+}
+
+.gal-nav-btn {
+    top: 50%;
+}
+
+#prev-btn {
+    left: 15px;
+}
+
+#next-btn {
+    right: 15px;
+}
+
+/* Admin */
+
+.panel {
+    background: var(--paper);
+    border-radius: 4px;
+    padding: 24px;
+    box-shadow: 0 1px 2px rgba(60, 30, 10, 0.2), 0 14px 28px -12px rgba(60, 30, 10, 0.45);
+}
+
+.panel-title {
+    font-family: var(--font-zilla), serif;
+    font-weight: 700;
+}
+
+/* Tablet and phone */
+
+@media (max-width: 1000px) {
+    .sheets {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 40px;
+    }
+}
+
+@media (max-width: 900px) {
+    /* Phones and tablets: small logo on top, then the photo beside the
+       when and where, so the whole invite fits in the first screen */
+    /* The header spells out the name, so the big logo would only repeat it */
+    .hero-logo {
+        display: none;
+    }
+
+    /* Line the words up with the bowl itself rather than the steam above it */
+    .soup .site-mark {
+        align-items: flex-end;
+        gap: 8px;
+    }
+
+    .mark-words {
+        display: inline;
+        font-size: 28px;
+        padding-bottom: 6px;
+    }
+
+    .site-nav {
+        display: none;
+    }
+
+    .menu {
+        display: block;
+    }
+
+    /* Phones: photo, invitation, then the RSVP key, all in the first screen
+       with the grass on the bottom edge */
+    .hero {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "photo" "details" "rsvp";
+        justify-items: center;
+        align-content: space-evenly;
+        row-gap: 0;
+        padding-top: 14px;
+        padding-bottom: 56px;
+    }
+
+    .soup .hero-rsvp {
+        grid-area: rsvp;
+        display: flex;
+        justify-self: stretch;
+        margin-top: 22px;
+    }
+
+    .soup .count-rsvp {
+        display: none;
+    }
+
+    .hero-photo {
+        width: min(240px, 66%);
+        margin: 0;
+        padding: 10px 10px 6px;
+        transform: rotate(-2deg);
+    }
+
+    .hero-photo figcaption {
+        font-size: 22px;
+        padding-top: 4px;
+    }
+
+    .hero-photo .tape {
+        width: 86px;
+        height: 26px;
+        margin-left: -43px;
+        top: -12px;
+    }
+
+    .invite {
+        justify-self: stretch;
+        width: auto;
+        margin: 32px 0 0;
+        padding: 20px 20px 18px;
+        transform: rotate(0.6deg);
+    }
+
+    .invite .tape {
+        width: 86px;
+        height: 26px;
+        margin-left: -43px;
+        top: -12px;
+    }
+
+    /* One fact per line so the date and park name never wrap mid-phrase */
+    .invite-facts {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    .fact dt {
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+
+    .fact dd {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: baseline;
+        column-gap: 10px;
+    }
+
+    .fact-main {
+        font-size: 23px;
+    }
+
+    .fact-time {
+        font-size: 20px;
+    }
+
+    .fact-note {
+        font-size: 15px;
+    }
+
+    .soup .invite-maps {
+        display: flex;
+        margin-top: 16px;
+    }
+
+    /* On phones "After" sits under the RSVP key instead */
+    .invite-after {
+        display: none;
+    }
+
+    .after-note {
+        display: block;
+        margin: 4px 0 0;
+        font-size: 17px;
+        line-height: 1.35;
+        text-align: center;
+    }
+
+    .count {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        padding-top: 32px;
+        padding-bottom: 8px;
+    }
+
+    .patch {
+        gap: 12px;
+        padding: 18px 22px;
+        font-size: 18px;
+        line-height: 1.3;
+    }
+
+    .count-number {
+        font-size: 56px;
+    }
+
+    .patch-label {
+        font-size: 24px;
+    }
+
+    .soup .key-lg {
+        font-size: 18px;
+    }
+
+    .sheets-intro {
+        padding-top: 32px;
+    }
+
+    .sheets-intro h2 {
+        font-size: 36px;
+    }
+
+    .sheets-intro p {
+        font-size: 18px;
+    }
+
+    .highlights-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .highlights h2 {
+        font-size: 32px;
+    }
+
+    .gallery-img-container {
+        width: 90%;
+        height: 350px;
+    }
+}
+
+@media (max-width: 600px) {
+    .site-mark svg {
+        height: 62px;
+    }
+
+    .soup .site-nav a {
+        font-size: 17px;
+        padding: 12px 8px;
+    }
+
+    /* Phones: top-bound notepad instead of side-punched binder paper, so the
+       writing gets the width the left holes and wide margin were taking */
+    .sheets {
+        padding-inline: 12px;
+    }
+
+    .sheet {
+        --rule: 40px;
+        --head: 80px;
+        --bottom: 32px;
+        --margin-x: 18px;
+        --pad-left: 36px;
+        --pad-right: 16px;
+    }
+
+    .hole,
+    .stack .sheet .tape {
+        display: none;
+    }
+
+    .sheet-head {
+        justify-content: flex-start;
+        padding-top: 24px;
+        gap: 8px;
+    }
+
+    .stack:nth-child(odd) .sheet { transform: rotate(-0.4deg); }
+    .stack:nth-child(even) .sheet { transform: rotate(0.35deg); }
+
+    .tape {
+        top: -13px;
+        width: 96px;
+        height: 28px;
+    }
+
+    .sheet-head h3 {
+        font-size: 36px;
+        margin-bottom: 8px;
+    }
+
+    .pencil {
+        font-size: 17px;
+    }
+
+    .sheet-rows {
+        font-size: 21px;
+    }
+
+    .sheet-row {
+        gap: 12px;
+    }
+
+    .sheet-foot {
+        gap: 10px;
+        padding-block: 8px;
+    }
+
+    .sheet-foot .key {
+        font-size: 16px;
+        padding: 10px 12px;
+        gap: 6px;
+    }
+
+    .sheet-foot .key-add {
+        flex-grow: 1;
+    }
+
+    .red-pen {
+        font-size: 19px;
+    }
+
+    .polaroid {
+        padding: 8px 8px 2px;
+    }
+
+    .polaroid figcaption {
+        font-size: 22px;
+    }
+
+    .gallery-img-container {
+        height: 250px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .soup .key,
+    .gallery-img,
+    .menu-line {
+        transition: none;
+    }
+
+    .menu-panel,
+    .menu-panel[data-open="true"] {
+        transform: none;
+        transition: opacity 0.12s linear, visibility 0s linear 0.12s;
+    }
+
+    .menu-panel[data-open="true"] {
+        transition: opacity 0.12s linear, visibility 0s;
+    }
+}

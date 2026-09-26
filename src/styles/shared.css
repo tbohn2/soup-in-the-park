@@ -1,0 +1,27 @@
+/* Replaces the old JS width check so the right nav renders on first paint. */
+.nav-mobile {
+    display: none;
+}
+
+.nav-desktop {
+    display: flex;
+}
+
+@media screen and (max-width: 768px) {
+    .nav-mobile {
+        display: flex;
+    }
+
+    .nav-desktop {
+        display: none;
+    }
+}
+
+/* next/image sets intrinsic width/height attributes; let the old CSS sizing win. */
+header img {
+    max-width: 100%;
+}
+
+.gallery-img {
+    width: 100%;
+}
