@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import BirdClock, { playRandomCall } from "./BirdClock";
 import { LogoMark } from "./Logo";
 
 const LINKS = [
@@ -15,6 +16,7 @@ export default function SoupHeader() {
   const onGallery = pathname.startsWith("/gallery");
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const clockRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -35,10 +37,17 @@ export default function SoupHeader() {
   const isCurrent = (href: string) => (href === "/gallery" ? onGallery : !onGallery);
 
   return (
-    <header className="site-header wrap">
-      <Link href="/" className="site-mark">
-        <LogoMark />
-        {/* Spelled out on phones, where the hero drops the big logo */}
+    <header className="site-header wrap" data-home={pathname === "/"}>
+      <Link
+        href="/"
+        className="site-mark"
+        onClick={() => {
+          // Sings only where the clock is showing; CSS decides that (phones get the bowl)
+          if (clockRef.current?.checkVisibility()) playRandomCall();
+        }}
+      >
+        <BirdClock ref={clockRef} className="bird-clock" />
+        <LogoMark className="mark-bowl" />
         <span className="mark-words" aria-hidden="true">
           in the park
         </span>

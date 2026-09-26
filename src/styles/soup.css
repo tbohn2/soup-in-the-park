@@ -5,7 +5,9 @@
     --orange: #E8895C;
     --orange-soft: #F4B38F;
     --navy: #1E2150;
+    --navy-light: #3B4088;
     --navy-deep: #101230;
+    --navy-edge: #0C0E26;
     --green: #2C6B47;
     --green-deep: #1B4630;
     --print: #F6F1E7;
@@ -21,10 +23,13 @@
     --collar-h: 16px;
     --header-h: 76px;
     --grass-base-h: 12px;
+    /* The header and hero share this width so the nav lines up with the photo */
+    --wide-max: 1480px;
+    --ease-spring: cubic-bezier(0.34, 1.5, 0.64, 1);
     /* Fine grain for fabric and felt; tinted per surface below */
-    --noise-warm: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .14 0 0 0 0 .04 0 0 0 .2 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    --noise-mottle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .86 0 0 0 0 .72 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
-    --noise-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .75 0 0 0 0 .78 0 0 0 0 1 0 0 0 .12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+    --noise-warm: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .14 0 0 0 0 .04 0 0 0 .2 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --noise-mottle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='m' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .86 0 0 0 0 .72 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
+    --noise-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='f' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .75 0 0 0 0 .78 0 0 0 0 1 0 0 0 .12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
 }
 
 /* The page is the shirt itself: orange cotton jersey with fine knit ribs,
@@ -96,6 +101,7 @@ body.soup {
 /* Header */
 
 .site-header {
+    max-width: var(--wide-max);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -109,21 +115,103 @@ body.soup {
 }
 
 .soup .site-mark {
-    gap: 10px;
     text-decoration: none;
 }
 
 .site-mark svg {
     display: block;
-    height: 46px;
     width: auto;
 }
 
+/* Desktop: Grandma's bird clock is the way home */
+.site-mark .bird-clock {
+    height: 88px;
+    transition: transform 0.25s var(--ease-spring);
+}
+
+.clock-hands {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.clock-hands[data-set="true"] {
+    opacity: 1;
+}
+
+/* Each hand turns once per its period. BirdClock sets --into-turn, a
+   negative delay that starts every hand at the current time. */
+.clock-hands line {
+    transform-box: view-box;
+    transform-origin: 50px 50px;
+    animation: hand-turn linear infinite;
+    animation-delay: var(--into-turn, 0s);
+}
+
+.clock-hands .hand-hour,
+.clock-hands .hand-minute {
+    stroke: var(--navy);
+}
+
+.clock-hands .hand-hour {
+    animation-duration: 43200s;
+}
+
+.clock-hands .hand-minute {
+    animation-duration: 3600s;
+}
+
+/* Ticks once a second instead of sweeping */
+.clock-hands .hand-second {
+    stroke: var(--red-pen);
+    animation-duration: 60s;
+    animation-timing-function: steps(60, end);
+}
+
+@keyframes hand-turn {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.site-mark:hover .bird-clock {
+    transform: rotate(-6deg);
+}
+
+.site-mark .mark-bowl,
 .mark-words {
     display: none;
+}
+
+/* On the desktop home page the header floats over the hero's top edge, so
+   the hero gets the whole first screen instead of sitting under a strip */
+@media (min-width: 901px) {
+    /* Room for the bird clock, clear of the collar's stitch line */
+    :root {
+        --header-h: 118px;
+    }
+
+    .site-header {
+        padding-top: 14px;
+    }
+
+    .site-header[data-home="true"] {
+        position: absolute;
+        top: var(--collar-h);
+        left: 0;
+        right: 0;
+        z-index: 10;
+    }
+
+    .site-header[data-home="true"] ~ main .hero {
+        min-height: calc(100svh - var(--collar-h) - var(--grass-base-h));
+        /* Keeps the logo's steam clear of the clock on short windows */
+        padding-top: 72px;
+    }
+}
+
+.mark-words {
     font-family: var(--font-zilla), serif;
     font-weight: 500;
-    font-size: 26px;
     line-height: 1;
     white-space: nowrap;
 }
@@ -182,7 +270,7 @@ body.soup {
     opacity: 1;
     visibility: visible;
     transform: rotate(-0.6deg);
-    transition: opacity 0.18s ease-out, transform 0.42s cubic-bezier(0.34, 1.5, 0.64, 1), visibility 0s;
+    transition: opacity 0.18s ease-out, transform 0.42s var(--ease-spring), visibility 0s;
 }
 
 .menu-line {
@@ -192,7 +280,7 @@ body.soup {
     stroke-linecap: round;
     transform-box: fill-box;
     transform-origin: center;
-    transition: transform 0.32s cubic-bezier(0.34, 1.5, 0.64, 1), opacity 0.15s ease;
+    transition: transform 0.32s var(--ease-spring), opacity 0.15s ease;
 }
 
 /* The three lines fold into an X while the menu is open */
@@ -233,14 +321,23 @@ body.soup {
 
 /* Hero */
 
+/* Desktop: the logo over the invitation, with the photo beside them. The
+   logo and photo scale with the window height (they set how tall the stack
+   is) and the card with its width, and the pair sits centered as one group
+   instead of spreading to the page edges. */
 .hero {
+    --hero-col: clamp(520px, 44vw, 680px);
+    --hero-logo: clamp(340px, calc(52svh - 40px), 600px);
+    --hero-photo: clamp(340px, calc(50svh - 30px), 520px);
+    max-width: var(--wide-max);
     display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-columns: minmax(0, var(--hero-col)) minmax(0, var(--hero-photo));
     grid-template-areas: "logo photo" "details photo";
-    column-gap: 56px;
-    align-items: end;
+    justify-content: center;
+    column-gap: clamp(40px, 6vw, 96px);
+    align-items: start;
     align-content: center;
-    padding-top: 8px;
+    padding-block: 24px 48px;
     /* Fill the first screen so the grass lands on the bottom edge of the window */
     min-height: calc(100svh - var(--collar-h) - var(--header-h) - var(--grass-base-h));
     box-sizing: border-box;
@@ -248,20 +345,19 @@ body.soup {
 
 .hero-logo {
     grid-area: logo;
+    justify-self: center;
     display: block;
-    width: min(600px, 100%);
+    width: min(var(--hero-logo), 100%);
     height: auto;
-    margin-bottom: 28px;
+    margin-bottom: 20px;
 }
 
 /* Invitation card: answers are the loud part, labels stay quiet */
 .invite {
     grid-area: details;
     position: relative;
-    justify-self: start;
-    width: min(620px, 100%);
+    justify-self: stretch;
     box-sizing: border-box;
-    margin-bottom: 72px;
     padding: 30px 32px 26px;
     background-color: var(--paper);
     background-image: var(--noise-warm);
@@ -304,14 +400,14 @@ body.soup {
 .fact-main {
     font-family: var(--font-zilla), serif;
     font-weight: 700;
-    font-size: 30px;
+    font-size: clamp(30px, 3.2svh, 38px);
     line-height: 1.1;
 }
 
 .fact-time {
     font-family: var(--font-zilla), serif;
     font-weight: 500;
-    font-size: 24px;
+    font-size: clamp(24px, 2.5svh, 30px);
     line-height: 1.2;
 }
 
@@ -320,12 +416,11 @@ body.soup {
     color: var(--pencil);
 }
 
-.soup .invite-maps {
-    margin-top: 18px;
-}
-
-.soup .hero-rsvp {
-    display: none;
+.invite-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
 }
 
 .invite-after {
@@ -344,17 +439,11 @@ body.soup {
     margin-bottom: 2px;
 }
 
-.soup .key-sm {
-    min-height: 44px;
-    padding: 8px 16px;
-    font-size: 16px;
-    gap: 6px;
-}
-
 .hero-photo {
     grid-area: photo;
     position: relative;
-    margin: 0 0 80px;
+    align-self: center;
+    margin: 0;
     padding: 16px 16px 20px;
     background: #FFFFFF;
     transform: rotate(2.5deg);
@@ -490,19 +579,51 @@ body.soup {
 
 /* Raised keys */
 
+/* Keys: a domed cap sitting on a darker plinth, with a sewn stitch line like
+   the patch. Each variant only sets the colors; the build is shared. */
 .soup .key {
+    --lip: 5px;
+    --cap-top: #FFFFFF;
+    --cap-mid: #F7F2E8;
+    --cap-bottom: #EBE3D2;
+    --plinth: var(--tan-edge);
+    --edge: #A3967A;
+    --stitch: rgba(120, 100, 60, 0.35);
+    --shine: rgba(255, 255, 255, 0.9);
+    --grain: var(--noise-warm);
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     min-height: 48px;
     padding: 10px 22px;
-    border-radius: 10px;
+    border: 1px solid var(--edge);
+    border-radius: 12px;
     font: 700 19px var(--font-source), sans-serif;
     text-decoration: none;
     white-space: nowrap;
     cursor: pointer;
-    transition: transform 0.08s ease, box-shadow 0.08s ease;
+    background:
+        radial-gradient(130% 80% at 50% -10%, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0) 62%),
+        var(--grain),
+        linear-gradient(var(--cap-top), var(--cap-mid) 52%, var(--cap-bottom));
+    /* Crisp plinth, then one soft cast shadow well below it so the two never blur together */
+    box-shadow:
+        inset 0 1px 0 var(--shine),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.14),
+        0 var(--lip) 0 var(--plinth),
+        0 calc(var(--lip) + 5px) 8px -5px rgba(60, 25, 5, 0.3);
+    transition: transform 0.12s cubic-bezier(0.3, 0.7, 0.4, 1), box-shadow 0.12s cubic-bezier(0.3, 0.7, 0.4, 1), filter 0.12s ease;
+}
+
+.soup .key::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 1.5px dashed var(--stitch);
+    border-radius: 8px;
+    pointer-events: none;
 }
 
 .soup .key svg {
@@ -510,11 +631,20 @@ body.soup {
 }
 
 .soup .key:hover {
+    --lip: 6px;
+    transform: translateY(-1px);
     filter: brightness(1.04);
 }
 
+/* Pressed: the cap sinks onto the plinth and the light catches less of it */
 .soup .key:active:not(:disabled) {
-    transform: translateY(3px);
+    --lip: 1px;
+    transform: translateY(4px);
+    filter: brightness(0.97);
+    box-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.18),
+        0 var(--lip) 0 var(--plinth),
+        0 4px 8px -4px rgba(60, 25, 5, 0.35);
 }
 
 .soup .key:disabled {
@@ -523,35 +653,35 @@ body.soup {
 }
 
 .soup .key-add {
+    /* Brown grain reads as dirt on green, and the cap stays lighter than its plinth */
+    --grain: none;
+    --cap-top: #529F6C;
+    --cap-mid: #357A51;
+    --cap-bottom: var(--green);
+    --plinth: var(--green-deep);
+    --edge: var(--green-deep);
+    --stitch: rgba(236, 246, 226, 0.45);
+    --shine: rgba(255, 255, 255, 0.4);
     color: #FFFFFF;
-    background: linear-gradient(#43905F, var(--green) 55%, #255C3C);
-    border: 1px solid var(--green-deep);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), inset 0 -2px 0 rgba(0, 0, 0, 0.12), 0 4px 0 var(--green-deep), 0 7px 10px rgba(40, 20, 5, 0.28);
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.35);
-}
-
-.soup .key-add:active:not(:disabled) {
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 var(--green-deep), 0 2px 4px rgba(40, 20, 5, 0.25);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
 }
 
 .soup .key-edit {
     color: var(--navy);
-    background: linear-gradient(#FFFFFF, #F0EADC);
-    border: 1px solid var(--tan-edge);
-    box-shadow: inset 0 1px 0 #FFFFFF, inset 0 -2px 0 rgba(120, 100, 60, 0.08), 0 4px 0 var(--tan-edge), 0 7px 10px rgba(40, 20, 5, 0.18);
     text-shadow: 0 1px 0 #FFFFFF;
 }
 
-.soup .key-edit:active:not(:disabled) {
-    box-shadow: inset 0 1px 0 #FFFFFF, 0 1px 0 var(--tan-edge), 0 2px 4px rgba(40, 20, 5, 0.15);
-}
-
 .soup .key-navy {
+    --grain: none;
+    --cap-top: var(--navy-light);
+    --cap-mid: var(--navy);
+    --cap-bottom: #171A40;
+    --plinth: var(--navy-deep);
+    --edge: var(--navy-edge);
+    --stitch: rgba(246, 241, 231, 0.35);
+    --shine: rgba(255, 255, 255, 0.25);
     color: var(--print);
-    background: linear-gradient(#34397A, var(--navy) 55%, #191C44);
-    border: 1px solid var(--navy-deep);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 4px 0 var(--navy-deep), 0 7px 12px rgba(40, 20, 5, 0.3);
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.45);
     font-size: 20px;
     padding: 14px 26px;
 }
@@ -569,8 +699,10 @@ body.soup {
     padding: 14px 26px;
 }
 
-.soup .key-navy:active {
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 1px 0 var(--navy-deep), 0 2px 4px rgba(40, 20, 5, 0.25);
+/* Phones get their own RSVP key under the invitation card. Kept after the
+   .key rules so it wins at equal specificity. */
+.soup .hero-rsvp {
+    display: none;
 }
 
 /* Notebook sheets */
@@ -582,6 +714,12 @@ body.soup {
     align-items: start;
     padding-top: 48px;
     padding-bottom: 72px;
+}
+
+.sheet-column {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
 }
 
 .stack {
@@ -790,6 +928,24 @@ body.soup {
 .line-input-count {
     flex: 0 0 1.6em;
     padding: 0 1px;
+}
+
+/* The new line shows its "How many" hint, so the count needs room for it */
+.is-new .line-input-count {
+    flex-basis: 4.6em;
+}
+
+/* A new line opens smoothly, easing everything below it down */
+.sheet-row.is-new {
+    overflow: hidden;
+    animation: line-open 0.28s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+@keyframes line-open {
+    from {
+        height: 0;
+        opacity: 0;
+    }
 }
 
 .line-input::placeholder {
@@ -1046,6 +1202,11 @@ body.soup {
         grid-template-columns: minmax(0, 1fr);
         gap: 40px;
     }
+
+    /* One column: the sheets fall back into category order */
+    .sheet-column {
+        display: contents;
+    }
 }
 
 @media (max-width: 900px) {
@@ -1056,10 +1217,20 @@ body.soup {
         display: none;
     }
 
-    /* Line the words up with the bowl itself rather than the steam above it */
+    /* Phones keep the bowl and name, since their hero drops the big logo.
+       The words line up with the bowl itself rather than the steam above it. */
     .soup .site-mark {
         align-items: flex-end;
         gap: 8px;
+    }
+
+    .site-mark .bird-clock {
+        display: none;
+    }
+
+    .site-mark .mark-bowl {
+        display: block;
+        height: 54px;
     }
 
     .mark-words {
@@ -1072,8 +1243,16 @@ body.soup {
         display: none;
     }
 
+    /* Everything sits on the bowl's saucer line: the steam makes the bowl's
+       box top-heavy, so centering boxes left the menu key riding high */
+    .site-header {
+        align-items: flex-end;
+    }
+
     .menu {
         display: block;
+        /* Lifts the key so its base, not its box, lands on the saucer line */
+        margin-bottom: 12px;
     }
 
     /* Phones: photo, invitation, then the RSVP key, all in the first screen
@@ -1100,14 +1279,14 @@ body.soup {
     }
 
     .hero-photo {
-        width: min(240px, 66%);
+        width: min(276px, 76%);
         margin: 0;
         padding: 10px 10px 6px;
         transform: rotate(-2deg);
     }
 
     .hero-photo figcaption {
-        font-size: 22px;
+        font-size: 24px;
         padding-top: 4px;
     }
 
@@ -1119,10 +1298,8 @@ body.soup {
     }
 
     .invite {
-        justify-self: stretch;
-        width: auto;
         margin: 32px 0 0;
-        padding: 20px 20px 18px;
+        padding: 18px 18px 16px;
         transform: rotate(0.6deg);
     }
 
@@ -1136,11 +1313,11 @@ body.soup {
     /* One fact per line so the date and park name never wrap mid-phrase */
     .invite-facts {
         grid-template-columns: minmax(0, 1fr);
-        gap: 14px;
+        gap: 12px;
     }
 
     .fact dt {
-        font-size: 14px;
+        font-size: 13px;
         margin-bottom: 2px;
     }
 
@@ -1152,20 +1329,27 @@ body.soup {
     }
 
     .fact-main {
-        font-size: 23px;
+        font-size: 21px;
     }
 
     .fact-time {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .fact-note {
-        font-size: 15px;
+        font-size: 14px;
+    }
+
+    .invite-actions {
+        margin-top: 14px;
+    }
+
+    .soup .invite-rsvp {
+        display: none;
     }
 
     .soup .invite-maps {
-        display: flex;
-        margin-top: 16px;
+        flex: 1;
     }
 
     /* On phones "After" sits under the RSVP key instead */
@@ -1236,7 +1420,7 @@ body.soup {
 }
 
 @media (max-width: 600px) {
-    .site-mark svg {
+    .site-mark .mark-bowl {
         height: 62px;
     }
 
@@ -1330,7 +1514,16 @@ body.soup {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .hand-second {
+        display: none;
+    }
+
+    .sheet-row.is-new {
+        animation: none;
+    }
+
     .soup .key,
+    .site-mark .bird-clock,
     .gallery-img,
     .menu-line {
         transition: none;

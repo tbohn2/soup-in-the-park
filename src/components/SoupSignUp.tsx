@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { SOUP_AFTER, SOUP_EVENT, type SignupCategory } from "@/lib/events";
 import type { SignupBoard } from "@/lib/signups";
 import { CrossOutIcon, PencilIcon, PlusIcon, UndoIcon } from "./icons";
@@ -38,9 +39,15 @@ export default function SoupSignUp({ initialBoard }: { initialBoard: SignupBoard
         <p>Write your family in on any sheet below.</p>
       </section>
 
+      {/* Two independent columns so a short sheet rises to meet the one above it.
+          Sheets alternate between them, so one never jumps columns while it's edited. */}
       <div className="sheets wrap">
-        {SOUP_EVENT.categories.map((card, i) => (
-          <Sheet key={card.key} card={card} index={i} s={s} />
+        {[0, 1].map((column) => (
+          <div key={column} className="sheet-column">
+            {SOUP_EVENT.categories.map((card, i) =>
+              i % 2 === column ? <Sheet key={card.key} card={card} index={i} s={s} /> : null,
+            )}
+          </div>
         ))}
       </div>
     </>
@@ -56,13 +63,20 @@ function Sheet({ card, index, s }: { card: SignupCategory; index: number; s: Edi
   // Counts only need a couple of digits, so the name gets the rest of the line
   const detailClass = card.numeric ? "line-input line-input-detail line-input-count" : "line-input line-input-detail";
 
+  // Focus the new line as soon as it opens, without jumping the page to it
+  const newNameRef = useRef<HTMLInputElement>(null);
+  const addingHere = active && s.adding;
+  useEffect(() => {
+    if (addingHere) newNameRef.current?.focus({ preventScroll: true });
+  }, [addingHere]);
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     void s.save();
   };
 
   return (
-    <article className="stack" id={`sheet-${card.key}`} aria-labelledby={titleId}>
+    <article className="stack" id={`sheet-${card.key}`} aria-labelledby={titleId} style={{ order: index }}>
       <form className="sheet" onSubmit={handleSubmit}>
         <svg className="grain" aria-hidden="true">
           <rect width="100%" height="100%" filter="url(#paper-grain)" />
@@ -125,16 +139,16 @@ function Sheet({ card, index, s }: { card: SignupCategory; index: number; s: Edi
                 </div>
               ))}
 
-          {active && s.adding && (
-            <div className="sheet-row is-editing">
+          {addingHere && (
+            <div className="sheet-row is-editing is-new">
               <input
+                ref={newNameRef}
                 className="line-input"
                 aria-label={card.placeholder1}
                 placeholder={card.placeholder1}
                 value={s.draft[s.draft.length - 1]?.name ?? ""}
                 maxLength={100}
                 disabled={saving}
-                autoFocus
                 onChange={(e) => s.handleChange(s.draft.length - 1, "name", e.target.value)}
               />
               <input

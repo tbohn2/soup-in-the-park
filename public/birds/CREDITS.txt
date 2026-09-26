@@ -1,0 +1,15 @@
+Bird calls for the clock in the header, trimmed to five seconds and volume-matched.
+All from Wikimedia Commons. Share-alike licenses cover these edited clips too.
+
+house-finch.mp3: Haemorhous mexicanus - House Finch XC99546.ogg by Jonathon Jongsma, CC BY-SA 3.0, https://commons.wikimedia.org/wiki/File:Haemorhous_mexicanus_-_House_Finch_XC99546.ogg
+american-robin.mp3: Turdus migratorius - American Robin XC131093.ogg by Jonathon Jongsma, CC BY-SA 3.0, https://commons.wikimedia.org/wiki/File:Turdus_migratorius_-_American_Robin_XC131093.ogg
+northern-mockingbird.mp3: Mimus polyglottos Northern Mockingbird.ogg by David Illig, CC BY-SA 3.0, https://commons.wikimedia.org/wiki/File:Mimus_polyglottos_Northern_Mockingbird.ogg
+blue-jay.mp3: Cyanocitta cristata - Blue Jay XC81291.mp3 by Jonathon Jongsma, CC BY-SA 3.0, https://commons.wikimedia.org/wiki/File:Cyanocitta_cristata_-_Blue_Jay_XC81291.mp3
+house-wren.mp3: Troglodytes aedon - House Wren XC558995.mp3 by radrat, CC BY-SA 4.0, https://commons.wikimedia.org/wiki/File:Troglodytes_aedon_-_House_Wren_XC558995.mp3
+tufted-titmouse.mp3: Tufted Titmouse.ogg by G. McGrane, Public domain, https://commons.wikimedia.org/wiki/File:Tufted_Titmouse.ogg
+baltimore-oriole.mp3: Icterus galbula - Baltimore Oriole XC101614.mp3 by Jonathon Jongsma, CC BY-SA 3.0, https://commons.wikimedia.org/wiki/File:Icterus_galbula_-_Baltimore_Oriole_XC101614.mp3
+mourning-dove.mp3: Zenaida macroura - Mourning Dove XC128006.ogg by Jonathon Jongsma, CC BY-SA 3.0, https://commons.wikimedia.org/wiki/File:Zenaida_macroura_-_Mourning_Dove_XC128006.ogg
+black-capped-chickadee.mp3: Poecile atricapillus - Black-capped Chickadee XC70185.mp3 by Jonathon Jongsma, CC BY-SA 3.0, https://commons.wikimedia.org/wiki/File:Poecile_atricapillus_-_Black-capped_Chickadee_XC70185.mp3
+northern-cardinal.mp3: Cardinalis cardinalis - Northern Cardinal XC175226.mp3 by Jonathon Jongsma, CC BY-SA 4.0, https://commons.wikimedia.org/wiki/File:Cardinalis_cardinalis_-_Northern_Cardinal_XC175226.mp3
+white-throated-sparrow.mp3: Zonotrichia albicollis - White-throated Sparrow XC77875.mp3 by Jonathon Jongsma, CC BY-SA 3.0, https://commons.wikimedia.org/wiki/File:Zonotrichia_albicollis_-_White-throated_Sparrow_XC77875.mp3
+white-breasted-nuthatch.mp3: Sitta carolinensis - White-breasted Nuthatch XC86754.mp3 by Jonathon Jongsma, CC BY-SA 3.0, https://commons.wikimedia.org/wiki/File:Sitta_carolinensis_-_White-breasted_Nuthatch_XC86754.mp3

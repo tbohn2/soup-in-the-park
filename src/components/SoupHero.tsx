@@ -28,16 +28,22 @@ export default function SoupHero() {
             </dd>
           </div>
         </dl>
-        <a className="key key-edit key-sm invite-maps" href="https://maps.app.goo.gl/dFQU244ewSoQVw9C7" target="_blank" rel="noopener noreferrer">
-          <PinIcon />
-          Open in Maps
-        </a>
         <p className="invite-after">
           <span>After</span>
           {SOUP_AFTER}
         </p>
+        {/* An invitation ends with the reply; phones get a bigger RSVP key below the card instead */}
+        <div className="invite-actions">
+          <a href="#sheet-attendees" className="key key-add invite-rsvp">
+            <PlusIcon />
+            RSVP
+          </a>
+          <a className="key key-edit invite-maps" href="https://maps.app.goo.gl/dFQU244ewSoQVw9C7" target="_blank" rel="noopener noreferrer">
+            <PinIcon />
+            Open in Maps
+          </a>
+        </div>
       </div>
-      {/* Phones get the RSVP key in the first screen; desktop has it next to the head count */}
       <a href="#sheet-attendees" className="key key-add key-lg hero-rsvp">
         <PlusIcon />
         RSVP
