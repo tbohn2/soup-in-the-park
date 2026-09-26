@@ -125,7 +125,7 @@ body.soup {
 
 /* Desktop: Grandma's bird clock is the way home */
 .site-mark .bird-clock {
-    height: 88px;
+    height: 121px;
     transition: transform 0.25s var(--ease-spring);
 }
 
@@ -184,7 +184,7 @@ body.soup {
 @media (min-width: 901px) {
     /* Room for the bird clock, clear of the collar's stitch line */
     :root {
-        --header-h: 118px;
+        --header-h: 151px;
     }
 
     .site-header {
@@ -202,7 +202,7 @@ body.soup {
     .site-header[data-home="true"] ~ main .hero {
         min-height: calc(100svh - var(--collar-h) - var(--grass-base-h));
         /* Keeps the logo's steam clear of the clock on short windows */
-        padding-top: 72px;
+        padding-top: 106px;
     }
 }
 
@@ -611,7 +611,7 @@ body.soup {
         inset 0 -1px 0 rgba(255, 255, 255, 0.14),
         0 var(--lip) 0 var(--plinth),
         0 calc(var(--lip) + 5px) 8px -5px rgba(60, 25, 5, 0.3);
-    transition: transform 0.12s cubic-bezier(0.3, 0.7, 0.4, 1), box-shadow 0.12s cubic-bezier(0.3, 0.7, 0.4, 1), filter 0.12s ease;
+    transition: transform 0.12s cubic-bezier(0.3, 0.7, 0.4, 1), box-shadow 0.12s cubic-bezier(0.3, 0.7, 0.4, 1);
 }
 
 .soup .key::before {
@@ -630,14 +630,12 @@ body.soup {
 .soup .key:hover {
     --lip: 6px;
     transform: translateY(-1px);
-    filter: brightness(1.04);
 }
 
 /* Pressed: the cap sinks onto the plinth and the light catches less of it */
 .soup .key:active:not(:disabled) {
     --lip: 1px;
     transform: translateY(4px);
-    filter: brightness(0.97);
     box-shadow:
         inset 0 2px 4px rgba(0, 0, 0, 0.18),
         0 var(--lip) 0 var(--plinth),
@@ -759,19 +757,12 @@ body.soup {
     margin: 0;
     padding-bottom: var(--bottom);
     background-color: var(--paper);
-    /* Double red margin the full height; blue rules between the header space and the bottom edge */
-    background-image:
-        linear-gradient(90deg,
-            transparent var(--margin-x),
-            var(--margin-red) var(--margin-x), var(--margin-red) calc(var(--margin-x) + 1.5px),
-            transparent calc(var(--margin-x) + 1.5px), transparent calc(var(--margin-x) + 5px),
-            var(--margin-red) calc(var(--margin-x) + 5px), var(--margin-red) calc(var(--margin-x) + 6.5px),
-            transparent calc(var(--margin-x) + 6.5px)),
-        repeating-linear-gradient(to bottom,
-            transparent 0, transparent calc(var(--rule) - 1px),
-            var(--rule-blue) calc(var(--rule) - 1px), var(--rule-blue) var(--rule));
-    background-position: 0 0, 0 var(--head);
-    background-size: 100% 100%, 100% calc(100% - var(--head) - var(--bottom));
+    /* Blue rules between the header space and the bottom edge */
+    background-image: repeating-linear-gradient(to bottom,
+        transparent 0, transparent calc(var(--rule) - 1px),
+        var(--rule-blue) calc(var(--rule) - 1px), var(--rule-blue) var(--rule));
+    background-position: 0 var(--head);
+    background-size: 100% calc(100% - var(--head) - var(--bottom));
     background-repeat: no-repeat;
     border-radius: 2px;
     box-shadow:
@@ -780,6 +771,20 @@ body.soup {
         0 22px 34px -14px rgba(60, 30, 10, 0.45),
         inset 0 0 60px rgba(180, 140, 80, 0.08),
         inset 0 0 0 1px rgba(150, 120, 70, 0.08);
+}
+
+/* The double red margin, drawn as borders rather than a background gradient:
+   on a slightly rotated sheet, 1.5px gradient stripes alias into broken,
+   doubled segments, while borders are smoothed like any other edge */
+.sheet::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--margin-x);
+    width: 3.5px;
+    border-inline: 1.5px solid var(--margin-red);
+    pointer-events: none;
 }
 
 .stack:nth-child(4n + 1) .sheet { transform: rotate(-0.5deg); }
@@ -945,6 +950,39 @@ body.soup {
     }
 }
 
+.sheet-row.is-new.is-closing {
+    animation: line-close 0.22s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+}
+
+/* An empty sheet already has blank lines to write on, so nothing needs to
+   make room: the new line just fades in and out on the first rule */
+.is-empty .sheet-row.is-new {
+    animation-name: line-fade-in;
+}
+
+.is-empty .sheet-row.is-new.is-closing {
+    animation-name: line-close-fade;
+}
+
+@keyframes line-fade-in {
+    from {
+        opacity: 0;
+    }
+}
+
+@keyframes line-close-fade {
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes line-close {
+    to {
+        height: 0;
+        opacity: 0;
+    }
+}
+
 .line-input::placeholder {
     color: var(--pencil);
     opacity: 1;
@@ -954,6 +992,8 @@ body.soup {
 .line-input:focus {
     outline: none;
     background: rgba(255, 234, 120, 0.45);
+    /* Square bottom corners keep the underline a straight stroke */
+    border-radius: 3px 3px 0 0;
     box-shadow: inset 0 -2px 0 var(--navy);
 }
 
@@ -982,6 +1022,29 @@ body.soup {
 
 .cross-out:hover {
     background: rgba(179, 38, 30, 0.08);
+}
+
+.key-label {
+    display: grid;
+    /* Passes the key's icon spacing down to each label */
+    gap: inherit;
+    /* Keeps the sliding labels inside the key's face */
+    overflow: hidden;
+}
+
+.key-label > * {
+    grid-area: 1 / 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: inherit;
+    transition: opacity 0.18s ease, transform 0.22s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+/* The outgoing label drops away as the new one rises into place */
+.key-label-ghost {
+    opacity: 0;
+    transform: translateY(40%);
 }
 
 .sheet-foot {
@@ -1517,6 +1580,15 @@ body.soup {
 
     .sheet-row.is-new {
         animation: none;
+    }
+
+    .key-label > * {
+        transition: none;
+    }
+
+    /* Still runs, just instantly, so the editor clears when it ends */
+    .sheet-row.is-new.is-closing {
+        animation-duration: 1ms;
     }
 
     .soup .key,

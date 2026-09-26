@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { SOUP_AFTER, SOUP_EVENT, type SignupCategory } from "@/lib/events";
 import type { SignupBoard } from "@/lib/signups";
 import { CrossOutIcon, PencilIcon, PlusIcon, UndoIcon } from "./icons";
@@ -63,12 +64,43 @@ function Sheet({ card, index, s }: { card: SignupCategory; index: number; s: Edi
   // Counts only need a couple of digits, so the name gets the rest of the line
   const detailClass = card.numeric ? "line-input line-input-detail line-input-count" : "line-input line-input-detail";
 
-  // Focus the new line as soon as it opens, without jumping the page to it
-  const newNameRef = useRef<HTMLInputElement>(null);
   const addingHere = active && s.adding;
-  useEffect(() => {
-    if (addingHere) newNameRef.current?.focus({ preventScroll: true });
-  }, [addingHere]);
+
+  // Cancelling a new line folds it shut first; the editor clears once the fold finishes
+  const [closing, setClosing] = useState(false);
+
+  // Opening a sheet puts the cursor in its first family name: the new line when
+  // adding, the top line when editing. The inputs render synchronously so the
+  // focus happens inside the tap itself, which phones require to raise the keyboard.
+  const firstNameRef = useRef<HTMLInputElement>(null);
+  const open = (add: boolean) => {
+    setClosing(false);
+    flushSync(() => s.toggleAddOrEdit(index, add));
+    firstNameRef.current?.focus({ preventScroll: true });
+  };
+
+  const cancel = () => {
+    if (closing) return;
+    if (addingHere) setClosing(true);
+    else s.clearStates();
+  };
+
+  const primaryLabels = [
+    <>
+      <PlusIcon />
+      {card.addText}
+    </>,
+    "Save",
+    "Save changes",
+    "Saving...",
+  ];
+  const secondaryLabels = [
+    <>
+      <PencilIcon />
+      Edit the list
+    </>,
+    "Cancel",
+  ];
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -95,7 +127,7 @@ function Sheet({ card, index, s }: { card: SignupCategory; index: number; s: Edi
           </h3>
         </header>
 
-        <div className={`sheet-rows${rows.length === 0 && !active ? " is-empty" : ""}`}>
+        <div className={`sheet-rows${rows.length === 0 ? " is-empty" : ""}`}>
           {active && s.editing
             ? s.draft.map((row, j) => {
                 const struck = s.isMarked(j);
@@ -103,6 +135,7 @@ function Sheet({ card, index, s }: { card: SignupCategory; index: number; s: Edi
                 return (
                   <div key={row.id ?? j} className={`sheet-row is-editing${struck ? " is-struck" : ""}`}>
                     <input
+                      ref={j === 0 ? firstNameRef : undefined}
                       className="line-input"
                       aria-label={`${card.placeholder1}, row ${j + 1}`}
                       value={row.name}
@@ -140,9 +173,16 @@ function Sheet({ card, index, s }: { card: SignupCategory; index: number; s: Edi
               ))}
 
           {addingHere && (
-            <div className="sheet-row is-editing is-new">
+            <div
+              className={`sheet-row is-editing is-new${closing ? " is-closing" : ""}`}
+              onAnimationEnd={(e) => {
+                if (!e.animationName.startsWith("line-close")) return;
+                setClosing(false);
+                s.clearStates();
+              }}
+            >
               <input
-                ref={newNameRef}
+                ref={firstNameRef}
                 className="line-input"
                 aria-label={card.placeholder1}
                 placeholder={card.placeholder1}
@@ -166,29 +206,27 @@ function Sheet({ card, index, s }: { card: SignupCategory; index: number; s: Edi
 
         </div>
 
+        {/* The same two keys stay put through every state; only their labels
+            cross-fade. Each sizes to its widest label so it never resizes. The
+            primary key is always a submit button: when it opens the sheet it
+            cancels the submit itself, so the tap can't send an empty line. */}
         <div className="sheet-foot">
-          {active ? (
-            <>
-              <button type="submit" className="key key-add" disabled={saving}>
-                {saving ? "Saving..." : s.deleting ? "Save changes" : "Save"}
-              </button>
-              <button type="button" className="key key-edit" disabled={saving} onClick={s.clearStates}>
-                Cancel
-              </button>
-            </>
-          ) : (
-            <>
-              <button type="button" className="key key-add" onClick={() => s.toggleAddOrEdit(index, true)}>
-                <PlusIcon />
-                {card.addText}
-              </button>
-              {rows.length > 0 && (
-                <button type="button" className="key key-edit" onClick={() => s.toggleAddOrEdit(index, false)}>
-                  <PencilIcon />
-                  Edit the list
-                </button>
-              )}
-            </>
+          <button
+            type="submit"
+            className="key key-add"
+            disabled={saving}
+            onClick={(e) => {
+              if (active) return;
+              e.preventDefault();
+              open(true);
+            }}
+          >
+            <KeyLabel options={primaryLabels} show={!active ? 0 : saving ? 3 : s.deleting ? 2 : 1} />
+          </button>
+          {(active || rows.length > 0) && (
+            <button type="button" className="key key-edit" disabled={saving} onClick={active ? cancel : () => open(false)}>
+              <KeyLabel options={secondaryLabels} show={active ? 1 : 0} />
+            </button>
           )}
         </div>
 
@@ -199,5 +237,19 @@ function Sheet({ card, index, s }: { card: SignupCategory; index: number; s: Edi
         )}
       </form>
     </article>
+  );
+}
+
+// Stacks every label a key can show in one cell and shows only the current one,
+// so the key is always as wide as its widest label
+function KeyLabel({ options, show }: { options: React.ReactNode[]; show: number }) {
+  return (
+    <span className="key-label">
+      {options.map((option, i) => (
+        <span key={i} className={i === show ? undefined : "key-label-ghost"} aria-hidden={i !== show || undefined}>
+          {option}
+        </span>
+      ))}
+    </span>
   );
 }
