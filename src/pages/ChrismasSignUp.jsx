@@ -1,9 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import loadingLogo from "../assets/christmas/star.png";
-// import "../styles/christmasSignUp.css"; // needs to be imported conditionally
+import nativityPhoto from "../assets/christmas/nativity-1.jpeg";
+import {
+  ChristmasTree,
+  TacoIcon,
+  GiftIcon,
+  SantaHatIcon,
+  LawnChairIcon,
+  ShepherdCrookIcon,
+} from "../components/ChristmasIcons";
+import "../styles/christmasSignUp.css";
 const DEPLOYMENT_ID =
   "AKfycbypf8wZLgo5EwE_zCrxyjDQuuQSkzmMP2B_-vwTdegjrooHC00L0hlIce6IrTNu64s4SA";
+
+const MAPS_URL =
+  "https://www.google.com/maps/search/?api=1&query=2326+N+32nd+St+Mesa+AZ+85213";
 
 const ChristmasSignUp = ({ mobile }) => {
   const categories = ["attendees", "main", "side", "desserts"];
@@ -173,62 +185,101 @@ const ChristmasSignUp = ({ mobile }) => {
   };
 
   return (
-    <div className="fade-in main-content fw-light d-flex flex-column align-items-center">
-      <div id="date-time" className="p-4 mb-4">
-        <div className="date-time-item">December 23, 2024</div>
-        <div className="date-time-item">6:00 PM</div>
-        <div className="address-divider"></div>
-        <div className="date-time-item">2326 N 32nd St</div>
-        <div className="date-time-item">Mesa, AZ 85213</div>
-      </div>
+    <div className="xmas fade-in main-content d-flex flex-column align-items-center">
       {error && (
         <div className="alert alert-info fw-bold text-center fs-4">{error}</div>
       )}
-      <p className="welcome-text sign-up-card my-3 p-3 col-xl-6 col-lg-8 col-md-9 col-11 fs-3 fw-bold text-center d-flex flex-column align-items-center">
-        The tradition continues! Come to Alan and Marla's House in celebration
-        of
-        <span id="christmas" className="my-1">
-          Christmas
-        </span>
-        Please sign up for what you would like to bring and how many people are
-        coming.
-      </p>
-      <div className="event-details text-center my-3 p-3 col-xl-6 col-lg-8 col-md-9 col-11 fs-3">
-        <h2>What to Bring</h2>
+      <section className="xmas-card xmas-invite">
+        <div className="xmas-invite-photo">
+          <img
+            src={nativityPhoto}
+            alt="Kids acting out the nativity at a past Christmas party"
+          />
+        </div>
+        <div className="xmas-invite-body">
+          <p className="xmas-greeting">The tradition is back!</p>
+          <h1 id="christmas" className="xmas-display">
+            <span className="xmas-tree">
+              <ChristmasTree />
+            </span>
+            Christmas
+            <span className="xmas-tree xmas-tree--flip">
+              <ChristmasTree />
+            </span>
+          </h1>
+          <p className="xmas-lede">at Alan and Marla's House</p>
+        </div>
+        <div className="xmas-when">
+          <a
+            className="xmas-when-link xmas-when-date"
+            href={`${import.meta.env.BASE_URL}christmas-party.ics`}
+            aria-label="Add December 20, 2026 at 6:00 PM to your calendar"
+          >
+            <span>December 20, 2026</span>
+            <span className="xmas-when-time">6:00 PM</span>
+            <i className="bi bi-calendar-plus xmas-when-icon" aria-hidden="true"></i>
+          </a>
+          <a
+            className="xmas-when-link xmas-when-address"
+            href={MAPS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open 2326 N 32nd St, Mesa, AZ 85213 in maps"
+          >
+            <span>2326 N 32nd St</span>
+            <span>
+              Mesa, AZ 85213
+              <i className="bi bi-geo-alt xmas-when-icon" aria-hidden="true"></i>
+            </span>
+          </a>
+        </div>
+      </section>
+      <section className="xmas-card xmas-bring">
+        <h2 className="xmas-title">What to Bring</h2>
         <ul>
           <li>
-            <span className="emoji">🌮</span>Mexican Dish
+            <span className="xmas-bring-icon">
+              <TacoIcon />
+            </span>
+            Mexican Dish
           </li>
           <li>
-            <span className="emoji">🎁</span>Ages 12+ - $15 or less
-            white-elephant gift
-          </li>
-          <li>
-            <span className="emoji">🎅🏻</span>Ages 5-11 - $10 or less white
+            <span className="xmas-bring-icon">
+              <GiftIcon />
+            </span>
+            Ages 12+ - $20 or less white
             elephant gift
           </li>
           <li>
-            <span className="emoji">🪑</span>Lawn Chair (optional)
+            <span className="xmas-bring-icon">
+              <SantaHatIcon />
+            </span>
+            Ages 5-11 - $15 or less white
+            elephant gift
           </li>
           <li>
-            <span className="emoji">👗</span>Any nativity costumes you might
+            <span className="xmas-bring-icon">
+              <LawnChairIcon />
+            </span>
+            Lawn chair (optional)
+          </li>
+          <li>
+            <span className="xmas-bring-icon">
+              <ShepherdCrookIcon />
+            </span>
+            Any nativity costumes you might
             have
           </li>
         </ul>
-      </div>
-      <h2 className="confirmed-count col-lg-6 col-md-8 col-11 rounded p-2 my-2 text-center fw-bold bg-light-green">
-        Confirmed Attending: {rsvped}
+      </section>
+      <h2 className="xmas-count">
+        Confirmed Attending:{" "}
+        <span className="xmas-count-number">{rsvped}</span>
       </h2>
       {cardInfo.map((card, i) => (
-        <div
-          key={i}
-          id={card.title}
-          className="sign-up-card my-3 p-2 col-xl-6 col-lg-8 col-md-9 col-11 d-flex flex-column align-items-center"
-        >
-          <h2 className=" text-center">{card.title}</h2>
-          {card.subtitle && (
-            <p className="text-center text-muted mb-3">{card.subtitle}</p>
-          )}
+        <section key={i} id={card.title} className="xmas-card xmas-list">
+          <h2 className="xmas-title">{card.title}</h2>
+          {card.subtitle && <p className="xmas-subtitle">{card.subtitle}</p>}
           {(loading && sectionLoading === i) ||
             (loading && sectionLoading === 7) ? (
             <div className="fade-in-out spinner-container my-4">
@@ -245,114 +296,114 @@ const ChristmasSignUp = ({ mobile }) => {
           ) : (
             ""
           )}
-          {card.data.map((item, j) => {
-            return editing && editCardNumber === i ? (
-              <div
-                key={j}
-                className="fade-in fs-3 d-flex align-items-center col-md-11 col-12"
-              >
-                <input
-                  className={`col-6 m-0 p-1 ${deleting && rowToDelete === j && "deleting"
-                    }`}
-                  type="text"
-                  value={newData[j][0]}
-                  onChange={(e) => handleChange(e, j, 0)}
-                />
-                <input
-                  className={`col-5 m-0 p-1 ${deleting && rowToDelete === j && "deleting"
-                    }`}
-                  type="text"
-                  value={newData[j][1]}
-                  onChange={(e) => handleChange(e, j, 1)}
-                />
-                <div>
-                  <svg
-                    className="trash"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 32 32"
-                    width="40"
-                    height="40"
+          <div className="xmas-rows">
+            {card.data.map((item, j) => {
+              return editing && editCardNumber === i ? (
+                <div key={j} className="xmas-edit-row fade-in">
+                  <input
+                    className={`xmas-input ${deleting && rowToDelete === j && "deleting"
+                      }`}
+                    type="text"
+                    value={newData[j][0]}
+                    onChange={(e) => handleChange(e, j, 0)}
+                  />
+                  <input
+                    className={`xmas-input ${deleting && rowToDelete === j && "deleting"
+                      }`}
+                    type="text"
+                    value={newData[j][1]}
+                    onChange={(e) => handleChange(e, j, 1)}
+                  />
+                  <button
+                    type="button"
+                    className="xmas-trash"
+                    aria-label={`Remove ${item[0]}`}
                     onClick={() => toggleDelete(j)}
                   >
-                    <path
-                      d="M9 3V2h6v1h5v2H4V3h5zm2 4h2v12h-2V7zm-4 0h2v12H7V7zm10 0h-2v12h2V7zM5 5v16h14V5H5z"
-                      fill="red"
-                    />
-                  </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="22"
+                      height="22"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M9 3V2h6v1h5v2H4V3h5zm2 4h2v12h-2V7zm-4 0h2v12H7V7zm10 0h-2v12h2V7zM5 5v16h14V5H5z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
                 </div>
+              ) : (
+                <div key={j} className="xmas-row truncated-container fade-in">
+                  <p className="xmas-row-name truncated-text">{item[0]}</p>
+                  <p
+                    className={`xmas-row-value truncated-text truncated-text-e ${card.title === "Attendees" || card.title === "Tables"
+                      ? "xmas-row-value--count"
+                      : ""
+                      }`}
+                  >
+                    {item[1]}
+                  </p>
+                </div>
+              );
+            })}
+            {adding && editCardNumber === i && (
+              <div className="xmas-edit-row">
+                <input
+                  className="xmas-input"
+                  type="text"
+                  placeholder="Name of Family"
+                  onChange={(e) => handleChange(e, newData.length - 1, 0)}
+                />
+                <input
+                  className="xmas-input"
+                  type="text"
+                  placeholder={
+                    card.title === "Attendees" || card.title === "Tables"
+                      ? "Number"
+                      : "Item Name"
+                  }
+                  onChange={(e) => handleChange(e, newData.length - 1, 1)}
+                />
               </div>
-            ) : (
-              <div
-                key={j}
-                className="truncated-container px-1 fade-in border fs-3 d-flex justify-content-between col-md-11 col-12"
-              >
-                <p className="my-0 me-3 p-1 truncated-text">{item[0]}</p>
-                <p
-                  className={`m-0 p-1 truncated-text truncated-text-e  ${card.title === "Attendees" || card.title === "Tables"
-                    ? "text-end"
-                    : "col-md-6"
-                    }`}
-                >
-                  {item[1]}
-                </p>
-              </div>
-            );
-          })}
-          {adding && editCardNumber === i && (
-            <div className="d-flex justify-content-between col-md-11 col-12 fs-3">
-              <input
-                className="col-7"
-                type="text"
-                placeholder="Name of Family"
-                onChange={(e) => handleChange(e, newData.length - 1, 0)}
-              />
-              <input
-                className="col-5"
-                type="text"
-                placeholder={
-                  card.title === "Attendees" || card.title === "Tables"
-                    ? "Number"
-                    : "Item Name"
-                }
-                onChange={(e) => handleChange(e, newData.length - 1, 1)}
-              />
-            </div>
-          )}
+            )}
+          </div>
           {(adding && editCardNumber === i) ||
             (editing && editCardNumber === i) ? (
-            <div className="d-flex col-12 flex-column align-items-center">
+            <div className="xmas-actions">
               {deleting ? (
                 <button
-                  className="custom-btn green-btn red-btn my-2 col-sm-8 col-12"
+                  className="xmas-btn xmas-btn-danger"
                   onClick={() => saveData(false, i)}
                 >
                   Delete Selected
                 </button>
               ) : (
                 <button
-                  className="custom-btn green-btn my-2 btn-success col-sm-8 col-12"
+                  className="xmas-btn xmas-btn-primary"
                   onClick={() => checkIfNewAttendeeAndSave(i)}
                 >
                   Save
                 </button>
               )}
               <button
-                className="custom-btn blue-btn my-2 col-sm-8 col-12"
+                className="xmas-btn xmas-btn-secondary"
                 onClick={clearStates}
               >
                 Cancel
               </button>
             </div>
           ) : (
-            <div className="d-flex col-12 flex-column align-items-center">
+            <div className="xmas-actions">
               <button
-                className="custom-btn green-btn my-2 col-sm-8 col-12"
+                className="xmas-btn xmas-btn-primary"
                 onClick={() => toggleAddOrEdit(i, true)}
               >
                 Add to {card.title}
               </button>
               <button
-                className="custom-btn blue-btn my-2 col-sm-8 col-12"
+                className="xmas-btn xmas-btn-secondary"
                 onClick={() => toggleAddOrEdit(i, false)}
               >
                 Make Change to{" "}
@@ -360,7 +411,7 @@ const ChristmasSignUp = ({ mobile }) => {
               </button>
             </div>
           )}
-        </div>
+        </section>
       ))}
     </div>
   );

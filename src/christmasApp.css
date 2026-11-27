@@ -12,8 +12,14 @@
   --christmas-cream: #FFF4E0;    /* Warm cream */
 }
 
+/* Same polka dots as the page, so overscroll and short pages never flash green */
 .body {
-  background-color: var(--secondary);
+  background-color: var(--christmas-cream);
+  background-image:
+      radial-gradient(var(--christmas-red) 2px, transparent 2px),
+      radial-gradient(var(--christmas-green) 2px, transparent 2px);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
 }
 
 .bg-yellow {

@@ -1,263 +1,471 @@
+/* Christmas sign-up page. Imported statically, so it loads in every season:
+   everything is scoped under .xmas to keep it off the soup page. */
+.xmas {
+  --x-paper: #fffdf8;
+  --x-ink: #23302a;
+  --x-muted: #5f6b64;
+  --x-line: #eadfcb;
+  --x-red: #c41e3a;
+  --x-red-dark: #9e1730;
+  --x-red-tint: #fbe3e7;
+  --x-green: #165b33;
+  --x-green-dark: #0f4425;
+  --x-gold: #f8b229;
 
-:root {
-  --christmas-red: #c41e3a;
-  --christmas-green: #165b33;
-  --christmas-gold: #f8b229;
-  --christmas-cream: #fff4e0;
+  gap: 1.5rem;
+  padding: 1.5rem 1rem 3rem;
+  color: var(--x-ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
 }
 
-body {
-  background-color: var(--christmas-cream);
+.xmas-card,
+.xmas-count {
+  width: 100%;
+  max-width: 36rem;
+  border: 2px solid var(--x-ink);
+  border-radius: 14px;
 }
 
-/* Brutalist-inspired blocks with Christmas colors */
-#date-time {
-  background-color: var(--christmas-red);
-  border: 3px solid #000;
-  box-shadow: 4px 4px 0 #000;
-  color: white;
-  border-radius: 0;
-  margin: 20px;
-  padding: 16px 24px !important;
+.xmas-card {
+  background-color: var(--x-paper);
+  box-shadow: 5px 5px 0 var(--x-green);
+  padding: 1.5rem 1.25rem;
+}
+
+/* Invitation: the one loud element on the page */
+.xmas-invite {
+  padding: 0;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: none;
+}
+
+.xmas-invite-body {
+  padding: 1.25rem 1.25rem 1.5rem;
+}
+
+/* The invitation card shows the nativity photo itself, so the header's copy
+   of it is hidden on this page only. */
+header:has(~ .xmas) img {
+  display: none;
+}
+
+/* The menu button floats over the photo, so it must stack above the card */
+header:has(~ .xmas) nav {
+  z-index: 2;
+}
+
+.xmas-invite-photo {
+  border-bottom: 2px solid var(--x-ink);
+}
+
+.xmas-invite-photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  object-fit: cover;
+  object-position: center 65%;
+}
+
+.xmas-greeting {
+  margin: 0;
+  color: var(--x-green);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.xmas-lede {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.xmas-display {
+  font-family: "Mountains of Christmas", cursive;
+  font-weight: 700;
+  font-size: clamp(3rem, 13vw, 4.75rem);
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--x-red);
+  margin: 0 0 0.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15em;
+}
+
+.xmas-tree {
+  flex: 0 0 auto;
+  width: 0.62em;
+  height: 0.78em;
+}
+
+.xmas-tree svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Mirrored so the ornaments sit symmetrically on both sides of the title */
+.xmas-tree--flip {
+  transform: scaleX(-1);
+}
+
+.xmas-when {
+  background-color: var(--x-red);
+  color: #fff;
+  border-top: 2px solid var(--x-ink);
+  padding: 1rem 1.25rem 1.1rem;
+}
+
+.xmas-when-date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.xmas-when-time {
+  margin-left: 0.85rem;
+  padding-left: 0.85rem;
+  border-left: 2px solid rgba(255, 255, 255, 0.55);
+}
+
+.xmas-when-link {
+  padding: 0.2rem 0.5rem;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+/* Dotted underline marks the date and address as tappable without adding chrome */
+.xmas-when-link span {
+  text-decoration: underline dotted rgba(255, 255, 255, 0.6);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.25em;
+}
+
+.xmas-when-link:hover,
+.xmas-when-link:focus-visible {
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.xmas-when-link:focus-visible {
+  outline: 3px solid var(--x-gold);
+  outline-offset: 2px;
+}
+
+.xmas-when-icon {
+  margin-left: 0.5rem;
+  font-size: 0.85em;
+  opacity: 0.85;
+}
+
+.xmas-when-address {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.35rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  opacity: 0.92;
+}
+
+/* Section cards */
+.xmas-title {
+  font-family: "Mountains of Christmas", cursive;
+  font-weight: 700;
+  font-size: 2.25rem;
+  line-height: 1.1;
+  color: var(--x-red);
+  text-align: center;
+  margin: 0 0 0.25rem;
+}
+
+.xmas-subtitle {
+  max-width: 28rem;
+  margin: 0 auto 0.5rem;
+  color: var(--x-muted);
+  font-size: 0.975rem;
+  line-height: 1.45;
   text-align: center;
 }
 
-/* Title styling - keep festive */
-#date-time .title {
-  font-family: "Mountains of Christmas", cursive;
-  font-size: 2rem;
-  font-weight: 700;
-  text-shadow: 2px 2px 0 #000;
-  letter-spacing: 0.5px;
-  margin-bottom: 8px;
-}
-
-/* Info styling - professional and readable */
-.date-time-item {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif;
-  font-size: 1.4rem;
-  font-weight: 500;
-  padding: 4px 0;
-  letter-spacing: 0.3px;
-}
-
-.address-divider {
-  height: 3px;
-  background-color: var(--christmas-cream);
-  margin: 12px 0;
-  border: none;
-  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
-}
-
-/* Update card styles to match brutalist theme */
-.sign-up-card {
-  background-color: white;
-  border: 3px solid #000;
-  box-shadow: 4px 4px 0 #000;
-  border-radius: 0;
-  padding: 12px;
-}
-
-/* Update button styles to be more specific */
-.sign-up-card .custom-btn {
-  border: 2px solid #000;
-  box-shadow: 3px 3px 0 #000;
-  border-radius: 0;
-  transition: all 0.2s ease;
-}
-
-.sign-up-card .custom-btn:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0 #000;
-}
-
-.sign-up-card .green-btn {
-  background-color: var(--christmas-green);
-  color: white;
-}
-
-.sign-up-card .blue-btn {
-  background-color: var(--christmas-red);
-  color: white;
-}
-
-/* Confirmed attending box */
-.bg-light-green {
-  background-image: none !important;
-  background-color: var(--christmas-green) !important;
-  color: white;
-  border: 3px solid #000;
-  box-shadow: 4px 4px 0 #000;
-}
-
-/* Card titles */
-.sign-up-card h2 {
-  color: var(--christmas-red);
-  font-family: "Mountains of Christmas", cursive;
-  font-weight: 700;
-  font-size: 2.2rem;
-  letter-spacing: 0.5px;
-  text-shadow: 1px 1px 0 #000;
-  margin-bottom: 0.5rem;
-}
-
-/* Style subtitles differently */
-.sign-up-card .text-muted {
-  color: #666 !important;
-  font-size: 1.1rem;
-}
-
-/* Container for the rows */
-.sign-up-card {
-  padding: 12px;
-}
-
-/* Grid wrapper */
-.truncated-container {
-  border: 1px solid #000;
-  margin: 0;
-  padding: 0;
-}
-
-/* Style for the data rows */
-.sign-up-card .border {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid #000;
-  padding: 8px 12px !important;
-  margin: 0 !important;
-}
-
-/* Remove bottom border from last row */
-.sign-up-card .border:last-child {
-  border-bottom: none;
-}
-
-/* Hover effect */
-.sign-up-card .border:hover {
-  background-color: rgba(0, 0, 0, 0.02);
-  position: relative;
-  z-index: 1;
-}
-
-/* Mobile adjustments */
-@media screen and (max-width: 768px) {
-  #date-time {
-    margin: 10px;
-    padding: 12px 16px !important;
-  }
-
-  .date-time-item {
-    font-size: 1.2rem;
-  }
-
-  /* New ordering styles */
-  .main-content {
-    display: flex !important;
-    flex-direction: column !important;
-  }
-
-  /* White welcome text box */
-  .welcome-text {
-    order: 1 !important;
-    margin-bottom: 20px !important;
-  }
-
-  /* Red date/time box */
-  #date-time {
-    order: 3 !important;
-    margin: 20px 0 !important;
-  }
-
-  /* Green confirmed attending box */
-  .confirmed-count {
-    order: 4 !important;
-    margin-bottom: 20px !important;
-  }
-
-  .sign-up-card:not(.welcome-text):not(.confirmed-count) {
-    order: 5 !important;
-  }
-
-  .event-details {
-    order: 2 !important;
-  }
-  
-  .event-details li {
-    text-align: left;
-  }
-}
-
-.welcome-text #christmas {
-  color: var(--christmas-red);
-  position: relative;
-  padding: 0 40px;
-  display: inline-block;
-  font-family: "Mountains of Christmas", cursive;
-  font-size: 2.5rem;
-  font-weight: 700;
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
-  margin: 8px 0;
-}
-
-.welcome-text #christmas::before,
-.welcome-text #christmas::after {
-  content: "🎄";
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.8rem;
-}
-
-.welcome-text #christmas::before {
-  left: 0;
-}
-
-.welcome-text #christmas::after {
-  right: 0;
-}
-
-/* Add these styles */
-.event-details {
-  background-color: white;
-  border: 3px solid #000;
-  box-shadow: 4px 4px 0 #000;
-  padding: 16px 24px;
-  text-align: left;
-}
-
-.event-details h2 {
-  color: var(--christmas-red);
-  font-family: "Mountains of Christmas", cursive;
-  font-weight: 700;
-  font-size: 2.2rem;
-  letter-spacing: 0.5px;
-  text-shadow: 1px 1px 0 #000;
-  margin-bottom: 0.5rem;
-}
-
-.event-details ul {
+.xmas-bring ul {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0.75rem 0 0;
 }
 
-.event-details li {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial,
-    sans-serif;
-  font-size: 1.1rem;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+.xmas-bring li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.7rem 0;
+  font-size: 1.0625rem;
+  line-height: 1.4;
+  border-top: 1px solid var(--x-line);
+}
+
+.xmas-bring li:first-child {
+  border-top: 0;
+}
+
+/* Fixed-width icon column keeps wrapped lines aligned under the text */
+.xmas-bring-icon {
+  flex: 0 0 1.9rem;
+  height: 1.9rem;
+  margin-top: -0.2rem;
+}
+
+.xmas-bring-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.xmas-count {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0;
+  padding: 0.85rem 1.25rem;
+  background-color: var(--x-green);
+  color: #fff;
+  box-shadow: 5px 5px 0 var(--x-ink);
+  font-size: 1.25rem;
+  font-weight: 700;
 }
 
-.event-details li:last-child {
-  border-bottom: none;
+.xmas-count-number {
+  min-width: 3rem;
+  padding: 0.1rem 0.75rem;
+  border-radius: 999px;
+  background-color: var(--x-gold);
+  color: var(--x-ink);
+  font-size: 1.5rem;
+  text-align: center;
 }
 
-.event-details li .emoji {
-  margin-right: 12px;
-  font-size: 1.2rem;
+/* Sign-up rows */
+.xmas-rows {
+  margin-top: 0.75rem;
+}
+
+.xmas .xmas-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.65rem 0.25rem;
+  border-bottom: 1px solid var(--x-line);
+  font-size: 1.0625rem;
+}
+
+.xmas-row-name {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-weight: 600;
+}
+
+.xmas-row-value {
+  margin: 0;
+  flex: 0 1 50%;
+  min-width: 0;
+  color: var(--x-muted);
+  text-align: right;
+}
+
+.xmas-row-value--count {
+  flex: 0 0 auto;
+  color: var(--x-green);
+  font-weight: 700;
+}
+
+.xmas .truncated-container:hover .truncated-text {
+  background-color: var(--x-paper);
+  padding: 0;
+}
+
+.xmas-edit-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0;
+}
+
+/* 1rem minimum stops iOS from zooming into the field on focus */
+.xmas-input {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0.55rem 0.65rem;
+  font-size: 1rem;
+  color: var(--x-ink);
+  background-color: #fff;
+  border: 1.5px solid #b9ad97;
+  border-radius: 8px;
+}
+
+.xmas-input:focus {
+  outline: 3px solid rgba(248, 178, 41, 0.6);
+  outline-offset: 0;
+  border-color: var(--x-ink);
+}
+
+.xmas .xmas-input.deleting {
+  background-color: var(--x-red-tint);
+  border-color: var(--x-red);
+  color: var(--x-red-dark);
+  text-decoration: line-through;
+}
+
+.xmas-trash {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  color: var(--x-red);
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+}
+
+.xmas-trash:focus-visible {
+  outline: 3px solid var(--x-gold);
+}
+
+/* Buttons */
+.xmas-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
+
+.xmas-btn {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.2;
+  border: 2px solid var(--x-ink);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    background-color 0.12s ease;
+}
+
+.xmas-btn-primary {
+  background-color: var(--x-green);
+  color: #fff;
+  box-shadow: 3px 3px 0 var(--x-ink);
+}
+
+.xmas-btn-danger {
+  background-color: var(--x-red);
+  color: #fff;
+  box-shadow: 3px 3px 0 var(--x-ink);
+}
+
+.xmas-btn-secondary {
+  background-color: var(--x-paper);
+  color: var(--x-ink);
+}
+
+.xmas-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--x-ink);
+}
+
+.xmas-btn:focus-visible {
+  outline: 3px solid var(--x-gold);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) {
+  .xmas-btn-primary:hover {
+    background-color: var(--x-green-dark);
+  }
+
+  .xmas-btn-danger:hover {
+    background-color: var(--x-red-dark);
+  }
+
+  .xmas-btn-secondary:hover {
+    background-color: #f4ecdc;
+  }
+
+  .xmas-trash:hover {
+    background-color: var(--x-red-tint);
+  }
+}
+
+/* Phones: the hero runs edge to edge from the top of the screen */
+@media (max-width: 575.98px) {
+  /* !important beats Bootstrap's py-2 utility on the header */
+  header:has(~ .xmas) {
+    min-height: 0;
+    padding: 0 !important;
+  }
+
+  .xmas {
+    padding-top: 0;
+  }
+
+  .xmas-invite {
+    width: calc(100% + 2rem);
+    max-width: none;
+    margin: 0 -1rem;
+    border-width: 0 0 2px;
+    border-radius: 0;
+  }
+}
+
+@media (min-width: 576px) {
+  .xmas {
+    padding-top: 1.5rem;
+  }
+
+  .xmas-card {
+    padding: 1.75rem 2rem;
+  }
+
+  .xmas-invite {
+    padding: 0;
+  }
+
+  header:has(~ .xmas) {
+    min-height: 4.5rem;
+  }
+
+  .xmas-invite-photo img {
+    aspect-ratio: 3 / 2;
+  }
+
+  .xmas-invite-body {
+    padding: 1.5rem 2rem 1.75rem;
+  }
+
+  .xmas-actions {
+    flex-direction: row;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xmas-btn {
+    transition: none;
+  }
+
+  .xmas-btn:active {
+    transform: none;
+  }
 }
